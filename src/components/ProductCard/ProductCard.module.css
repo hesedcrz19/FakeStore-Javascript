@@ -1,26 +1,24 @@
 .productCard {
   display: flex;
-  border: 2px solid var(--border-color);
+  border: 1px solid var(--border-color);
   flex-direction: column;
-  max-width: 80dvw;
   justify-content: space-between;
+  max-width: min(100%,350px);
   gap: 10px;
-  padding: 15px;
-  border-radius: 10px;
+  padding: 20px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: scale 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
-
+  transition: scale 0.2s ease, border-color 0.2s ease;
+  
   &:hover {
     scale: 1.02;
-    box-shadow: 0 0 30px -25px var(--primary-color);
     border-color: var(--primary-color);
-    background-color: var(--bg-color-hover);
   }
 
   img {
     max-width: 100%;
     height: auto;
-    border-radius: 10px;
+    border-radius: 8px;
     margin-bottom: 15px;
   }
 
@@ -44,7 +42,7 @@
   .priceContainer{
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: end;
     
     .price {
         font-size: var(--text-size);

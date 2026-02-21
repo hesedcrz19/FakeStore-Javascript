@@ -1,4 +1,4 @@
-import styles from "../styles/ProductCard.module.css"
+import styles from "./ProductCard.module.css"
 
 const formatPrice = (price) => {
     return new Intl.NumberFormat('en-US', {

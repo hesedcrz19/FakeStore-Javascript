@@ -1,6 +1,6 @@
-import styles from "../styles/Products.module.css"
+import styles from "./LoaderCube.module.css"
 
-export function LoadingScreen(){
+export function LoaderCube(){
   return(
     <div className={styles.loadingScreen}>
       <h3>Loading...</h3>

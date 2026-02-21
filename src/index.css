@@ -1,12 +1,11 @@
 :root{
   --bg-color: #111;
-  --bg-color-hover: #111;
-  --bg-color-sec: #151515;
-  --bg-color-sec-hover: #222;
+  --bg-color-sec: #141414;
+  --bg-color-sec-hover: #111;
 
   --text-color: #ddd;
   --text-color-sec: #bbb;
-  --border-color: #333;
+  --border-color: #252525;
   --primary-color: #5555bb;
   --primary-color-hover: #4444bb;
 
@@ -40,7 +39,7 @@ body{
 
 .header{
   background-color: var(--bg-color-sec);
-  border-bottom: 2px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   width: 100%;
   z-index: 100;
@@ -48,15 +47,33 @@ body{
 
 .header-container{
   max-width: 2000px;
-  padding: 10px max(10px,5dvw);
+  padding: 10px 3dvw;
   width: 100%;
   margin: auto;
   display: flex;
   justify-content: space-between;
 }
 
-h1{
-  font-size: var(--h1-size);
+.header-leftside{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  button{
+    aspect-ratio: 1/1;
+    background-color: transparent;
+    border: none;
+
+    svg{
+      fill: var(--text-color);
+      width: 35px;
+      height: auto;
+    }
+  }
+
+  h1{
+    font-size: var(--h1-size);
+  }
 }
 
 .header-nav{
@@ -76,7 +93,6 @@ h1{
 
 .header-buttons{
   display: flex;
-  flex-direction: row-reverse;
   justify-content: space-between;
   align-items: center;
   gap: 15px;
@@ -91,9 +107,48 @@ h1{
     cursor: pointer;
     transition: .3s background-color;
 
-    &:hover{
+    &.signUp{
+      background-color: var(--primary-color);
+    }
+
+    &.signUp:hover{
+      background-color: var(--primary-color-hover);
+    }
+
+    &.login:hover{
       background-color: var(--bg-color-sec-hover);
     }
+  }
+}
+
+.header-nav-small{
+  position: absolute;
+  background-color: var(--bg-color-sec);
+  height: 100dvh;
+  width: 300px;
+  transform: translateX(0%);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  
+  a{
+    text-decoration: none;
+    font-size: var(--h2-size);
+    color: var(--text-color);
+  }
+}
+
+.header-nav-small, .header-nav-small-button{
+  display: none;
+}
+
+@media screen and (max-width: 700px) {
+  .header-nav{
+    display: none;
+  }
+  .header-nav-small, .header-nav-small-button{
+      display: flex;
   }
 }
 

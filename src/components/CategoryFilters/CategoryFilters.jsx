@@ -1,9 +1,10 @@
-import styles from "../styles/Products.module.css"
+import styles from "./CategoryFilters.module.css"
 
-export function FiltersSection(){
+export function CategoryFilters(){
   return(
     <form className={styles.filtersForm}>
       <input type="text" className={styles.filterInput} placeholder='Shearch...' />
+      <p>Categories</p>
       <button data-id={null}>All</button>
       <button data-id={'1'}>Clothes</button>
       <button data-id={'2'}>Electronics</button>
