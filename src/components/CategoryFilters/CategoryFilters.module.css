@@ -1,41 +1,57 @@
-.filtersForm {
+.bigForm {
   flex: 180px 1 1;
   background-color: var(--bg-color);
   display: flex;
-  align-items: center;
-  gap: 10px;
   flex-direction: column;
+  gap: 10px;
   border: 1px solid var(--border-color);
   border-radius: 0 0 20px 20px;
   border-top: none;
   padding: 20px;
+}
 
-  .filterInput {
-    font-size: var(--text-size-small);
-    color: var(--text-color);
-    font-family: "Montserrat";
-    padding: 8px 10px;
-    margin-bottom: 20px;
-    width: 100%;
-    background-color: var(--bg-color-sec);
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
+.smallForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
-    &:hover {
-      background-color: var(--bg-color-sec-hover);
-    }
+.filterInput {
+  font-size: var(--text-size-small);
+  color: var(--text-color);
+  font-family: "Montserrat";
+  padding: 8px 10px;
+  margin-bottom: 15px;
+  width: 100%;
+  background-color: var(--bg-color-sec);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+
+  &:hover {
+    background-color: var(--bg-color-sec-hover);
   }
+}
 
-  p {
-    border-top: 1px solid var(--border-color);
-    padding-top: 10px;
+.hr {
+  border: 1px solid var(--border-color);
+}
+
+.buttonsContainer{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  
+  .p {
+    color: var(--text-color);
     font-size: var(--text-size);
     font-family: "Poppins";
     width: 100%;
     text-align: center;
   }
-
-  button {
+  
+  .button {
     font-family: "Montserrat";
     font-size: var(--text-size-small);
     background-color: var(--bg-color-sec);
@@ -45,7 +61,7 @@
     border: 1px solid var(--border-color);
     color: var(--text-color);
     transition: background-color 0.2s;
-
+  
     &:hover {
       cursor: pointer;
       background-color: var(--bg-color-sec-hover);

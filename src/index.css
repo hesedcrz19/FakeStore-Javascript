@@ -35,120 +35,13 @@ body{
   font-family: 'Poppins', sans-serif;
   max-width: 100dvw;
   overflow-x: hidden;
-}
-
-.header{
-  background-color: var(--bg-color-sec);
-  border-bottom: 1px solid var(--border-color);
-  display: flex;
-  width: 100%;
-  z-index: 100;
-}
-
-.header-container{
-  max-width: 2000px;
-  padding: 10px 3dvw;
-  width: 100%;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-}
-
-.header-leftside{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-
-  button{
-    aspect-ratio: 1/1;
-    background-color: transparent;
-    border: none;
-
-    svg{
-      fill: var(--text-color);
-      width: 35px;
-      height: auto;
-    }
-  }
-
-  h1{
-    font-size: var(--h1-size);
-  }
-}
-
-.header-nav{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 0px 10px;
-  border-radius: 10px;
-  border: 1px solid var(--border-color);
-
-  a{
-    font-size: var(--text-size);
-    text-decoration: none;
-    color: var(--text-color);
-  }
-}
-
-.header-buttons{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-
-  button{
-    background-color: transparent;
-    border: 1px solid var(--primary-color);
-    font-size: var(--text-size);
-    border-radius: 7px;
-    color: var(--text-color);
-    padding: 10px 15px;
-    cursor: pointer;
-    transition: .3s background-color;
-
-    &.signUp{
-      background-color: var(--primary-color);
-    }
-
-    &.signUp:hover{
-      background-color: var(--primary-color-hover);
-    }
-
-    &.login:hover{
-      background-color: var(--bg-color-sec-hover);
-    }
-  }
-}
-
-.header-nav-small{
-  position: absolute;
-  background-color: var(--bg-color-sec);
-  height: 100dvh;
-  width: 300px;
-  transform: translateX(0%);
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  
-  a{
-    text-decoration: none;
-    font-size: var(--h2-size);
-    color: var(--text-color);
-  }
-}
-
-.header-nav-small, .header-nav-small-button{
-  display: none;
+  transition: transform .2s;
 }
 
 @media screen and (max-width: 700px) {
-  .header-nav{
-    display: none;
-  }
-  .header-nav-small, .header-nav-small-button{
-      display: flex;
+  body:has(.header-nav-dialog[open]){
+    transform: translateX(min(250px,100%));
+    overflow: hidden;
   }
 }
 

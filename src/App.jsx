@@ -1,4 +1,4 @@
-import { Header } from "./Layouts/Header.jsx";
+import { Header } from "./Layouts/Header/Header.jsx";
 import { Products } from "./pages/Products/Products.jsx";
 import { Footer} from "./Layouts/Footer.jsx";
 
