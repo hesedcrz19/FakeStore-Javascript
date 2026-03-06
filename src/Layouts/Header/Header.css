@@ -1,4 +1,4 @@
-.header{
+.header {
   background-color: var(--bg-color-sec);
   border-bottom: 1px solid var(--border-color);
   display: flex;
@@ -6,140 +6,149 @@
   z-index: 100;
 }
 
-.header-container{
+.header-container {
   max-width: 2000px;
   padding: 10px 3dvw;
   width: 100%;
   margin: auto;
   display: flex;
+  align-items: center;
+  gap: clamp(1px,1.5dvw,15px);
   justify-content: space-between;
 }
 
-.header-leftside{
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.openDialog-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 
-  .openDialog-button{
-    background-color: transparent;
-    border: none;
+  svg {
+    fill: var(--text-color);
+    width: clamp(20px, 8dvw, 35px);
+    height: auto;
     cursor: pointer;
 
-    svg{
-      fill: var(--text-color);
-      width: clamp(30px, 5dvw, 35px);
-      height: auto;
-    }
-  }
-
-  h1{
-    font-size: var(--h1-size);
-
-    a{
-      color: var(--text-color);
-      text-decoration: none;
+    &:hover {
+      fill: var(--text-color-sec);
     }
   }
 }
 
-.header-nav{
+h1 {
+  font-size: var(--h1-size);
+  margin-right: auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: clip;
+
+  a {
+    color: var(--text-color);
+    text-decoration: none;
+  }
+}
+
+.header-nav {
   display: flex;
+  margin-right: auto;
   align-items: center;
   gap: 10px;
-  padding: 0px 10px;
+  padding: clamp(7px, 2dvw, 10px) clamp(10px, 2dvw, 15px);
   border-radius: 10px;
   border: 1px solid var(--border-color);
 
-  a{
+  a {
     font-size: var(--text-size);
     text-decoration: none;
     color: var(--text-color);
   }
 }
 
-@media screen and (max-width: 700px) {
-  .header-nav{
-    display: none;
+svg {
+  fill: var(--text-color);
+  width: clamp(20px, 8dvw, 35px);
+  height: auto;
+  cursor: pointer;
+
+  &:hover {
+    fill: var(--text-color-sec);
   }
 }
 
-.header-buttons{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
+.account-btn {
+  background-color: transparent;
+  white-space: nowrap;
+  border: 1px solid var(--primary-color);
+  font-size: var(--text-size);
+  border-radius: 7px;
+  color: var(--text-color);
+  padding: clamp(7px, 2dvw, 10px) clamp(10px, 2dvw, 15px);
+  cursor: pointer;
+  transition: 0.3s background-color;
 
-  button{
-    background-color: transparent;
-    border: 1px solid var(--primary-color);
-    font-size: var(--text-size);
-    border-radius: 7px;
-    color: var(--text-color);
-    padding: clamp(7px, 2dvw, 10px) clamp(10px, 2dvw, 15px);
-    cursor: pointer;
-    transition: .3s background-color;
+  &.signUp {
+    background-color: var(--primary-color);
+  }
 
-    &.signUp{
-      background-color: var(--primary-color);
-    }
+  &.signUp:hover {
+    background-color: var(--primary-color-hover);
+  }
 
-    &.signUp:hover{
-      background-color: var(--primary-color-hover);
-    }
-
-    &.login:hover{
-      background-color: var(--bg-color-sec-hover);
-    }
+  &.login:hover {
+    background-color: var(--bg-color-sec-hover);
   }
 }
 
-.header-nav-dialog{
+.header-nav-dialog {
   left: 0;
   top: 0;
-  background-color: var(--bg-color);
   min-height: 100dvh;
-  width: 250px;
-  max-width: 100%;
+  border: none;
+  box-shadow: 0 0 10px #000;
+
+  &[open] {
+    display: flex;
+    animation: navbar-dialog 0.2s both;
+  }
+
+  &::backdrop {
+    background-color: #0007;
+  }
+}
+
+.header-nav-dialog-flex {
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: start;
   gap: 25px;
   padding: 20px;
   padding-top: 45px;
-  border: none;
+  width: 250px;
+  max-width: 100%;
+  background-color: var(--bg-color);
   border-right: 1px solid var(--border-color);
-  box-shadow: 0 0 10px #000;
 
-  &[open]{
-    display: flex;
-    animation: navbar-dialog .2s both;
-  }
-
-  &::backdrop{
-    background-color: #0007;
-  }
-
-  hr{
+  hr {
     border: 1px solid var(--border-color);
     width: 100%;
   }
 
-  .closeDialog-button{
+  .closeDialog-button {
     background-color: transparent;
     border: none;
     position: absolute;
     top: 5px;
     left: 5px;
 
-    svg{
+    svg {
       fill: var(--text-color);
       width: clamp(30px, 5dvw, 35px);
       height: auto;
       cursor: pointer;
     }
   }
-  
-  .links{
+
+  .links {
     border: 1px solid var(--border-color);
     background-color: var(--bg-color-sec);
     border-radius: 20px;
@@ -149,7 +158,7 @@
     gap: 5px;
     flex-direction: column;
 
-    a{
+    a {
       text-decoration: none;
       text-align: center;
       font-size: var(--text-size);
@@ -159,10 +168,10 @@
 }
 
 @keyframes navbar-dialog {
-  from{
+  from {
     transform: translateX(-100%);
   }
-  to{
+  to {
     transform: translateX(0);
   }
 }

@@ -20,8 +20,6 @@ const shortDescription = (description) => {
 }
 
 export function ProductCard({product}){
-    console.log(product)
-
     return (
         <div className={styles.productCard}>
             <div>

@@ -2,19 +2,24 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 50px;
+  gap: 25px;
+  margin: auto;
+  position: relative;
 
-  h3 {
+  h2 {
     font-size: var(--h2-size);
+    font-family: "Montserrat";
   }
 
   .cube {
-    --width: 75px;
+    --width: clamp(100px, 25dvw, 150px);
     width: var(--width);
     height: var(--width);
     aspect-ratio: 1/1;
-    position: relative;
     transform-style: preserve-3d;
+    position: absolute;
+    top: 50%;
+    translate: 0 -50%;
     animation: rotate 5s linear infinite both;
   }
 }
@@ -23,7 +28,7 @@
   --translate: calc(var(--width)/2);
   width: 100%;
   height: 100%;
-  border: 2px solid var(--primary-color);
+  border: 3px solid var(--primary-color);
   position: absolute;
 
   &:nth-child(1) {

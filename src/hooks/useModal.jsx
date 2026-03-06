@@ -1,15 +1,13 @@
 import { useState, useEffect } from "react";
 
-export function useModal(dialogRef, enabled = true){
-  const [isOpen, setOpen] = useState(false);
+export function useModal(dialogRef, enabled = true, closeOutside = false){
+  const [open, setOpen] = useState(false);
 
-  const shouldBeOpen = isOpen && enabled;
+  const shouldBeOpen = open && enabled;
 
-  // Sincroniza estado → dialog
+  // Sincronize state → dialog
   useEffect(() => {
     const dialog = dialogRef.current;
-
-    console.log(dialog)
 
     if (!dialog) return;
 
@@ -21,16 +19,14 @@ export function useModal(dialogRef, enabled = true){
   }, [shouldBeOpen, dialogRef]);
   
 
-  // Sincronizar con (Esc)
+  // Sincronize with (Esc)
   useEffect(() => {
+    console.log(dialogRef)
     const dialog = dialogRef.current;
     
     if (!dialog) return;
 
-    console.log('effect');
-
     const handleClose = () => {
-      console.log('cancel')
       setOpen(false);
     };
 
@@ -41,8 +37,28 @@ export function useModal(dialogRef, enabled = true){
     };
   }, [dialogRef]);
 
+  // Detect click outside the dialog
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    
+    if (!dialog) return;
+
+    const handleClick = (event) => {
+      
+      if (event.target === dialog && closeOutside) {
+        setOpen(false);
+      }
+    };
+
+    dialog.addEventListener('click', handleClick);
+
+    return () => {
+      dialog.removeEventListener("click", handleClick);
+    };
+  }, [dialogRef]);
+
   return {
-    isOpen, 
+    open, 
     openModal: () => setOpen(true), 
     closeModal: () => setOpen(false)
   };

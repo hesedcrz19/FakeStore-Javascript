@@ -1,6 +1,6 @@
 import { Header } from "./Layouts/Header/Header.jsx";
 import { Products } from "./pages/Products/Products.jsx";
-import { Footer} from "./Layouts/Footer.jsx";
+import { Footer} from "./Layouts/Footer/Footer.jsx";
 
 import { Router } from "./components/Router.jsx";
 

@@ -1,5 +1,4 @@
-.bigForm {
-  flex: 180px 1 1;
+.filtersForm {
   background-color: var(--bg-color);
   display: flex;
   flex-direction: column;
@@ -15,6 +14,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  padding: 0;
+  border: none; 
 }
 
 .filterInput {

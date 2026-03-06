@@ -1,8 +1,8 @@
-import styles from "./CategoryFilters.module.css"
+import styles from "./Filters.module.css"
 
-export function CategoryFilters({ className }){
+export function Filters(){
   return(
-    <form className={styles[className]}>
+    <form className={styles.filtersForm}>
       <div className={styles.inputContainer}>
         <input type="text" className={styles.filterInput} placeholder='Shearch...' />
       </div>

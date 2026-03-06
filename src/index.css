@@ -1,51 +1,57 @@
-:root{
+:root {
   --bg-color: #111;
   --bg-color-sec: #141414;
   --bg-color-sec-hover: #111;
 
   --text-color: #ddd;
   --text-color-sec: #bbb;
-  --border-color: #252525;
-  --primary-color: #5555bb;
+  --border-color: #333;
+  --primary-color: #5555cc;
   --primary-color-hover: #4444bb;
 
   --h1-size: clamp(1rem, 5vw, 2.1rem);
   --h2-size: clamp(.8rem, 4.3vw, 1.5rem);
 
   --text-size: clamp(.7rem, 3vw, 1rem);
-  --text-size-small: clamp(.6rem, 2.5vw, .9rem);
-} 
+  --text-size-small: clamp(.5rem, 3vw, .8rem);
+}
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-#root{
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   min-height: 100dvh;
   position: relative;
   box-sizing: content-box;
   padding-bottom: 50px;
 }
 
-body{
+body {
   background-color: var(--bg-color);
   color: var(--text-color);
   font-family: 'Poppins', sans-serif;
-  max-width: 100dvw;
   overflow-x: hidden;
-  transition: transform .2s;
+  transition: transform .15s;
+}
+body:has(dialog[open]) {
+  overflow: hidden;
 }
 
-@media screen and (max-width: 700px) {
-  body:has(.header-nav-dialog[open]){
-    transform: translateX(min(250px,100%));
-    overflow: hidden;
-  }
+body:has(dialog[data-direction="right"][open]) {
+  transform: translateX(min(-250px, 100%));
 }
 
-.footer{
+body:has(dialog[data-direction="left"][open]) {
+  transform: translateX(min(250px, 100%));
+}
+
+.footer {
   position: absolute;
   bottom: 0%;
 }
