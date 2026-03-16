@@ -1,25 +1,43 @@
 :root {
+  --h1-size: clamp(1rem, 5vw, 2.1rem);
+  --h2-size: clamp(.8rem, 4.3vw, 1.5rem);
+
+  --text-size: clamp(.7rem, 3vw, 1rem);
+  --text-size-small: clamp(.5rem, 3vw, .8rem);
+
+  --primary-color: #7700ff;
+  --primary-color-hover: #6600dd;
+}
+:root[data-theme="dark"] {
   --bg-color: #111;
   --bg-color-sec: #141414;
   --bg-color-sec-hover: #111;
 
   --text-color: #ddd;
   --text-color-sec: #bbb;
+  --text-color-hover: #bbb;
   --border-color: #333;
-  --primary-color: #5555cc;
-  --primary-color-hover: #4444bb;
+}
+:root[data-theme="light"] {
+  --bg-color: #ddd;
+  --bg-color-sec: #d5d5d5;
+  --bg-color-sec-hover: #cfcfcf;
 
-  --h1-size: clamp(1rem, 5vw, 2.1rem);
-  --h2-size: clamp(.8rem, 4.3vw, 1.5rem);
-
-  --text-size: clamp(.7rem, 3vw, 1rem);
-  --text-size-small: clamp(.5rem, 3vw, .8rem);
+  --text-color: #111;
+  --text-color-sec: #111;
+  --text-color-hover: #373737;
+  --border-color: #aaa;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+button{
+  background-color: transparent;
+  border: none;
 }
 
 #root {
@@ -38,9 +56,6 @@ body {
   font-family: 'Poppins', sans-serif;
   overflow-x: hidden;
   transition: transform .15s;
-}
-body:has(dialog[open]) {
-  overflow: hidden;
 }
 
 body:has(dialog[data-direction="right"][open]) {

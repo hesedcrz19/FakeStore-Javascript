@@ -61,7 +61,6 @@
     padding: 8px;
     border: 1px solid var(--border-color);
     color: var(--text-color);
-    transition: background-color 0.2s;
   
     &:hover {
       cursor: pointer;

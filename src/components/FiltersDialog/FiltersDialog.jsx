@@ -9,7 +9,7 @@ import { Filters } from "../Filters/Filters";
 export function FiltersDialog({ openBtn = undefined }) {
   const filtersRef = useRef(null);
   const isPc = useMatchMedia("(min-width: 1000px)");
-  const { openModal, closeModal } = useModal(filtersRef, !isPc, true);
+  const { openModal, closeModal } = useModal({dialogRef: filtersRef, enabled: !isPc, closeOutside: true});
 
   useEffect(() => {
     const btn = openBtn.current;

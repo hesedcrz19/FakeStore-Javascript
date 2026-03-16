@@ -13,10 +13,6 @@ export function ProductsGrid({ products }) {
 
   const isPc = useMatchMedia("(min-width: 1000px)");
 
-  useEffect(() => {
-    console.log('sdah')
-  })
-
   return (
     <>
       <section className={styles.productsContainer}>

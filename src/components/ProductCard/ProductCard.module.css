@@ -53,7 +53,7 @@
         font-family: "Poppins";
         font-size: var(--text-size-small);
         background-color: var(--primary-color);
-        color: var(--text-color);
+        color: #ddd;
         border: none;
         padding: 5px 10px;
         border-radius: 8px;

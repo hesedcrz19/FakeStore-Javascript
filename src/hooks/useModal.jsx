@@ -1,9 +1,18 @@
 import { useState, useEffect } from "react";
 
-export function useModal(dialogRef, enabled = true, closeOutside = false){
+export function useModal({dialogRef, enabled = true, autoClose = true, hideScrollbar = true}){
   const [open, setOpen] = useState(false);
 
   const shouldBeOpen = open && enabled;
+
+  function closeModal() {
+    dialogRef?.current.close();
+    if (hideScrollbar) document.body.style.overflow = 'auto';
+  }
+  function openModal() {
+    dialogRef?.current.showModal();
+    if (hideScrollbar) document.body.style.overflow = 'hidden';
+  }
 
   // Sincronize state → dialog
   useEffect(() => {
@@ -12,16 +21,15 @@ export function useModal(dialogRef, enabled = true, closeOutside = false){
     if (!dialog) return;
 
     if (shouldBeOpen && !dialog.open) {
-      dialog.showModal();
+      openModal();
     } else if (!shouldBeOpen && dialog.open) {
-      dialog.close();
+      closeModal();
     }
   }, [shouldBeOpen, dialogRef]);
   
 
   // Sincronize with (Esc)
   useEffect(() => {
-    console.log(dialogRef)
     const dialog = dialogRef.current;
     
     if (!dialog) return;
@@ -45,7 +53,7 @@ export function useModal(dialogRef, enabled = true, closeOutside = false){
 
     const handleClick = (event) => {
       
-      if (event.target === dialog && closeOutside) {
+      if (event.target === dialog && autoClose) {
         setOpen(false);
       }
     };

@@ -27,10 +27,6 @@
     width: clamp(20px, 8dvw, 35px);
     height: auto;
     cursor: pointer;
-
-    &:hover {
-      fill: var(--text-color-sec);
-    }
   }
 }
 
@@ -63,14 +59,17 @@ h1 {
   }
 }
 
-svg {
-  fill: var(--text-color);
-  width: clamp(20px, 8dvw, 35px);
-  height: auto;
-  cursor: pointer;
-
-  &:hover {
-    fill: var(--text-color-sec);
+.githubHeader{
+  display: flex;
+  
+  svg {
+    fill: var(--text-color);
+    width: clamp(20px, 8dvw, 35px);
+    height: auto;
+  
+    &:hover {
+      fill: var(--text-color-sec);
+    }
   }
 }
 
@@ -87,11 +86,13 @@ svg {
 
   &.signUp {
     background-color: var(--primary-color);
+    color: #ddd;
+
+    &:hover {
+      background-color: var(--primary-color-hover);
+    }
   }
 
-  &.signUp:hover {
-    background-color: var(--primary-color-hover);
-  }
 
   &.login:hover {
     background-color: var(--bg-color-sec-hover);
