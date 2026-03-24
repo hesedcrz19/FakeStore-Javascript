@@ -1,14 +1,6 @@
 <!doctype html>
 <html lang="en">
-    <script>
-      const themeStorage = localStorage.getItem('theme');
-
-      const theme = 
-      themeStorage ?? 
-      (window.matchMedia("(prefers-color-scheme: dark)").matches ? 'dark' : 'light')
-
-      document.documentElement.dataset.theme = theme;
-    </script>
+    
   <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="src/fonts.css">

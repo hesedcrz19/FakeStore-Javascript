@@ -1,4 +1,6 @@
 .header {
+  position: sticky;
+  top: 0;
   background-color: var(--bg-color-sec);
   border-bottom: 1px solid var(--border-color);
   display: flex;
@@ -86,7 +88,7 @@ h1 {
 
   &.signUp {
     background-color: var(--primary-color);
-    color: #ddd;
+    color: var(--accent-color);
 
     &:hover {
       background-color: var(--primary-color-hover);

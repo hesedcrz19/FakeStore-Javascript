@@ -1,4 +1,4 @@
-import { useRouter } from "../hooks/useRoute.jsx";
+import { useRouter } from "../hooks/useRoute.js";
 
 export function Link({ href, children, ...restProps }) {
   const { navigateTo } = useRouter();

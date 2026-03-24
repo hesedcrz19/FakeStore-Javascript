@@ -1,8 +1,8 @@
 import styles from "./ThemeButton.module.css";
 
 import { useRef, useState, useEffect } from "react";
-import { useModal } from "../../hooks/useModal";
-import { useMatchMedia } from "../../hooks/useMatchMedia";
+import { useModal } from "@/hooks/useModal.js";
+import { useMatchMedia } from "@/hooks/useMatchMedia.js";
 
 import { Desktop } from "../icons/Desktop";
 import { Sun } from "../icons/Sun";

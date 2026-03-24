@@ -1,21 +1,11 @@
 .filtersForm {
-  background-color: var(--bg-color);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
   border: 1px solid var(--border-color);
   border-radius: 0 0 20px 20px;
   border-top: none;
   padding: 20px;
-}
-
-.smallForm {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 0;
-  border: none; 
 }
 
 .filterInput {
@@ -23,7 +13,7 @@
   color: var(--text-color);
   font-family: "Montserrat";
   padding: 8px 10px;
-  margin-bottom: 15px;
+  margin-bottom: 8px;
   width: 100%;
   background-color: var(--bg-color-sec);
   border: 1px solid var(--border-color);
@@ -38,33 +28,95 @@
   border: 1px solid var(--border-color);
 }
 
-.buttonsContainer{
+.priceFilters {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+
+  .prices {
+    color: var(--text-color);
+    font-size: var(--text-size);
+    font-family: "Poppins";
+    flex-basis: 100%;
+    text-align: center;
+    margin-bottom: 5px;
+  }
+
+  label {
+    font-size: var(--text-size-small);
+    color: var(--text-color);
+    font-family: "Montserrat";
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    text-align: center;
+    gap: 2px;
+
+    input {
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      background-color: var(--bg-color-sec);
+      font-family: "Poppins";
+      font-weight: 100;
+      text-align: center;
+      padding: 5px;
+      width: 50px;
+      height: 23px;
+      border-radius: 5px;
+
+      &:hover{
+        background-color: var(--bg-color-sec-hover);
+      }
+
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+        appearance: none;
+      }
+    }
+  }
+}
+
+.buttonsContainer {
   display: flex;
   flex-direction: column;
   gap: 10px;
 
-  
-  .p {
+  .categories {
     color: var(--text-color);
     font-size: var(--text-size);
     font-family: "Poppins";
     width: 100%;
     text-align: center;
   }
-  
+
   .button {
     font-family: "Montserrat";
     font-size: var(--text-size-small);
     background-color: var(--bg-color-sec);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    text-align: center;
     border-radius: 12px;
     width: 100%;
     padding: 8px;
-    border: 1px solid var(--border-color);
-    color: var(--text-color);
-  
+
     &:hover {
       cursor: pointer;
       background-color: var(--bg-color-sec-hover);
+    }
+
+    &:has(input:checked){
+      background-color: var(--primary-color);
+      color: var(--accent-color);
+
+      &:hover{
+        background-color: var(--primary-color-hover);
+      }
+    }
+
+    input[type="radio"]{
+      display: none;
     }
   }
 }

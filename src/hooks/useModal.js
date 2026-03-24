@@ -1,17 +1,28 @@
 import { useState, useEffect } from "react";
 
-export function useModal({dialogRef, enabled = true, autoClose = true, hideScrollbar = true}){
+export function useModal({
+  dialogRef,
+  enabled = true,
+  autoClose = true,
+  hideScrollbar = true,
+}) {
   const [open, setOpen] = useState(false);
 
   const shouldBeOpen = open && enabled;
 
   function closeModal() {
     dialogRef?.current.close();
-    if (hideScrollbar) document.body.style.overflow = 'auto';
+    if (hideScrollbar) {
+      document.body.style.overflow = "auto";
+      document.body.style.paddingRight = "0px";
+    }
   }
   function openModal() {
     dialogRef?.current.showModal();
-    if (hideScrollbar) document.body.style.overflow = 'hidden';
+    if (hideScrollbar) {
+      document.body.style.overflow = "hidden";
+      document.body.style.paddingRight = "10px";
+    }
   }
 
   // Sincronize state → dialog
@@ -26,12 +37,11 @@ export function useModal({dialogRef, enabled = true, autoClose = true, hideScrol
       closeModal();
     }
   }, [shouldBeOpen, dialogRef]);
-  
 
   // Sincronize with (Esc)
   useEffect(() => {
     const dialog = dialogRef.current;
-    
+
     if (!dialog) return;
 
     const handleClose = () => {
@@ -48,17 +58,16 @@ export function useModal({dialogRef, enabled = true, autoClose = true, hideScrol
   // Detect click outside the dialog
   useEffect(() => {
     const dialog = dialogRef.current;
-    
+
     if (!dialog) return;
 
     const handleClick = (event) => {
-      
       if (event.target === dialog && autoClose) {
         setOpen(false);
       }
     };
 
-    dialog.addEventListener('click', handleClick);
+    dialog.addEventListener("click", handleClick);
 
     return () => {
       dialog.removeEventListener("click", handleClick);
@@ -66,8 +75,8 @@ export function useModal({dialogRef, enabled = true, autoClose = true, hideScrol
   }, [dialogRef]);
 
   return {
-    open, 
-    openModal: () => setOpen(true), 
-    closeModal: () => setOpen(false)
+    open,
+    openModal: () => setOpen(true),
+    closeModal: () => setOpen(false),
   };
 }

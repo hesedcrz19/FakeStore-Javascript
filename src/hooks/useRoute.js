@@ -6,7 +6,6 @@ export function useRouter(){
   useEffect(() => {
     const handleNav = () => {
       setCurrentPath(window.location.pathname)
-      console.log('navegando')
     }
 
     window.addEventListener('popstate', handleNav)
