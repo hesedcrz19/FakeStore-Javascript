@@ -1,27 +1,26 @@
-import { createContext, useContext, useState, useEffect, useRef } from "react";
-import { productsFetch } from "../services/productsFetch";
+import { createContext, useContext, useState, useEffect } from "react";
+import { productsFetch } from "@/services/productsFetch";
+import { useRouter } from "@/hooks/useRoute";
 
 const ProductsContext = createContext(null);
 
-function areEquals(x, y) {
-  if (x === y) return true;
-  if (!(x instanceof Object) || !(y instanceof Object)) return false;
-  if (Object.keys(x).length !== Object.keys(y).length) return false;
 
-  for (let prop in x) {
-    if (!y.hasOwnProperty(prop) || !areEquals(x[prop], y[prop])) return false;
-  }
-  return true;
-}
-
-export function ProductsProvider({
-  children,
-  initialFilters = { minPrice: "", maxPrice: "", search: "", category: "all" },
-}) {
-  const [fetchFilters, setFetchFilters] = useState(initialFilters);
+export function ProductsProvider({ children }) {
   const [products, setProducts] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const { navigateTo, searchParams } = useRouter();
+  const setFiltersByParams = () => ({
+      search: searchParams.get("search") || "",
+      minPrice: searchParams.get("minPrice") || "",
+      maxPrice: searchParams.get("maxPrice") || "",
+      category: searchParams.get("category") || "all",
+    })
+  const [fetchFilters, setFetchFilters] = useState(setFiltersByParams);
+
+  useEffect(() => {
+    setFetchFilters(setFiltersByParams);
+  }, [searchParams]);
 
   useEffect(() => {
     productsFetch(fetchFilters)

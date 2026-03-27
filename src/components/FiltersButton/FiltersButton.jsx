@@ -11,15 +11,18 @@ export function FiltersButton() {
     dialogRef: filtersRef,
     hideScrollbar: false,
   });
-  const { dispatchFilters, filters } = useFilters();
+  const { filters, changers } = useFilters();
 
   const categories = [
     { category: "all", name: "All" },
-    { category: "clothes", name: "Clothes"},
+    { category: "clothes", name: "Clothes" },
     { category: "electronics", name: "Electronics" },
     { category: "furniture", name: "Furniture" },
     { category: "miscellaneous", name: "Miscellaneous" },
   ];
+
+  const { changeText, changeMinPrice, changeMaxPrice, changeCategory } =
+    changers;
 
   return (
     <>
@@ -39,7 +42,7 @@ export function FiltersButton() {
           <path d="M440-120v-240h80v80h320v80H520v80h-80Zm-320-80v-80h240v80H120Zm160-160v-80H120v-80h160v-80h80v240h-80Zm160-80v-80h400v80H440Zm160-160v-240h80v80h160v80H680v80h-80Zm-480-80v-80h400v80H120Z" />
         </svg>
       </button>
-      
+
       <dialog
         className={styles.filtersDialog}
         data-direction="right"
@@ -74,13 +77,7 @@ export function FiltersButton() {
                 role="search"
                 name="search"
                 value={filters.search}
-                onChange={(e) =>
-                  dispatchFilters({
-                    type: "TEXT",
-                    filter: "search",
-                    value: e.target.value,
-                  })
-                }
+                onChange={changeText}
               />
             </div>
 
@@ -94,13 +91,7 @@ export function FiltersButton() {
                   min="0"
                   value={filters.minPrice}
                   name="minPrice"
-                  onChange={(e) =>
-                    dispatchFilters({
-                      type: "NUMBER",
-                      filter: "minPrice",
-                      value: e.target.value,
-                    })
-                  }
+                  onChange={changeMinPrice}
                 />
               </label>
               <label>
@@ -111,13 +102,7 @@ export function FiltersButton() {
                   min="0"
                   value={filters.maxPrice}
                   name="maxPrice"
-                  onChange={(e) =>
-                    dispatchFilters({
-                      type: "NUMBER",
-                      filter: "maxPrice",
-                      value: e.target.value,
-                    })
-                  }
+                  onChange={changeMaxPrice}
                 />
               </label>
             </fieldset>
@@ -132,13 +117,7 @@ export function FiltersButton() {
                     name="category"
                     value={el.category}
                     checked={filters.category === el.category}
-                    onChange={(e) =>
-                      dispatchFilters({
-                        type: "RADIO",
-                        filter: "category",
-                        value: e.target.value,
-                      })
-                    }
+                    onChange={changeCategory}
                   />
                 </label>
               ))}
