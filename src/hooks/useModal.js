@@ -11,16 +11,29 @@ export function useModal({
   const shouldBeOpen = open && enabled;
 
   function closeModal() {
-    dialogRef?.current.close();
-    if (hideScrollbar) {
-      document.body.style.overflow = "auto";
-      document.body.style.paddingRight = "0px";
-    }
+    const dialog = dialogRef.current;
+
+    dialog.dataset.open = "false";
+
+    setTimeout(() => {
+      dialog.close();
+      if (hideScrollbar) {
+        document.body.style.overflow = "auto";
+        document.body.style.paddingRight = "0px";
+      }
+    }, 150);
   }
   function openModal() {
-    dialogRef?.current.showModal();
+    const dialog = dialogRef.current;
+
+    dialog.dataset.open = "true";
+
+    dialog.showModal();
     if (hideScrollbar) {
       document.body.style.overflow = "hidden";
+
+      if (!window.matchMedia("max-width: 768px").matches) return;
+
       document.body.style.paddingRight = "10px";
     }
   }
@@ -33,7 +46,7 @@ export function useModal({
 
     if (shouldBeOpen && !dialog.open) {
       openModal();
-    } else if (!shouldBeOpen && dialog.open) {
+    } else if (!shouldBeOpen) {
       closeModal();
     }
   }, [shouldBeOpen, dialogRef]);
@@ -44,7 +57,8 @@ export function useModal({
 
     if (!dialog) return;
 
-    const handleClose = () => {
+    const handleClose = (e) => {
+      e.preventDefault()
       setOpen(false);
     };
 

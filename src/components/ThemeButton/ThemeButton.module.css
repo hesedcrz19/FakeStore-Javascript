@@ -3,6 +3,11 @@
   display: flex;
   position: relative;
   cursor: pointer;
+  transition: .2s scale;
+
+  &:hover{
+    scale: 1.1;
+  }
   
   &:hover svg {
     fill: var(--text-color-hover);
@@ -15,7 +20,6 @@
     position: absolute;
     top: 0;
     transition: opacity .3s, scale .5s;
-
   }
 
   &.dark .sun {

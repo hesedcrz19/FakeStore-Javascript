@@ -1,0 +1,138 @@
+.dialog {
+  background-color: var(--bg-color);
+  left: 0;
+  top: 0;
+  min-height: 100dvh;
+  min-width: min(250px, 100dvw);
+  border: none;
+  box-shadow: 0 0 10px #0007;
+
+  &[data-open="true"] {
+    animation: open-left-dialog 0.15s both;
+  }
+  &[data-open="false"] {
+    animation: close-left-dialog 0.15s both;
+  }
+
+  &::backdrop {
+    background-color: #0003;
+  }
+
+  .dialogFlex {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: min(15px, 5dvw);
+    padding-top: min(40px, 20dvw);
+    min-width: 100%;
+
+    .closeBtn {
+      background-color: transparent;
+      border: none;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+
+      svg {
+        fill: var(--text-color);
+        width: clamp(20px, 5dvw, 25px);
+        height: auto;
+        cursor: pointer;
+        transition: 0.2s scale;
+
+        &:hover {
+          fill: var(--text-color-hover);
+          scale: 1.1;
+        }
+      }
+    }
+
+    h2 {
+      font-size: var(--h2-size);
+      color: var(--text-color);
+      font-family: "Montserrat";
+      padding-bottom: 30px;
+    }
+
+    hr {
+      border: 1px solid var(--border-color);
+      width: 100%;
+    }
+
+    .nav {
+      padding: 30px 0;
+      border-radius: 20px;
+      width: 100%;
+      display: flex;
+      gap: 30px;
+      flex-direction: column;
+
+      a {
+        text-decoration: none;
+        text-align: center;
+        font-size: var(--text-size);
+        color: var(--text-color);
+        position: relative;
+        transition: 0.2s color, 0.2s scale;
+
+        &::after{
+          content: '';
+          position: absolute;
+          height: 2px;
+          background-color: var(--primary-color);
+          inset: 100% 50%;
+          transition: 0.2s inset;
+        }
+
+        &:hover{
+          color: var(--primary-color);
+          scale: 1.1;
+
+          &::after{
+            inset: 100% 25%;
+          }
+        }
+      }
+    }
+
+    .options {
+      display: flex;
+      margin-top: auto;
+      justify-content: center;
+      gap: 40px;
+      padding-bottom: 20px;
+
+      a {
+        &:hover svg {
+          fill: var(--text-color-hover);
+          scale: 1.1;
+        }
+        svg {
+          fill: var(--text-color);
+          width: clamp(20px, 8dvw, 35px);
+          height: auto;
+          transition: 0.2s scale;
+        }
+      }
+    }
+  }
+}
+@keyframes open-left-dialog {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes close-left-dialog {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}

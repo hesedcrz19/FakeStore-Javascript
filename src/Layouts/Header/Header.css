@@ -15,7 +15,7 @@
   margin: auto;
   display: flex;
   align-items: center;
-  gap: clamp(1px,1.5dvw,15px);
+  gap: clamp(1px, 1.5dvw, 15px);
   justify-content: space-between;
 }
 
@@ -29,6 +29,12 @@
     width: clamp(20px, 8dvw, 35px);
     height: auto;
     cursor: pointer;
+    transition: 0.2s scale;
+
+    &:hover {
+      fill: var(--text-color-hover);
+      scale: 1.1;
+    }
   }
 }
 
@@ -38,10 +44,28 @@ h1 {
   min-width: 0;
   white-space: nowrap;
   overflow: clip;
+  transition: .2s scale;
+
+  &:hover {
+    scale: 1.04;
+  }
+
+  &:has(a:focus-visible) {
+    outline: 2px solid;
+    outline-offset: 2px;
+  }
 
   a {
     color: var(--text-color);
     text-decoration: none;
+
+    &:hover {
+      color: var(--text-color-hover);
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
   }
 }
 
@@ -53,24 +77,40 @@ h1 {
   padding: clamp(7px, 2dvw, 10px) clamp(10px, 2dvw, 15px);
   border-radius: 10px;
   border: 1px solid var(--border-color);
+  transition: 0.2s border-color;
+
+  &:hover {
+    border-color: var(--primary-color);
+    border-width: 2px;
+  }
 
   a {
     font-size: var(--text-size);
     text-decoration: none;
     color: var(--text-color);
+    transition:
+      0.2s color,
+      0.2s scale;
+
+    &:hover {
+      color: var(--primary-color);
+      scale: 1.05;
+    }
   }
 }
 
-.githubHeader{
+.githubHeader {
   display: flex;
-  
+
   svg {
     fill: var(--text-color);
     width: clamp(20px, 8dvw, 35px);
     height: auto;
-  
+    transition: .2s scale;
+
     &:hover {
-      fill: var(--text-color-sec);
+      fill: var(--text-color-hover);
+      scale: 1.1;
     }
   }
 }
@@ -84,7 +124,19 @@ h1 {
   color: var(--text-color);
   padding: clamp(7px, 2dvw, 10px) clamp(10px, 2dvw, 15px);
   cursor: pointer;
-  transition: 0.3s background-color;
+  transition:
+    0.2s border-color,
+    0.2s color,
+    0.2s background-color;
+
+  &.login {
+    border: 1px solid var(--border-color);
+  }
+
+  &.login:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+  }
 
   &.signUp {
     background-color: var(--primary-color);
@@ -93,88 +145,5 @@ h1 {
     &:hover {
       background-color: var(--primary-color-hover);
     }
-  }
-
-
-  &.login:hover {
-    background-color: var(--bg-color-sec-hover);
-  }
-}
-
-.header-nav-dialog {
-  left: 0;
-  top: 0;
-  min-height: 100dvh;
-  border: none;
-  box-shadow: 0 0 10px #000;
-
-  &[open] {
-    display: flex;
-    animation: navbar-dialog 0.2s both;
-  }
-
-  &::backdrop {
-    background-color: #0007;
-  }
-}
-
-.header-nav-dialog-flex {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: start;
-  gap: 25px;
-  padding: 20px;
-  padding-top: 45px;
-  width: 250px;
-  max-width: 100%;
-  background-color: var(--bg-color);
-  border-right: 1px solid var(--border-color);
-
-  hr {
-    border: 1px solid var(--border-color);
-    width: 100%;
-  }
-
-  .closeDialog-button {
-    background-color: transparent;
-    border: none;
-    position: absolute;
-    top: 5px;
-    left: 5px;
-
-    svg {
-      fill: var(--text-color);
-      width: clamp(30px, 5dvw, 35px);
-      height: auto;
-      cursor: pointer;
-    }
-  }
-
-  .links {
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-color-sec);
-    border-radius: 20px;
-    padding: 10px;
-    width: 100%;
-    display: flex;
-    gap: 5px;
-    flex-direction: column;
-
-    a {
-      text-decoration: none;
-      text-align: center;
-      font-size: var(--text-size);
-      color: var(--text-color);
-    }
-  }
-}
-
-@keyframes navbar-dialog {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
   }
 }

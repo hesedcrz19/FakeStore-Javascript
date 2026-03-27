@@ -4,7 +4,6 @@ import { useMatchMedia } from "@/hooks/useMatchMedia.js";
 import { FiltersProvider } from "../../context/FiltersContext";
 
 import { ProductCard } from "@/components/ProductCard/ProductCard.jsx";
-import { Filters } from "@/components/Filters/Filters.jsx";
 import { FiltersButton } from "@/components/FiltersButton/FiltersButton.jsx";
 
 export function ProductsGrid({ products }) {
@@ -18,8 +17,7 @@ export function ProductsGrid({ products }) {
         <div className={styles.productsHeader}>
           <h2>Productos ({products.length})</h2>
 
-          {/* Only in small screens */}
-          {!isPc && <FiltersButton />}
+          <FiltersButton />
         </div>
 
         <div className={styles.productsGrid}>
@@ -30,8 +28,6 @@ export function ProductsGrid({ products }) {
         </div>
       </section>
 
-      {/* Only in big screen */}
-      {isPc && <Filters />}
     </FiltersProvider>
   );
 }
