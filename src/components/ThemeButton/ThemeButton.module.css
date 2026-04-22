@@ -3,14 +3,9 @@
   display: flex;
   position: relative;
   cursor: pointer;
-  transition: .2s scale;
 
-  &:hover{
-    scale: 1.1;
-  }
-  
-  &:hover svg {
-    fill: var(--text-color-hover);
+  &:hover {
+    opacity: 0.8 !important;
   }
 
   svg {
@@ -19,16 +14,18 @@
     fill: var(--text-color);
     position: absolute;
     top: 0;
-    transition: opacity .3s, scale .5s;
+    transition:
+      opacity 0.3s,
+      scale 0.5s;
   }
 
   &.dark .sun {
     opacity: 0;
-    scale: .5;
+    scale: 0.5;
   }
   &.dark .desktop {
     opacity: 0;
-    scale: .5;
+    scale: 0.5;
   }
   &.dark .moon {
     opacity: 1;
@@ -38,11 +35,11 @@
 
   &.system .moon {
     opacity: 0;
-    scale: .5;
+    scale: 0.5;
   }
   &.system .sun {
     opacity: 0;
-    scale: .5;
+    scale: 0.5;
   }
   &.system .desktop {
     opacity: 1;
@@ -52,11 +49,11 @@
 
   &.light .moon {
     opacity: 0;
-    scale: .5;
+    scale: 0.5;
   }
   &.light .desktop {
     opacity: 0;
-    scale: .5;
+    scale: 0.5;
   }
   &.light .sun {
     opacity: 1;
@@ -71,12 +68,12 @@
   background-color: transparent;
   border: none;
 
-  &.down{
-      top: calc(anchor(bottom) + 10px);
+  &.down {
+    top: calc(anchor(bottom) + 10px);
     left: anchor(center);
     transform: translateX(-50%);
   }
-  &.up{
+  &.up {
     top: calc(anchor(top) + -10px);
     left: anchor(center);
     transform: translateX(-50%) translateY(-100%);
@@ -101,7 +98,7 @@
       font-size: var(--text-size);
       padding: 4px 8px;
       color: var(--text-color);
-      font-family: "Poppins";
+      font-family: 'Poppins';
       cursor: pointer;
       border: 1px solid transparent;
 
@@ -109,7 +106,7 @@
         outline: none;
         background-color: var(--bg-color);
         border: 1px solid var(--text-color);
-      } 
+      }
 
       &:hover {
         background-color: var(--bg-color);

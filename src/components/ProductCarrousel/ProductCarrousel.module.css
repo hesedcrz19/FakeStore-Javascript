@@ -1,0 +1,176 @@
+.mainCarrouselContainer {
+  display: flex;
+  height: 250px;
+  gap: 5px;
+}
+
+.carrouselThumbnails {
+  display: flex;
+  flex-direction: row;
+  overflow: auto hidden;
+  justify-content: center;
+  gap: 10px;
+  padding: 5px;
+  box-sizing: content-box;
+
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--border-color);
+  }
+
+  &::-webkit-scrollbar-track {
+    margin: 10px;
+  }
+
+  .thumbnailButton {
+    width: 70px;
+    aspect-ratio: 1/1;
+    opacity: 0.5;
+    cursor: pointer;
+    transition:
+      opacity 0.2s,
+      scale 0.2s;
+
+    &[aria-current='true'] {
+      opacity: 1;
+      scale: 1.05;
+    }
+
+    img {
+      object-fit: cover;
+      max-width: 100%;
+      border-radius: 5px;
+    }
+  }
+}
+
+.carrouselContainer {
+  margin: 0 auto;
+  position: relative;
+  height: 100%;
+  max-width: 100%;
+  aspect-ratio: 1/1;
+
+  .prevBtn,
+  .nextBtn {
+    background-color: var(--primary-color);
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    padding: 5px;
+    cursor: pointer;
+    display: none;
+
+    &[disabled] {
+      opacity: 0.5;
+      pointer-events: none;
+      display: none;
+    }
+
+    svg {
+      fill: var(--accent-color);
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .prevBtn {
+    position: absolute;
+    left: 0px;
+    top: 50%;
+    translate: -50% -50%;
+    z-index: 1000;
+  }
+
+  .nextBtn {
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    translate: 50% -50%;
+    z-index: 1000;
+  }
+
+  .imagesCarrousel {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    overflow-x: auto;
+    display: flex;
+    flex-direction: row;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+
+    .slide {
+      height: 100%;
+      min-width: 100%;
+      scroll-snap-align: center;
+      scroll-snap-stop: always;
+    }
+
+    .image {
+      height: 100%;
+      max-width: 100%;
+      object-fit: cover;
+      object-position: center;
+      user-select: none;
+    }
+  }
+
+  .carrouselDots {
+    position: absolute;
+    left: 50%;
+    bottom: 5px;
+    translate: -50%;
+    display: flex;
+    gap: 5px;
+    z-index: 1000;
+
+    input {
+      accent-color: var(--primary-color);
+      cursor: pointer;
+    }
+  }
+}
+
+.skeleton {
+  background-color: var(--loading-color);
+  border-radius: 10px;
+}
+
+@media (pointer: fine) {
+  .carrouselContainer {
+    .nextBtn,
+    .prevBtn {
+      display: block;
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .mainCarrouselContainer {
+    height: 250px;
+    flex-direction: column-reverse;
+    min-height: fit-content;
+  }
+}
+
+@media screen and (min-width: 950px) {
+  .mainCarrouselContainer {
+    height: 350px;
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .carrouselThumbnails {
+    direction: rtl;
+    flex-direction: column;
+
+    .thumbnailButton {
+      width: 100px;
+    }
+  }
+}

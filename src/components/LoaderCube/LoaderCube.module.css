@@ -1,14 +1,18 @@
 .loadingScreen {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   gap: 25px;
-  margin: auto;
   position: relative;
+  width: 100%;
+  margin: auto;
+  height: 100%;
 
   h2 {
     font-size: var(--h2-size);
-    font-family: "Montserrat";
+    font-family: 'Montserrat';
+    color: var(--text-color);
   }
 
   .cube {

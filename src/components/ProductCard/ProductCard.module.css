@@ -1,68 +1,103 @@
 .productCard {
   display: flex;
-  border: 1px solid var(--border-color);
   flex-direction: column;
-  justify-content: space-between;
-  max-width: min(100%,350px);
-  gap: 10px;
-  padding: min(3dvw,10px);
-  border-radius: 14px;
+  justify-content: start;
+  width: 100%;
+  max-width: min(100%, 350px);
   cursor: pointer;
-  transition: scale 0.2s ease, border-color 0.2s ease;
-  
-  &:hover {
-    scale: 1.02;
-    border-color: var(--primary-color);
-  }
+  position: relative;
 
-  img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 15px;
-  }
+  .link {
+    color: var(--text-color);
+    text-decoration: none;
+    max-height: 0;
 
-  h3 {
-    font-size: var(--text-size);
-    font-weight: 500;
-  }
+    &:focus-visible {
+      outline: none;
 
-  .description {
-    font-family: 'Montserrat';
-    font-weight: 300;
-    font-size: var(--text-size-small);
-    color: var(--text-color-sec);
-    margin: 10px 0;
+      &::after {
+        outline: 1px solid;
+        outline-offset: 3px;
+      }
+    }
 
-    .descriptionMore{
-        color: var(--primary-color);
+    &::after {
+      content: '';
+      inset: 0;
+      position: absolute;
+      border-radius: 14px;
     }
   }
 
-  .priceContainer{
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
-    
-    .price {
-        font-size: var(--text-size);
-        color: var(--primary-color);
-      }
+  .header {
+    margin-bottom: 5px;
 
-      .addToCartBtn{
-        font-family: "Poppins";
-        font-size: var(--text-size-small);
-        background-color: var(--primary-color);
-        color: var(--accent-color);
-        border: none;
-        padding: 5px 10px;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-
-        &:hover {
-          background-color: var(--primary-color-hover);
-        }
-      }
+    img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      border-radius: 3px;
+      object-fit: cover;
+      user-select: none;
+    }
   }
+
+  h3 {
+    font-family: 'Poppins';
+    font-size: var(--text-size);
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+
+  .category {
+    align-self: start;
+    margin-top: auto;
+    padding-top: 15px;
+    font-size: var(--text-size-small);
+    font-style: italic;
+    color: var(--text-color-sec);
+    text-decoration: none;
+    z-index: 10;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .price {
+    padding-top: 5px;
+    font-size: var(--h3-size);
+    margin-bottom: 10px;
+  }
+
+  .footer {
+    display: flex;
+    flex-direction: column;
+
+    .addToCartBtn {
+      font-family: 'Poppins';
+      font-size: var(--text-size-small);
+      background-color: var(--primary-color);
+      color: var(--accent-color);
+      height: 30px;
+      border-radius: 3px;
+      cursor: pointer;
+      z-index: 10;
+      opacity: 1;
+      transition: opacity 0.2s;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+}
+
+@media (pointer: fine) {
+  .productCard .footer .addToCartBtn {
+    visibility: hidden;
+  }
+}
+
+.productCard:hover .footer .addToCartBtn {
+  visibility: visible;
 }

@@ -1,26 +1,107 @@
-import styles from "./FiltersButton.module.css";
+import styles from './FiltersButton.module.css';
 
-import { useRef } from "react";
-import { useModal } from "@/hooks/useModal.js";
+import { useRef, useState, useEffect } from 'react';
+import { useModal } from '@/hooks/useModal.js';
+import { useFilters } from '@/context/FiltersContext';
 
-import { useFilters } from "../../context/FiltersContext";
+import { categoriesFetch } from '@/services/categoriesFetch';
+import { formatCategory } from '@/utils/formatCategory';
+
+function SearchInput({ changeText, filters }) {
+  return (
+    <input
+      type="text"
+      className={styles.filterInput}
+      placeholder="Search..."
+      role="search"
+      name="search"
+      value={filters.search}
+      onChange={(event) => changeText(event.target.value)}
+    />
+  );
+}
+
+function MinPriceInput({ changeMinPrice, filters }) {
+  return (
+    <label>
+      <span>Min.</span>
+      <input
+        type="text"
+        inputMode="numeric"
+        min="0"
+        value={filters.minPrice}
+        name="minPrice"
+        onChange={(event) => changeMinPrice(event.target.value)}
+      />
+    </label>
+  );
+}
+
+function MaxPriceInput({ changeMaxPrice, filters }) {
+  return (
+    <label>
+      <span>Max.</span>
+      <input
+        type="text"
+        inputMode="numeric"
+        min="0"
+        value={filters.maxPrice}
+        name="maxPrice"
+        onChange={(event) => changeMaxPrice(event.target.value)}
+      />
+    </label>
+  );
+}
+
+function CategoryButtons({ changeCategory, filters }) {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    categoriesFetch()
+      .then((data) => setCategories(data))
+      .catch(() => setCategories([]));
+  }, []);
+
+  const categoriesElements = categories.map((category) => {
+    const { id, name, slug } = formatCategory(category);
+    return (
+      <label className={styles.button} key={id}>
+        {name}
+        <input
+          type="radio"
+          name="category"
+          value={slug}
+          checked={filters.category === slug}
+          onChange={() => changeCategory(slug)}
+        />
+      </label>
+    );
+  });
+
+  categoriesElements.unshift(
+    <label className={styles.button} key="all">
+      All
+      <input
+        type="radio"
+        name="category"
+        value="all"
+        checked={filters.category === 'all'}
+        onChange={() => changeCategory('all')}
+      />
+    </label>
+  );
+
+  return categoriesElements;
+}
 
 export function FiltersButton() {
   const filtersRef = useRef(null);
   const { openModal, closeModal } = useModal({
     dialogRef: filtersRef,
-    hideScrollbar: false,
+    hiddenScrollbar: false,
+    closeDelay: 150,
   });
   const { filters, changers } = useFilters();
-
-  const categories = [
-    { category: "all", name: "All" },
-    { category: "clothes", name: "Clothes" },
-    { category: "electronics", name: "Electronics" },
-    { category: "furniture", name: "Furniture" },
-    { category: "miscellaneous", name: "Miscellaneous" },
-  ];
-
   const { changeText, changeMinPrice, changeMaxPrice, changeCategory } =
     changers;
 
@@ -70,57 +151,27 @@ export function FiltersButton() {
             onSubmit={(e) => e.preventDefault()}
           >
             <div className={styles.inputContainer}>
-              <input
-                type="text"
-                className={styles.filterInput}
-                placeholder="Shearch..."
-                role="search"
-                name="search"
-                value={filters.search}
-                onChange={changeText}
-              />
+              <SearchInput changeText={changeText} filters={filters} />
             </div>
 
             <fieldset className={styles.priceFilters}>
               <legend>Price</legend>
-              <label>
-                <span>Min.</span>
-                <input
-                  type="text"
-                  inputMode="numeric"
-                  min="0"
-                  value={filters.minPrice}
-                  name="minPrice"
-                  onChange={changeMinPrice}
-                />
-              </label>
-              <label>
-                <span>Max.</span>
-                <input
-                  type="text"
-                  inputMode="numeric"
-                  min="0"
-                  value={filters.maxPrice}
-                  name="maxPrice"
-                  onChange={changeMaxPrice}
-                />
-              </label>
+              <MinPriceInput
+                changeMinPrice={changeMinPrice}
+                filters={filters}
+              />
+              <MaxPriceInput
+                changeMaxPrice={changeMaxPrice}
+                filters={filters}
+              />
             </fieldset>
 
             <fieldset className={styles.buttonsContainer}>
               <legend>Categories</legend>
-              {categories.map((el) => (
-                <label className={styles.button} key={el.category}>
-                  {el.name}
-                  <input
-                    type="radio"
-                    name="category"
-                    value={el.category}
-                    checked={filters.category === el.category}
-                    onChange={changeCategory}
-                  />
-                </label>
-              ))}
+              <CategoryButtons
+                changeCategory={changeCategory}
+                filters={filters}
+              />
             </fieldset>
           </form>
         </div>

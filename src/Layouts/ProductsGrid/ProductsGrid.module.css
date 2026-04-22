@@ -1,29 +1,13 @@
-.productsContainer {
-  flex: 1;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  padding: 20px 0px;
-}
-
-.productsHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-
-  h2 {
-    font-size: var(--h2-size);
-    font-family: "Poppins";
-  }
-}
-
 .productsGrid {
   display: grid;
   justify-items: center;
-  width: 100%;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%,230px), 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 180px), 1fr));
+  margin-top: 30px;
+  gap: 20px;
+}
+
+@media screen and (max-width: 480px) {
+  .productsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 140px), 1fr));
+  }
 }

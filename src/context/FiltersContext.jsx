@@ -1,116 +1,68 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useReducer,
-} from "react";
+import { FILTERS_KEYS } from '@/const';
 
-import { useProducts } from "./ProductsContext";
-import { useRouter } from "@/hooks/useRoute";
+import { createContext, useContext, useEffect, useRef } from 'react';
 
-import { filtersReducer } from "@/reducers/filtersReducer";
+import { useRouter } from '@/hooks/useRoute.js';
+import { useFiltersReducer } from '@/hooks/useFiltersReducer.js';
+
+import { areSameObjects } from '@/utils/areSameObject.js';
+import { differentObjectProperties } from '@/utils/differentObjectProperties';
+import { setFiltersByParams } from '@/utils/setFiltersByParams.js';
+import { setSearchParamsByFilters } from '@/utils/setSearchParamsByFilters.js';
 
 const FiltersContext = createContext(null);
 
-const areSameObjects = (obj1, obj2) => {
-  if (Object.keys(obj1).length !== Object.keys(obj2).length) return false;
-
-  for (const i in obj1) {
-    if (obj1[i] !== obj2[i]) return i;
-  }
-
-  return true;
-};
-
-export function FiltersProvider({ children }) {
-  const { fetchFilters } = useProducts();
-  const [filters, dispatchFilters] = useReducer(filtersReducer, fetchFilters);
-  const previousFilters = useRef(fetchFilters);
-  const { navigateTo } = useRouter();
+export function FiltersProvider(props) {
+  const { setSearchParams, searchParams } = useRouter();
+  const { filters, changers, newFilters } = useFiltersReducer(
+    setFiltersByParams(searchParams)
+  );
+  const previousFilters = useRef(setFiltersByParams(searchParams));
+  const filtersReadyRef = useRef(true);
 
   useEffect(() => {
-    let delay = 300;
+    filtersReadyRef.current = false;
+    let delay;
 
-    const comparation = areSameObjects(previousFilters.current, filters);
-    if (comparation === true) return;
-    if (comparation === "category") delay = 0;
+    if (areSameObjects(previousFilters.current, filters)) return;
+
+    const differentProperties = differentObjectProperties(
+      previousFilters.current,
+      filters
+    );
+    if (differentProperties.includes(FILTERS_KEYS.CATEGORY)) {
+      delay = 0;
+    } else {
+      delay = 300;
+    }
 
     const timeout = setTimeout(() => {
       previousFilters.current = filters;
 
-      const params = new URLSearchParams();
-
-      for (const i in filters) {
-        if (!filters[i] || (i === "category" && filters[i] === "all")) continue;
-        params.append(i, filters[i]);
-      }
-
-      const newURL = `${window.location.pathname}?${params.toString()}`;
-
-      if (newURL === `${window.location.pathname}?${window.location.search}`) return
-
-      navigateTo(newURL);
-
-      console.log('navigating')
+      setSearchParams(setSearchParamsByFilters(filters));
+      filtersReadyRef.current = true;
     }, delay);
 
     return () => clearTimeout(timeout);
-  }, [filters]);
+  }, [filters, setSearchParams]);
 
   useEffect(() => {
-    if (areSameObjects(fetchFilters, filters) === true) return
-    dispatchFilters({ newState: fetchFilters });
-  }, [fetchFilters]);
+    if (
+      areSameObjects(setFiltersByParams(searchParams), filters) ||
+      !filtersReadyRef.current
+    )
+      return;
+    newFilters(setFiltersByParams(searchParams));
+  }, [searchParams, newFilters, filters]);
 
-  const changeText = (event) => {
-    dispatchFilters({
-      type: "TEXT",
-      filter: "search",
-      value: event.target.value,
-    });
-  };
-  const changeCategory = (event) => {
-    dispatchFilters({
-      type: "RADIO",
-      filter: "category",
-      value: event.target.value,
-    });
-  };
-  const changeMinPrice = (event) => {
-    dispatchFilters({
-      type: "NUMBER",
-      filter: "minPrice",
-      value: event.target.value,
-    });
-  };
-  const changeMaxPrice = (event) => {
-    dispatchFilters({
-      type: "NUMBER",
-      filter: "maxPrice",
-      value: event.target.value,
-    });
-  };
-
-  const changers = {
-    changeCategory,
-    changeMaxPrice,
-    changeMinPrice,
-    changeText,
-  };
-
-  return (
-    <FiltersContext.Provider value={{ filters, changers }}>
-      {children}
-    </FiltersContext.Provider>
-  );
+  return <FiltersContext.Provider value={{ filters, changers }} {...props} />;
 }
 
 export function useFilters() {
   const context = useContext(FiltersContext);
 
   if (!context)
-    throw new Error("useFilters must be used within ProductsProvider");
+    throw new Error('useFilters must be used within FiltersProvider');
 
   return context;
 }

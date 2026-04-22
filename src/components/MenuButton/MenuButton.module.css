@@ -1,16 +1,33 @@
-.dialog {
-  background-color: var(--bg-color);
+.openDialog {
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  svg {
+    fill: var(--text-color);
+    width: clamp(20px, 8dvw, 35px);
+    height: auto;
+    cursor: pointer;
+    transition: 0.2s scale;
+  }
+}
+
+.menuDialog {
+  background-color: var(--bg-color-sec);
   left: 0;
   top: 0;
   min-height: 100dvh;
   min-width: min(250px, 100dvw);
   border: none;
-  box-shadow: 0 0 10px #0007;
+  box-shadow: var(--shadow);
 
-  &[data-open="true"] {
+  &[data-open='true'] {
     animation: open-left-dialog 0.15s both;
   }
-  &[data-open="false"] {
+  &[data-open='false'] {
     animation: close-left-dialog 0.15s both;
   }
 
@@ -39,11 +56,9 @@
         width: clamp(20px, 5dvw, 25px);
         height: auto;
         cursor: pointer;
-        transition: 0.2s scale;
 
         &:hover {
-          fill: var(--text-color-hover);
-          scale: 1.1;
+          opacity: 0.8;
         }
       }
     }
@@ -51,13 +66,8 @@
     h2 {
       font-size: var(--h2-size);
       color: var(--text-color);
-      font-family: "Montserrat";
+      font-family: 'Montserrat';
       padding-bottom: 30px;
-    }
-
-    hr {
-      border: 1px solid var(--border-color);
-      width: 100%;
     }
 
     .nav {
@@ -74,9 +84,11 @@
         font-size: var(--text-size);
         color: var(--text-color);
         position: relative;
-        transition: 0.2s color, 0.2s scale;
+        transition:
+          0.2s color,
+          0.2s scale;
 
-        &::after{
+        &::after {
           content: '';
           position: absolute;
           height: 2px;
@@ -85,34 +97,41 @@
           transition: 0.2s inset;
         }
 
-        &:hover{
+        &:hover {
           color: var(--primary-color);
           scale: 1.1;
 
-          &::after{
+          &::after {
             inset: 100% 25%;
           }
         }
+      }
+
+      a.active {
+        color: var(--primary-color);
+        scale: 1.1;
       }
     }
 
     .options {
       display: flex;
-      margin-top: auto;
       justify-content: center;
+      align-items: center;
+      margin-top: auto;
       gap: 40px;
       padding-bottom: 20px;
 
       a {
+        display: flex;
+
         &:hover svg {
-          fill: var(--text-color-hover);
-          scale: 1.1;
+          opacity: 0.8;
         }
+
         svg {
           fill: var(--text-color);
           width: clamp(20px, 8dvw, 35px);
           height: auto;
-          transition: 0.2s scale;
         }
       }
     }

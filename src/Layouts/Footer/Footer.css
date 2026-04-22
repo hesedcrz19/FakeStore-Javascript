@@ -1,0 +1,7 @@
+.footer {
+  border-top: 2px solid var(--border-color);
+  position: absolute;
+  bottom: 0%;
+  height: 180px;
+  width: 100%;
+}

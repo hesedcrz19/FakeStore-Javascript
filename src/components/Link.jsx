@@ -1,7 +1,5 @@
-import { Link as NavLink } from "react-router";
+import { Link as RRLink } from 'react-router-dom';
 
-export function Link({ href, target, ...restProps }) {
-  return (
-    <NavLink to={href} {...restProps} />
-  );
+export function Link({ href, state, ...restProps }) {
+  return <RRLink to={href} state={state} {...restProps} />;
 }

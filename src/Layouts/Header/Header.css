@@ -1,16 +1,15 @@
 .header {
   position: sticky;
   top: 0;
-  background-color: var(--bg-color-sec);
-  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-color);
   display: flex;
   width: 100%;
   z-index: 100;
 }
 
 .header-container {
-  max-width: 2000px;
-  padding: 10px 3dvw;
+  max-width: 1600px;
+  padding: 5px 3dvw;
   width: 100%;
   margin: auto;
   display: flex;
@@ -19,22 +18,9 @@
   justify-content: space-between;
 }
 
-.openDialog-button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-
-  svg {
-    fill: var(--text-color);
-    width: clamp(20px, 8dvw, 35px);
-    height: auto;
-    cursor: pointer;
-    transition: 0.2s scale;
-
-    &:hover {
-      fill: var(--text-color-hover);
-      scale: 1.1;
-    }
+@media screen and (max-width: 768px) {
+  .header-container {
+    padding: 8px 3dvw;
   }
 }
 
@@ -44,10 +30,10 @@ h1 {
   min-width: 0;
   white-space: nowrap;
   overflow: clip;
-  transition: .2s scale;
+  transition: 0.2s scale;
 
   &:hover {
-    scale: 1.04;
+    opacity: 0.9;
   }
 
   &:has(a:focus-visible) {
@@ -59,10 +45,6 @@ h1 {
     color: var(--text-color);
     text-decoration: none;
 
-    &:hover {
-      color: var(--text-color-hover);
-    }
-
     &:focus-visible {
       outline: none;
     }
@@ -73,7 +55,7 @@ h1 {
   display: flex;
   margin-right: auto;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
   padding: clamp(7px, 2dvw, 10px) clamp(10px, 2dvw, 15px);
   border-radius: 10px;
   border: 1px solid var(--border-color);
@@ -88,14 +70,33 @@ h1 {
     font-size: var(--text-size);
     text-decoration: none;
     color: var(--text-color);
+    padding: 0 10px;
     transition:
       0.2s color,
       0.2s scale;
 
+    &::after {
+      content: '';
+      position: absolute;
+      height: 2px;
+      background-color: var(--primary-color);
+      inset: 100% 50%;
+      transition: 0.2s inset;
+    }
+
     &:hover {
       color: var(--primary-color);
       scale: 1.05;
+
+      &::after {
+        inset: 100% 0%;
+      }
     }
+  }
+
+  a.active {
+    color: var(--primary-color);
+    scale: 1.05;
   }
 }
 
@@ -106,11 +107,9 @@ h1 {
     fill: var(--text-color);
     width: clamp(20px, 8dvw, 35px);
     height: auto;
-    transition: .2s scale;
 
     &:hover {
-      fill: var(--text-color-hover);
-      scale: 1.1;
+      opacity: 0.8;
     }
   }
 }
@@ -143,7 +142,7 @@ h1 {
     color: var(--accent-color);
 
     &:hover {
-      background-color: var(--primary-color-hover);
+      opacity: 0.9;
     }
   }
 }

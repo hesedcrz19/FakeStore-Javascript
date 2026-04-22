@@ -1,9 +1,9 @@
-import styles from "./LoaderCube.module.css"
+import styles from './LoaderCube.module.css';
 
-export function LoaderCube(){
-  return(
+export function LoaderCube() {
+  return (
     <div className={styles.loadingScreen}>
-        <h2>Loading...</h2>
+      <h2>Loading...</h2>
       <div className={styles.cube}>
         <div className={styles.cubeFace}></div>
         <div className={styles.cubeFace}></div>
@@ -13,5 +13,5 @@ export function LoaderCube(){
         <div className={styles.cubeFace}></div>
       </div>
     </div>
-  )
+  );
 }

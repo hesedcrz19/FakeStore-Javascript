@@ -1,30 +1,51 @@
-import styles from "./ProductsGrid.module.css";
+import styles from './ProductsGrid.module.css';
 
-import { useMatchMedia } from "@/hooks/useMatchMedia.js";
-import { FiltersProvider } from "@/context/FiltersContext";
+import { useEffect } from 'react';
+import { useRouter } from '@/hooks/useRoute.js';
 
-import { ProductCard } from "@/components/ProductCard/ProductCard.jsx";
-import { FiltersButton } from "@/components/FiltersButton/FiltersButton.jsx";
+import { useProductsStore } from '@/stores/productsStore.js';
+import { formatProduct } from '@/utils/formatProducts.js';
+import { setFiltersByParams } from '@/utils/setFiltersByParams.js';
+import { areSameObjects } from '@/utils/areSameObject.js';
 
-export function ProductsGrid({ products }) {
+import { ProductCard } from '@/components/ProductCard/ProductCard.jsx';
+import { NotFound } from '@/components/NotFound/NotFound.jsx';
+
+export function ProductsGrid() {
+  const { products, loading, fetchFilters, setFetchFilters, fetchProducts } =
+    useProductsStore();
+  const { searchParams } = useRouter();
+
+  useEffect(() => {
+    const filters = setFiltersByParams(searchParams);
+    if (areSameObjects(fetchFilters, filters)) return;
+
+    setFetchFilters(filters);
+    fetchProducts(filters);
+  }, [searchParams, fetchFilters, setFetchFilters, fetchProducts]);
+
+  if (!products?.length && !loading) return <NotFound />;
+
   return (
-    <FiltersProvider>
-      <section className={styles.productsContainer}>
-        {/*--------- Only can open in small screens------- */}
-
-        <div className={styles.productsHeader}>
-          <h2>Productos ({products?.length ?? 0})</h2>
-
-          <FiltersButton />
-        </div>
-
-        <div className={styles.productsGrid}>
-          {products.map((product) => {
-            if (product.id >= 1000) return;
-            return <ProductCard key={product.id} product={product} />;
-          })}
-        </div>
-      </section>
-    </FiltersProvider>
+    <section className={styles.productsGrid}>
+      {<ProductsCards products={products} loading={loading} />}
+    </section>
   );
+}
+
+function ProductsCards({ products, loading }) {
+  if (loading)
+    return Array.from({ length: 10 }).map((_, i) => {
+      return <ProductCard key={i} loading={loading} />;
+    });
+
+  return products?.map((product) => {
+    const formattedProduct = formatProduct(product || {});
+    return (
+      <ProductCard
+        key={formattedProduct.id}
+        formattedProduct={formattedProduct}
+      />
+    );
+  });
 }

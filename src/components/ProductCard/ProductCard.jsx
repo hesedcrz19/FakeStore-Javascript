@@ -1,37 +1,69 @@
-import styles from "./ProductCard.module.css"
+import styles from './ProductCard.module.css';
 
-const formatPrice = (price) => {
-    return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD'
-    }).format(price);
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+
+import { Link } from '../Link';
+
+import { useRouter } from '@/hooks/useRoute';
+
+export function ProductCard({ formattedProduct, loading }) {
+  const { title, price, principalImage, slug, category } =
+    formattedProduct || {};
+
+  const imageError = (event) => {
+    event.target.src = '/fallback.png';
+  };
+
+  return (
+    <article className={styles.productCard}>
+      <ProductLink slug={slug} />
+
+      <header className={styles.header}>
+        {principalImage ? (
+          <img
+            src={principalImage}
+            alt={title?.fullContent}
+            onError={imageError}
+          />
+        ) : (
+          <Skeleton style={{ aspectRatio: 1 / 1 }} />
+        )}
+      </header>
+
+      <h3>{title?.content ?? <Skeleton count={2} />}</h3>
+
+      <Link
+        href={`/products?category=${category?.slug ?? ''}`}
+        className={styles.category}
+      >
+        {category?.name.content ?? <Skeleton width="50px" />}
+      </Link>
+      <p className={styles.price}>{price ?? <Skeleton width="70px" />}</p>
+
+      <footer className={styles.footer}>
+        {loading ? (
+          <Skeleton height={30} />
+        ) : (
+          <button className={styles.addToCartBtn}>Add to Cart</button>
+        )}
+      </footer>
+    </article>
+  );
 }
 
-const shortDescription = (description) => {
-    if(description.length > 40){
-        return(
-            <p className={styles.description}>{description.slice(0, 40)}... <span className={styles.descriptionMore}>See more</span></p>
-        )
-    }else{
-        return (
-        <p className={styles.description}>{description}</p>
-        )
-    }
-}
+function ProductLink({ slug, children }) {
+  const { location, searchParams } = useRouter();
 
-export function ProductCard({product}){
-    return (
-        <div className={styles.productCard}>
-            <div>
-                <img src={product.images[0]} alt={product.title} />
-                <h3>{product.title}</h3>
-                {shortDescription(product.description)}
-            </div>
-
-            <div className={styles.priceContainer}>
-                <p className={styles.price}>{formatPrice(product.price)}</p>
-                <button className={styles.addToCartBtn}>Add to Cart</button>
-            </div>
-        </div>
-    )
+  return (
+    <Link
+      href={`/products/${slug ?? ''}?${searchParams.toString()}`}
+      state={{ backgroundLocation: location }}
+      className={styles.link}
+      aria-label="See more information"
+      replace
+    >
+      {children}
+    </Link>
+  );
 }

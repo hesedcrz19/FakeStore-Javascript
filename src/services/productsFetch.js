@@ -1,17 +1,8 @@
 const FILTERS = {
-  minPrice: "price_min",
-  maxPrice: "price_max",
-  search: "title",
-  category: "categorySlug",
-};
-
-const CATEGORIES = {
-  all: "",
-  clothes: "clothes",
-  electronics: "electronics",
-  furniture: "furniture",
-  shoes: "shoes",
-  miscellaneous: "miscellaneous",
+  minPrice: 'price_min',
+  maxPrice: 'price_max',
+  search: 'title',
+  category: 'categorySlug',
 };
 
 export async function productsFetch(filters = {}) {
@@ -19,12 +10,15 @@ export async function productsFetch(filters = {}) {
 
   const { minPrice, maxPrice, search, category } = filters;
 
-  url.searchParams.append(FILTERS.minPrice, minPrice || "1");
-  url.searchParams.append(FILTERS.maxPrice, maxPrice || "10000");
+  url.searchParams.append(FILTERS.minPrice, minPrice || '1');
+  url.searchParams.append(FILTERS.maxPrice, maxPrice || '10000');
   url.searchParams.append(FILTERS.search, search ?? '');
-  url.searchParams.append(FILTERS.category, CATEGORIES[category] ?? '');
+  url.searchParams.append(
+    FILTERS.category,
+    category === 'all' ? '' : (category ?? '')
+  );
 
   const data = await fetch(url);
-  if (!data.ok) throw new Error("A error ocurre fetching the products");
+  if (!data.ok) throw new Error('A error ocurre fetching the products');
   return await data.json();
 }

@@ -1,0 +1,28 @@
+.container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  margin: auto;
+  padding: 10dvh 0;
+
+  .img {
+    width: 200px;
+    max-width: 100%;
+    user-select: none;
+  }
+
+  h3 {
+    color: var(--text-color);
+    font-size: var(--h2-size);
+    margin-top: 10px;
+  }
+
+  p {
+    font-family: 'Montserrat';
+    font-size: var(--text-size);
+    color: var(--text-color-sec);
+  }
+}

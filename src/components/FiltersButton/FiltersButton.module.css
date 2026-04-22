@@ -1,15 +1,12 @@
 .filtersButton {
-  max-width: max-content;
   display: flex;
   gap: 15px;
   align-items: center;
   font-size: var(--text-size);
-  font-family: "Montserrat";
-  border: none;
-  background-color: transparent;
+  font-family: 'Montserrat';
   color: var(--text-color);
   border: 1px solid var(--border-color);
-  padding: 5px 10px;
+  padding: 4px 10px;
   border-radius: 10px;
   cursor: pointer;
   transition:
@@ -33,23 +30,28 @@
 }
 
 .filtersDialog {
-  background-color: var(--bg-color);
+  background-color: var(--bg-color-sec);
   left: 100%;
   top: 0;
-  min-height: 100dvh;
+  min-height: 100lvh;
   min-width: min(250px, 100dvw);
   border: none;
-  box-shadow: 0 0 10px #0007;
+  box-shadow: var(--shadow);
 
-  &[data-open="true"] {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &[data-open='true'] {
     animation: open-right-dialog 0.15s both;
   }
-  &[data-open="false"] {
+  &[data-open='false'] {
     animation: close-right-dialog 0.15s both;
   }
 
   &::backdrop {
     background-color: #0003;
+    height: 100lvh;
   }
 
   .filtersDialogFlex {
@@ -74,17 +76,14 @@
         width: clamp(20px, 5dvw, 25px);
         height: auto;
         cursor: pointer;
-        transition: 0.2s scale;
 
         &:hover {
-          fill: var(--text-color-hover);
-          scale: 1.1;
+          opacity: 0.8;
         }
       }
     }
   }
 }
-
 
 .filtersForm {
   width: 100%;
@@ -92,13 +91,13 @@
   flex-direction: column;
   padding-bottom: 20px;
   background-color: transparent;
-  gap: 15px;
+  gap: 25px;
 }
 
 .filterInput {
   font-size: var(--text-size-small);
   color: var(--text-color);
-  font-family: "Montserrat";
+  font-family: 'Montserrat';
   padding: 8px 10px;
   width: 100%;
   background-color: var(--bg-color-sec);
@@ -112,7 +111,7 @@
   }
 
   &:hover {
-    background-color: var(--bg-color-sec-hover);
+    opacity: 0.8;
   }
 
   &:focus-visible {
@@ -127,42 +126,17 @@
   }
 }
 
-.priceFilters,
-.buttonsContainer {
+.priceFilters {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   flex-wrap: wrap;
-  padding-top: 5px;
-  border: none;
-  border-top: 2px solid var(--border-color);
-  box-sizing: border-box;
   transition: 0.2s border-color;
-
-  legend {
-    color: var(--text-color);
-    margin: auto;
-    padding: 10px;
-    transition:
-      0.2s scale,
-      0.2s color,
-      0.2s transform;
-  }
-
-  &:focus-within,
-  &:hover {
-    border-color: var(--primary-color);
-
-    legend {
-      color: var(--primary-color);
-      scale: 1.1;
-    }
-  }
 
   .prices {
     color: var(--text-color);
     font-size: var(--text-size);
-    font-family: "Poppins";
+    font-family: 'Poppins';
     flex-basis: 100%;
     text-align: center;
     margin-bottom: 5px;
@@ -178,7 +152,7 @@
     span {
       font-size: var(--text-size-small);
       color: var(--text-color);
-      font-family: "Montserrat";
+      font-family: 'Montserrat';
       transition: 0.2s transform;
     }
 
@@ -191,7 +165,7 @@
       border: 1px solid var(--border-color);
       color: var(--text-color);
       background-color: var(--bg-color-sec);
-      font-family: "Poppins";
+      font-family: 'Poppins';
       font-weight: 100;
       text-align: center;
       padding: 5px;
@@ -200,7 +174,7 @@
       border-radius: 5px;
 
       &:hover {
-        background-color: var(--bg-color-sec-hover);
+        opacity: 0.8;
       }
 
       &:focus-visible {
@@ -224,13 +198,13 @@
   .categories {
     color: var(--text-color);
     font-size: var(--text-size);
-    font-family: "Poppins";
+    font-family: 'Poppins';
     width: 100%;
     text-align: center;
   }
 
   .button {
-    font-family: "Montserrat";
+    font-family: 'Montserrat';
     font-size: var(--text-size-small);
     background-color: var(--bg-color-sec);
     border: 1px solid var(--border-color);
@@ -255,14 +229,42 @@
       color: var(--accent-color);
 
       &:hover {
-        background-color: var(--primary-color-hover);
+        opacity: 0.8;
       }
     }
 
-    input[type="radio"] {
+    input[type='radio'] {
       position: absolute;
       opacity: 0;
     }
+  }
+}
+
+.buttonsContainer,
+.priceFilters {
+  border: none;
+  border-top: 2px solid var(--border-color);
+
+  &:focus-within,
+  &:hover {
+    border-color: var(--primary-color);
+
+    legend {
+      color: var(--primary-color);
+      scale: 1.05;
+      transform: translateY(-1px);
+    }
+  }
+
+  legend {
+    color: var(--text-color);
+    margin: auto;
+    margin-bottom: 10px;
+    padding: 0 10px;
+    transition:
+      0.2s scale,
+      0.2s color,
+      0.2s transform;
   }
 }
 
