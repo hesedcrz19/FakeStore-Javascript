@@ -1,4 +1,7 @@
-import { FILTERS_KEYS, FILTERS_DEFAULT_VALUES } from '@/const.js';
+import {
+  FILTERS_KEYS,
+  FILTERS_DEFAULT_VALUES,
+} from '@/consts/filtersConsts.js';
 
 export const setSearchParamsByFilters = (filters) => {
   const searchParams = new URLSearchParams();

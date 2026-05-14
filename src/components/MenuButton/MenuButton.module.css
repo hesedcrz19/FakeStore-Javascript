@@ -16,7 +16,7 @@
 }
 
 .menuDialog {
-  background-color: var(--bg-color-sec);
+  background-color: var(--bg-color);
   left: 0;
   top: 0;
   min-height: 100dvh;

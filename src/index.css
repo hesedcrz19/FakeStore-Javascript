@@ -54,10 +54,6 @@ button {
   position: relative;
   box-sizing: content-box;
   padding-bottom: 180px;
-  background-image: linear-gradient(
-    transparent 30%,
-    var(--primary-color) 1500%
-  );
 }
 
 body {

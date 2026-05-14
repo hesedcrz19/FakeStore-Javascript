@@ -1,22 +1,19 @@
-const FILTERS = {
-  minPrice: 'price_min',
-  maxPrice: 'price_max',
-  search: 'title',
-  category: 'categorySlug',
-};
+import { PRODUCTS_API_URL, PRODUCTS_API_FILTERS } from '@/consts/productsApi.js';
+import { FILTERS_KEYS, FILTERS_DEFAULT_VALUES } from '@/consts/filtersConsts.js';
 
 export async function productsFetch(filters = {}) {
-  const url = new URL(`https://api.escuelajs.co/api/v1/products`);
+  const url = new URL(PRODUCTS_API_URL);
 
-  const { minPrice, maxPrice, search, category } = filters;
+  for (const filter in filters) {
+    if (!Object.values(FILTERS_KEYS).includes(filter)) {
+      throw new Error(`The filter ${filter} is not valid`);
+    }
+    if (filters[filter] !== FILTERS_DEFAULT_VALUES[filter]) {
+      url.searchParams.append(PRODUCTS_API_FILTERS[filter], filters[filter]);
+    }
+  }
 
-  url.searchParams.append(FILTERS.minPrice, minPrice || '1');
-  url.searchParams.append(FILTERS.maxPrice, maxPrice || '10000');
-  url.searchParams.append(FILTERS.search, search ?? '');
-  url.searchParams.append(
-    FILTERS.category,
-    category === 'all' ? '' : (category ?? '')
-  );
+  console.log(url);
 
   const data = await fetch(url);
   if (!data.ok) throw new Error('A error ocurre fetching the products');

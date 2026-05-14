@@ -21,7 +21,7 @@ export const useProductsStore = create((set, get) => ({
       set({ products: products, error: false, loading: false });
       console.log(products);
     } catch {
-      set({ error: true, loading: false });
+      set({ products: [], error: true, loading: false });
     } finally {
       set({ loading: false });
     }

@@ -1,7 +1,7 @@
 .productsGrid {
   display: grid;
   justify-items: center;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 180px), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
   margin-top: 30px;
   gap: 20px;
 }

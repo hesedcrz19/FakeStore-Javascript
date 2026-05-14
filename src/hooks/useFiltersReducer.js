@@ -1,8 +1,8 @@
-import { FILTERS_KEYS } from '@/const.js';
+import { FILTERS_KEYS } from '@/consts/filtersConsts.js';
 
 import { useReducer, useCallback } from 'react';
 
-import { filtersReducer } from '@/reducers/filtersReducer';
+import { filtersReducer } from '@/reducers/filtersReducer.js';
 
 export function useFiltersReducer(initialState) {
   const [filters, dispatchFilters] = useReducer(filtersReducer, initialState);
@@ -16,7 +16,7 @@ export function useFiltersReducer(initialState) {
   }, []);
   const changeCategory = useCallback((value) => {
     dispatchFilters({
-      type: 'RADIO',
+      type: 'TEXT',
       filter: FILTERS_KEYS.CATEGORY,
       value: value,
     });

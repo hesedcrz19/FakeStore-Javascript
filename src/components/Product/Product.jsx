@@ -15,7 +15,16 @@ export function Product({ slug }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const { title, category, price, description } = product;
+  const {
+    title,
+    category,
+    price,
+    description,
+    originalPrice,
+    discountPercentage,
+    shippingCost,
+    promotion,
+  } = product;
 
   useEffect(() => {
     setLoading(true);
@@ -46,9 +55,7 @@ export function Product({ slug }) {
         <ProductCarrousel product={product} loading={loading} />
 
         <div className={styles.rightSide}>
-          <p className={styles.description}>
-            {description?.fullContent ?? <Skeleton count={6} />}
-          </p>
+          <p className={styles.description}>{description?.fullContent ?? <Skeleton count={6} />}</p>
 
           <div className={styles.details}>
             <p className={styles.detailsItem}>
@@ -56,9 +63,28 @@ export function Product({ slug }) {
             </p>
           </div>
 
-          <div className={styles.price}>
-            {price ?? <Skeleton width={100} />}
+          <div className={styles.pricesContainer}>
+            {(discountPercentage !== 0 || promotion !== null) && (
+              <ul className={styles.promos}>
+                {promotion !== null && (
+                  <li className={styles.promotion}>{promotion ?? <Skeleton width="50px" />}</li>
+                )}
+                {discountPercentage !== 0 && (
+                  <li className={styles.promotion}>
+                    {discountPercentage ? `${discountPercentage}% off` : <Skeleton width="50px" />}
+                  </li>
+                )}
+              </ul>
+            )}
+            <div className={styles.prices}>
+              <p className={styles.price}>{price ?? <Skeleton width={100} />}</p>
+              {originalPrice !== price && <p className={styles.originalPrice}>{originalPrice}</p>}
+            </div>
           </div>
+
+          <p className={styles.shippingCost}>
+            {shippingCost ? shippingCost.text : <Skeleton width="100px" />}
+          </p>
 
           <footer className={styles.footer}>
             {loading ? (

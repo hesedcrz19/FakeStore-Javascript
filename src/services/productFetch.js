@@ -1,7 +1,7 @@
+import { PRODUCT_API_URL } from '../consts/productApi.js';
+
 export async function productFetch(slug) {
-  const res = await fetch(
-    `https://api.escuelajs.co/api/v1/products/slug/${slug}`
-  );
+  const res = await fetch(`${PRODUCT_API_URL}/${slug}`);
   if (!res.ok) throw new Error('Error fetching the product');
   return await res.json();
 }

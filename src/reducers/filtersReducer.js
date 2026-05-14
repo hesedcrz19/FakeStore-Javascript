@@ -6,7 +6,7 @@ export const filtersReducer = (filters, { type, value, filter, newState }) => {
       return { ...filters, [filter]: value };
     }
 
-    case 'RADIO': {
+    case 'TEXT': {
       return { ...filters, [filter]: value };
     }
 
@@ -14,7 +14,7 @@ export const filtersReducer = (filters, { type, value, filter, newState }) => {
       return newState;
     }
     default: {
-      return { ...filters, [filter]: value };
+      return filters;
     }
   }
 };

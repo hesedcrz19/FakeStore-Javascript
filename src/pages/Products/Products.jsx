@@ -3,7 +3,10 @@ import styles from './Products.module.css';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
-import { FILTERS_KEYS, FILTERS_DEFAULT_VALUES } from '@/const.js';
+import {
+  FILTERS_KEYS,
+  FILTERS_DEFAULT_VALUES,
+} from '@/consts/filtersConsts.js';
 
 import { useProductsStore } from '@/stores/productsStore';
 
@@ -33,9 +36,8 @@ function ProductsCounter() {
       ? 'Products'
       : fetchFilters.category;
 
-  const categoryCapitalize = error
-    ? ''
-    : category?.charAt(0).toUpperCase() + category?.slice(1);
+  const categoryCapitalize =
+    category?.charAt(0).toUpperCase() + category?.slice(1);
 
   let content;
 
@@ -47,5 +49,5 @@ function ProductsCounter() {
     content = `${categoryCapitalize} (${productsLength()})`;
   }
 
-  return <h2>{content || <Skeleton width={170} />}</h2>;
+  return <h2>{content ?? <Skeleton width={170} />}</h2>;
 }
