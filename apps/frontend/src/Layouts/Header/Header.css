@@ -1,0 +1,148 @@
+.header {
+  position: sticky;
+  top: 0;
+  background-color: var(--bg-color);
+  display: flex;
+  width: 100%;
+  z-index: 100;
+}
+
+.header-container {
+  max-width: 1600px;
+  padding: 5px 3dvw;
+  width: 100%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  gap: clamp(1px, 1.5dvw, 15px);
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 768px) {
+  .header-container {
+    padding: 8px 3dvw;
+  }
+}
+
+h1 {
+  font-size: var(--h1-size);
+  margin-right: auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: clip;
+  transition: 0.2s scale;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:has(a:focus-visible) {
+    outline: 2px solid;
+    outline-offset: 2px;
+  }
+
+  a {
+    color: var(--text-color);
+    text-decoration: none;
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+}
+
+.header-nav {
+  display: flex;
+  margin-right: auto;
+  align-items: center;
+  gap: 5px;
+  padding: clamp(7px, 2dvw, 10px) clamp(10px, 2dvw, 15px);
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  transition: 0.2s border-color;
+
+  &:hover {
+    border-color: var(--primary-color);
+    border-width: 2px;
+  }
+
+  a {
+    font-size: var(--text-size);
+    text-decoration: none;
+    color: var(--text-color);
+    padding: 0 10px;
+    transition:
+      0.2s color,
+      0.2s scale;
+
+    &::after {
+      content: '';
+      position: absolute;
+      height: 2px;
+      background-color: var(--primary-color);
+      inset: 100% 50%;
+      transition: 0.2s inset;
+    }
+
+    &:hover {
+      color: var(--primary-color);
+      scale: 1.05;
+
+      &::after {
+        inset: 100% 0%;
+      }
+    }
+  }
+
+  a.active {
+    color: var(--primary-color);
+    scale: 1.05;
+  }
+}
+
+.githubHeader {
+  display: flex;
+
+  svg {
+    fill: var(--text-color);
+    width: clamp(20px, 8dvw, 35px);
+    height: auto;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+.account-btn {
+  background-color: transparent;
+  white-space: nowrap;
+  border: 1px solid var(--primary-color);
+  font-size: var(--text-size);
+  border-radius: 7px;
+  color: var(--text-color);
+  padding: clamp(7px, 2dvw, 10px) clamp(10px, 2dvw, 15px);
+  cursor: pointer;
+  transition:
+    0.2s border-color,
+    0.2s color,
+    0.2s background-color;
+
+  &.login {
+    border: 1px solid var(--border-color);
+  }
+
+  &.login:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+  }
+
+  &.signUp {
+    background-color: var(--primary-color);
+    color: var(--accent-color);
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}

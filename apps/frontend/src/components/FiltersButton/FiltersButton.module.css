@@ -1,0 +1,288 @@
+.filtersButton {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  font-size: var(--text-size);
+  font-family: 'Montserrat';
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 4px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition:
+    0.2s color,
+    0.2s border-color;
+
+  svg {
+    height: 25px;
+    fill: var(--text-color);
+    transition: 0.2s fill;
+  }
+
+  &:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+
+    svg {
+      fill: var(--primary-color);
+    }
+  }
+}
+
+.filtersDialog {
+  background-color: var(--bg-color);
+  left: 100%;
+  top: 0;
+  min-height: 100lvh;
+  min-width: min(250px, 100dvw);
+  border: none;
+  box-shadow: var(--shadow);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &[data-open='true'] {
+    animation: open-right-dialog 0.15s both;
+  }
+  &[data-open='false'] {
+    animation: close-right-dialog 0.15s both;
+  }
+
+  &::backdrop {
+    background-color: #0003;
+    height: 100lvh;
+  }
+
+  .filtersDialogFlex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    gap: 25px;
+    padding: min(20px, 5dvw);
+    padding-top: 50px;
+    min-width: 100%;
+
+    .filtersDialogClose {
+      background-color: transparent;
+      border: none;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+
+      svg {
+        fill: var(--text-color);
+        width: clamp(20px, 5dvw, 25px);
+        height: auto;
+        cursor: pointer;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+}
+
+.filtersForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px;
+  background-color: transparent;
+  gap: 25px;
+}
+
+.filterInput {
+  font-size: var(--text-size-small);
+  color: var(--text-color);
+  font-family: 'Montserrat';
+  padding: 8px 10px;
+  width: 100%;
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+
+  &::placeholder {
+    transition:
+      0.2s transform,
+      0.3s opacity;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--primary-color);
+
+    &::placeholder {
+      color: var(--primary-color);
+      transform: translateY(-5px);
+      opacity: 0;
+    }
+  }
+}
+
+.priceFilters {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  transition: 0.2s border-color;
+
+  .prices {
+    color: var(--text-color);
+    font-size: var(--text-size);
+    font-family: 'Poppins';
+    flex-basis: 100%;
+    text-align: center;
+    margin-bottom: 5px;
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    text-align: center;
+    gap: 2px;
+
+    span {
+      font-size: var(--text-size-small);
+      color: var(--text-color);
+      font-family: 'Montserrat';
+      transition: 0.2s transform;
+    }
+
+    &:focus-within span {
+      color: var(--primary-color);
+      transform: translateY(-2px) scale(1.1);
+    }
+
+    input {
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      background-color: var(--bg-color);
+      font-family: 'Poppins';
+      font-weight: 100;
+      text-align: center;
+      padding: 5px;
+      width: 50px;
+      height: 23px;
+      border-radius: 5px;
+
+      &:hover {
+        opacity: 0.8;
+      }
+
+      &:focus-visible {
+        outline: none;
+        border-color: var(--primary-color);
+      }
+
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+        appearance: none;
+      }
+    }
+  }
+}
+
+.buttonsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .categories {
+    color: var(--text-color);
+    font-size: var(--text-size);
+    font-family: 'Poppins';
+    width: 100%;
+    text-align: center;
+  }
+
+  .button {
+    font-family: 'Montserrat';
+    font-size: var(--text-size-small);
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    text-align: center;
+    border-radius: 12px;
+    width: 100%;
+    padding: 8px;
+    cursor: pointer;
+
+    &:hover {
+      border-color: var(--primary-color);
+      color: var(--primary-color);
+    }
+
+    &:focus-within {
+      outline: 1px solid var(--accent-color);
+    }
+
+    &:has(input:checked) {
+      background-color: var(--primary-color);
+      color: var(--accent-color);
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+
+    input[type='radio'] {
+      position: absolute;
+      opacity: 0;
+    }
+  }
+}
+
+.buttonsContainer,
+.priceFilters {
+  border: none;
+  border-top: 2px solid var(--border-color);
+
+  &:focus-within,
+  &:hover {
+    border-color: var(--primary-color);
+
+    legend {
+      color: var(--primary-color);
+      scale: 1.05;
+      transform: translateY(-1px);
+    }
+  }
+
+  legend {
+    color: var(--text-color);
+    margin: auto;
+    margin-bottom: 10px;
+    padding: 0 10px;
+    transition:
+      0.2s scale,
+      0.2s color,
+      0.2s transform;
+  }
+}
+
+@keyframes open-right-dialog {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+@keyframes close-right-dialog {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}

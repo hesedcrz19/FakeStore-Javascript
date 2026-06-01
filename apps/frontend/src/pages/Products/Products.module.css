@@ -1,0 +1,20 @@
+.productsContainer {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px min(5dvw, 20px);
+  margin: 0 auto;
+}
+
+.productsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+
+  h2 {
+    font-family: 'Poppins';
+    font-size: var(--h2-size);
+  }
+}

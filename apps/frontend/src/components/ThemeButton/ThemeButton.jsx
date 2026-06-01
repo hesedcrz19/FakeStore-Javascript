@@ -1,0 +1,52 @@
+import styles from './ThemeButton.module.css';
+
+import { useRef } from 'react';
+import { useModal } from '@/hooks/useModal.js';
+import { useTheme } from '@/context/ThemeContext';
+
+import { Desktop } from '../icons/Desktop';
+import { Sun } from '../icons/Sun';
+import { Moon } from '../icons/Moon';
+
+export function ThemeButton({ dialogDirection = 'down' }) {
+  const dialogRef = useRef(null);
+  const { openModal } = useModal({
+    dialogRef,
+    hiddenScrollbar: false,
+  });
+  const { themeMode, setThemeMode } = useTheme();
+
+  return (
+    <>
+      <button
+        aria-label="change theme"
+        className={`${styles.button} ${styles[themeMode]}`}
+        onClick={openModal}
+      >
+        <Sun className={styles.sun} />
+        <Moon className={styles.moon} />
+        <Desktop className={styles.desktop} />
+      </button>
+
+      <dialog
+        ref={dialogRef}
+        className={`${styles.dialog} ${styles[dialogDirection]}`}
+      >
+        <div className={styles.dialogFlex}>
+          <button aria-label="light" onClick={() => setThemeMode('light')}>
+            <Sun />
+            Light
+          </button>
+          <button aria-label="dark" onClick={() => setThemeMode('dark')}>
+            <Moon />
+            Dark
+          </button>
+          <button aria-label="system" onClick={() => setThemeMode('system')}>
+            <Desktop />
+            System
+          </button>
+        </div>
+      </dialog>
+    </>
+  );
+}
