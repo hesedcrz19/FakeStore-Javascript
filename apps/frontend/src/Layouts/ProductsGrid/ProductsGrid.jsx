@@ -1,29 +1,8 @@
 import styles from './ProductsGrid.module.css';
-
-import { useEffect } from 'react';
-import { useRouter } from '@/hooks/useRoute.js';
-
-import { useProductsStore } from '@/stores/productsStore.js';
-import { formatProduct } from '@/utils/formatProducts.js';
-import { setFiltersByParams } from '@/utils/setFiltersByParams.js';
-import { areSameObjects } from '@/utils/areSameObject.js';
-
 import { ProductCard } from '@/components/ProductCard/ProductCard.jsx';
 import { NotFound } from '@/components/NotFound/NotFound.jsx';
 
-export function ProductsGrid() {
-  const { products, loading, fetchFilters, setFetchFilters, fetchProducts } =
-    useProductsStore();
-  const { searchParams } = useRouter();
-
-  useEffect(() => {
-    const filters = setFiltersByParams(searchParams);
-    if (areSameObjects(fetchFilters, filters)) return;
-
-    setFetchFilters(filters);
-    fetchProducts(filters);
-  }, [searchParams, fetchFilters, setFetchFilters, fetchProducts]);
-
+export function ProductsGrid({ products, loading }) {
   if (!products?.length && !loading) return <NotFound />;
 
   return (
@@ -35,17 +14,7 @@ export function ProductsGrid() {
 
 function ProductsCards({ products, loading }) {
   if (loading)
-    return Array.from({ length: 10 }).map((_, i) => {
-      return <ProductCard key={i} loading={loading} />;
-    });
+    return Array.from({ length: 24 }).map((_, i) => <ProductCard key={i} loading={loading} />);
 
-  return products?.map((product) => {
-    const formattedProduct = formatProduct(product || {});
-    return (
-      <ProductCard
-        key={formattedProduct.id}
-        formattedProduct={formattedProduct}
-      />
-    );
-  });
+  return products?.map((product) => <ProductCard key={product.id} product={product} />);
 }

@@ -10,6 +10,21 @@
   border: none;
   border-radius: 10px;
 
+  .closeBtn {
+    position: absolute;
+    left: 3px;
+    top: 3px;
+
+    svg {
+      fill: var(--text-color);
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+
   &[data-open='true']::backdrop {
     height: 100lvh;
     animation: openBackdrop 0.2s both;
@@ -27,7 +42,10 @@
   }
 
   &::-webkit-scrollbar {
-    width: 10px;
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track-piece {
+    margin: 10px;
   }
   &::-webkit-scrollbar-thumb {
     background-color: var(--primary-color);

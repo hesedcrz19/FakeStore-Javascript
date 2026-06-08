@@ -9,8 +9,7 @@ const resetScroll = () => {
 
 const hideScrollbar = () => {
   if (window.innerWidth > document.documentElement.clientWidth) {
-    const scrollbarWidth =
-      window.innerWidth - document.documentElement.clientWidth;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     document.body.style.paddingRight = `${scrollbarWidth}px`;
   }
   document.documentElement.style.overflow = 'hidden';
@@ -154,12 +153,7 @@ export function useModal({
   return {
     open: shouldBeOpen,
     openModal: () => setOpen(true),
-    closeModal: ({ scrollReset = false }) => {
-      setOpen(false);
-      if (scrollReset) {
-        resetScroll();
-      }
-    },
+    closeModal: () => setOpen(false),
     resetScroll,
   };
 }

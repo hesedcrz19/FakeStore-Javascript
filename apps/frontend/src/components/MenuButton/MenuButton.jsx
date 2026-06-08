@@ -16,11 +16,7 @@ export function MenuButton() {
 
   return (
     <>
-      <button
-        className={styles.openDialog}
-        onClick={openModal}
-        aria-label="open menu"
-      >
+      <button className={styles.openDialog} onClick={openModal} aria-label="open menu">
         <svg
           xmlns="http://ww<w.w3.org/2000/svg"
           height="24px"
@@ -32,18 +28,10 @@ export function MenuButton() {
         </svg>
       </button>
 
-      <dialog
-        ref={dialogRef}
-        className={styles.menuDialog}
-        data-direction="left"
-      >
+      <dialog ref={dialogRef} className={styles.menuDialog} data-direction="left">
         <div className={styles.dialogFlex}>
           <h2>FAKE STORE</h2>
-          <button
-            className={styles.closeBtn}
-            onClick={closeModal}
-            aria-label="close menu"
-          >
+          <button className={styles.closeBtn} onClick={closeModal} aria-label="close menu">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="24px"
@@ -59,21 +47,21 @@ export function MenuButton() {
             <NavLink
               href="/"
               className={({ isActive }) => (isActive ? styles.active : '')}
-              onClick={() => closeModal({ scrollReset: true })}
+              onClick={() => closeModal()}
             >
               Home
             </NavLink>
             <NavLink
               href="/products"
               className={({ isActive }) => (isActive ? styles.active : '')}
-              onClick={() => closeModal({ scrollReset: true })}
+              onClick={() => closeModal()}
             >
               Products
             </NavLink>
             <NavLink
               href="/about"
               className={({ isActive }) => (isActive ? styles.active : '')}
-              onClick={() => closeModal({ scrollReset: true })}
+              onClick={() => closeModal()}
             >
               About
             </NavLink>

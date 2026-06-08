@@ -1,10 +1,13 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 
 export function useCarrousel() {
   const [slider, setSlider] = useState();
   const [currentSlide, setCurrentSlide] = useState(0);
-  const slides = useRef();
   const slideToMoveRef = useRef(null);
+  const slides = useMemo(() => {
+    if (!slider) return;
+    return Array.from(slider.children);
+  }, [slider]);
 
   // Callback ref
   const sliderRef = useCallback((el) => {
@@ -12,25 +15,28 @@ export function useCarrousel() {
   }, []);
 
   // Callback for intersectionObserver
-  const callback = useCallback((entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting || !slides.current) return;
+  const callback = useCallback(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting || !slides) return;
 
-      const index = Array.from(slides.current).indexOf(entry.target);
+        const index = Array.from(slides).indexOf(entry.target);
 
-      if (slideToMoveRef.current !== null) {
-        if (slideToMoveRef.current === index) {
-          slideToMoveRef.current = null;
+        if (slideToMoveRef.current !== null) {
+          if (slideToMoveRef.current === index) {
+            slideToMoveRef.current = null;
+          }
+        } else {
+          setCurrentSlide(index);
         }
-      } else {
-        setCurrentSlide(index);
-      }
-    });
-  }, []);
+      });
+    },
+    [slides]
+  );
 
   // Create observer
   useEffect(() => {
-    if (!slider) return;
+    if (!slides || !slider) return;
 
     const options = {
       root: slider,
@@ -38,22 +44,20 @@ export function useCarrousel() {
     };
     const observer = new IntersectionObserver(callback, options);
 
-    const slidesArray = Array.from(slider.children);
-    slidesArray.forEach((slide) => observer.observe(slide));
-    slides.current = slidesArray;
+    slides.forEach((slide) => observer.observe(slide));
 
     return () => {
       observer.disconnect();
     };
-  }, [slider, callback]);
+  }, [slides, slider, callback]);
 
   const moveToSlide = (slide) => {
-    if (!slider || !slides.current || !slides.current[slide]) return;
+    if (!slider || !slides || !slides[slide]) return;
 
     slideToMoveRef.current = Number(slide);
     setCurrentSlide(Number(slide));
 
-    slides.current[slide].scrollIntoView({
+    slides[slide].scrollIntoView({
       behavior: 'smooth',
       inline: 'center',
       block: 'nearest',
@@ -61,15 +65,14 @@ export function useCarrousel() {
   };
 
   const nextSlide = () => {
-    if (!slides.current) return;
-    const nextSlide = (currentSlide + 1) % slides.current.length;
+    if (!slides) return;
+    const nextSlide = (currentSlide + 1) % slides.length;
     moveToSlide(nextSlide);
   };
 
   const prevSlide = () => {
-    if (!slides.current) return;
-    const prevSlide =
-      (currentSlide - 1 + slides.current.length) % slides.current.length;
+    if (!slides) return;
+    const prevSlide = (currentSlide - 1 + slides.length) % slides.length;
     moveToSlide(prevSlide);
   };
 

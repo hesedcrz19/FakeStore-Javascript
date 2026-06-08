@@ -1,53 +1,34 @@
 import styles from './Products.module.css';
-
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
-import {
-  FILTERS_KEYS,
-  FILTERS_DEFAULT_VALUES,
-} from '@/consts/filtersConsts.js';
-
 import { useProductsStore } from '@/stores/productsStore';
-
+import { useEffect } from 'react';
+import { setFiltersByParams } from '@/utils/setFiltersByParams';
+import { useRouter } from '@/hooks/useRoute';
 import { ProductsGrid } from '@/Layouts/ProductsGrid/ProductsGrid.jsx';
 import { FiltersProvider } from '@/context/FiltersContext';
 import { FiltersButton } from '@/components/FiltersButton/FiltersButton';
+import { areSameObjects } from '@/utils/areSameObject';
 
 export default function Products() {
+  const { fetchFilters, fetchProducts, counter, products, loading } = useProductsStore();
+  const { searchParams } = useRouter();
+
+  useEffect(() => {
+    if (areSameObjects(fetchFilters, setFiltersByParams(searchParams))) return;
+    fetchProducts(setFiltersByParams(searchParams));
+  }, [searchParams, fetchProducts, fetchFilters]);
+
   return (
     <div className={styles.productsContainer}>
       <div className={styles.productsHeader}>
-        <ProductsCounter />
+        <h2>{counter() ?? <Skeleton width={170} />}</h2>
         <FiltersProvider>
           <FiltersButton />
         </FiltersProvider>
       </div>
-      <ProductsGrid />
+      <ProductsGrid products={products} loading={loading} />
     </div>
   );
-}
-
-function ProductsCounter() {
-  const { productsLength, loading, error, fetchFilters } = useProductsStore();
-
-  const category =
-    fetchFilters.category === FILTERS_DEFAULT_VALUES[FILTERS_KEYS.CATEGORY]
-      ? 'Products'
-      : fetchFilters.category;
-
-  const categoryCapitalize =
-    category?.charAt(0).toUpperCase() + category?.slice(1);
-
-  let content;
-
-  if (loading) {
-    content = undefined;
-  } else if (error) {
-    content = '';
-  } else {
-    content = `${categoryCapitalize} (${productsLength()})`;
-  }
-
-  return <h2>{content ?? <Skeleton width={170} />}</h2>;
 }

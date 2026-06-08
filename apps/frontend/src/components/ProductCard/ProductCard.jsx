@@ -1,24 +1,20 @@
 import styles from './ProductCard.module.css';
-
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-
 import { Link } from '../Link';
-
 import { useRouter } from '@/hooks/useRoute';
 
-export function ProductCard({ formattedProduct, loading }) {
+export function ProductCard({ product = {}, loading }) {
   const {
     title,
     price,
-    principalImage,
-    slug,
-    category,
     originalPrice,
+    discountPercentage,
     shippingCost,
     promotion,
-    discountPercentage,
-  } = formattedProduct || {};
+    principalImage,
+    category,
+  } = product;
 
   const imageError = (event) => {
     event.target.src = '/fallback.png';
@@ -26,11 +22,15 @@ export function ProductCard({ formattedProduct, loading }) {
 
   return (
     <article className={styles.productCard}>
-      <ProductLink slug={slug} />
+      {!loading && <ProductLink product={product} />}
 
       <header className={styles.header}>
-        {principalImage ? (
-          <img src={principalImage} alt={title?.fullContent} onError={imageError} />
+        {!loading ? (
+          <img
+            src={principalImage || '/fallback.png'}
+            alt={title?.fullContent}
+            onError={imageError}
+          />
         ) : (
           <Skeleton style={{ aspectRatio: 1 / 1 }} />
         )}
@@ -38,7 +38,10 @@ export function ProductCard({ formattedProduct, loading }) {
 
       <h3>{title?.content ?? <Skeleton count={2} />}</h3>
 
-      <Link href={`/products?category=${category?.slug ?? ''}`} className={styles.category}>
+      <Link
+        href={loading ? '' : `/products?category=${category?.slug}`}
+        className={styles.category}
+      >
         {category?.name.content ?? <Skeleton width="50px" />}
       </Link>
 
@@ -56,7 +59,9 @@ export function ProductCard({ formattedProduct, loading }) {
           </ul>
         )}
         <div className={styles.prices}>
-          <p className={styles.price}>{price ?? <Skeleton width="80px" />}</p>
+          <p className={styles.price} role="searchbox">
+            {price ?? <Skeleton width="80px" />}
+          </p>
           {originalPrice !== price && <p className={styles.originalPrice}>{originalPrice}</p>}
         </div>
       </div>
@@ -76,18 +81,16 @@ export function ProductCard({ formattedProduct, loading }) {
   );
 }
 
-function ProductLink({ slug, children }) {
+function ProductLink({ product }) {
   const { location, searchParams } = useRouter();
 
   return (
     <Link
-      href={`/products/${slug ?? ''}?${searchParams.toString()}`}
-      state={{ backgroundLocation: location }}
+      href={`/products/${product.slug ?? ''}?${searchParams.toString()}`}
+      state={{ backgroundLocation: location, product: product }}
       className={styles.link}
-      aria-label="See more information"
+      aria-label={`See more about ${product.title?.fullContent}`}
       replace
-    >
-      {children}
-    </Link>
+    />
   );
 }

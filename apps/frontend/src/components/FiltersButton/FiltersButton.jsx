@@ -79,7 +79,6 @@ function SearchInput({ changeText, filters }) {
       type="search"
       className={styles.filterInput}
       placeholder="Search..."
-      role="search"
       name="search"
       value={filters[FILTERS_KEYS.SEARCH]}
       onChange={(event) => changeText(event.target.value)}
@@ -150,7 +149,7 @@ function CategoryButtons({ changeCategory, filters }) {
       <input
         type="radio"
         name="category"
-        value="all"
+        value={FILTERS_DEFAULT_VALUES[FILTERS_KEYS.CATEGORY]}
         checked={filters[FILTERS_KEYS.CATEGORY] === FILTERS_DEFAULT_VALUES[FILTERS_KEYS.CATEGORY]}
         onChange={() => changeCategory(FILTERS_DEFAULT_VALUES[FILTERS_KEYS.CATEGORY])}
       />

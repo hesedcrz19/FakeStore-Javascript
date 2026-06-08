@@ -8,26 +8,17 @@ import { usePc } from '@/hooks/usePc';
 import { useCarrousel } from '@/hooks/useCarrousel';
 
 export function ProductCarrousel({ product = {}, loading }) {
-  const { currentSlide, moveToSlide, nextSlide, prevSlide, sliderRef, slides } =
-    useCarrousel();
+  const { currentSlide, moveToSlide, nextSlide, prevSlide, sliderRef, slides } = useCarrousel();
   const isPc = usePc();
 
   return (
-    <div className={styles.mainCarrouselContainer}>
-      {isPc && (
-        <CarrouselThumbnails
-          images={product.images}
-          currentSlide={currentSlide}
-          moveToSlide={moveToSlide}
-        />
-      )}
-
-      <div
-        className={styles.carrouselContainer}
-        role="region"
-        aria-roledescription="carrousel"
-        aria-label="Images Carrousel"
-      >
+    <div
+      className={styles.mainCarrouselContainer}
+      role="region"
+      aria-roledescription="carrousel"
+      aria-label="Product images carrousel"
+    >
+      <div className={styles.carrouselContainer}>
         {loading ? (
           <Skeleton height="100%" />
         ) : (
@@ -42,6 +33,15 @@ export function ProductCarrousel({ product = {}, loading }) {
           />
         )}
       </div>
+
+      {isPc && (
+        <CarrouselThumbnails
+          images={product.images}
+          currentSlide={currentSlide}
+          moveToSlide={moveToSlide}
+          loading={loading}
+        />
+      )}
     </div>
   );
 }
@@ -75,11 +75,21 @@ function CarrouselContent({
           <path d="M640-80 240-480l400-400 71 71-329 329 329 329-71 71Z" />
         </svg>
       </button>
+
+      <div className={styles.imagesCarrousel} aria-live="polite" ref={sliderRef}>
+        <CarrouselImages
+          images={images}
+          description={title?.fullContent}
+          currentSlide={currentSlide}
+          slides={slides}
+        />
+      </div>
+
       <button
         className={styles.nextBtn}
         onClick={nextSlide}
         aria-label="Next slide"
-        disabled={currentSlide === slides.current?.length - 1}
+        disabled={currentSlide === (slides?.length ?? 1) - 1}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -92,24 +102,7 @@ function CarrouselContent({
         </svg>
       </button>
 
-      <div
-        className={styles.imagesCarrousel}
-        aria-live="polite"
-        ref={sliderRef}
-      >
-        <CarrouselImages
-          images={images}
-          description={title?.fullContent}
-          currentSlide={currentSlide}
-          slides={slides}
-        />
-      </div>
-
-      <CarrouselTabs
-        currentSlide={currentSlide}
-        moveToSlide={moveToSlide}
-        images={images}
-      />
+      <CarrouselTabs currentSlide={currentSlide} moveToSlide={moveToSlide} images={images} />
     </>
   );
 }
@@ -118,12 +111,8 @@ function CarrouselTabs({ currentSlide, moveToSlide, images }) {
   const tabsId = useId();
 
   return (
-    <div
-      className={styles.carrouselDots}
-      role="tabgroup"
-      aria-label="Select image"
-    >
-      {images?.map((_, i) => (
+    <div className={styles.carrouselDots} role="radiogroup" aria-label="Select image">
+      {(images ?? [null])?.map((_, i) => (
         <input
           key={i}
           type="radio"
@@ -139,17 +128,17 @@ function CarrouselTabs({ currentSlide, moveToSlide, images }) {
 }
 
 function CarrouselImages({ images, description, currentSlide, slides }) {
-  return images?.map((img, i) => (
+  return (images ?? [null])?.map((img, i) => (
     <div
       key={i}
       className={styles.slide}
       role="group"
-      aria-label={`${i + 1} of ${slides.current?.length}`}
+      aria-label={`${i + 1} of ${slides?.length ?? 1}`}
       aria-hidden={i !== currentSlide}
     >
       <img
         className={styles.image}
-        src={img}
+        src={img ?? '/fallback.png'}
         alt={`${description} - Image ${i + 1}`}
         draggable="false"
       />
@@ -157,7 +146,7 @@ function CarrouselImages({ images, description, currentSlide, slides }) {
   ));
 }
 
-function CarrouselThumbnails({ images, currentSlide, moveToSlide }) {
+function CarrouselThumbnails({ images, currentSlide, moveToSlide, loading }) {
   const thumbnailsRef = useRef();
 
   useEffect(() => {
@@ -167,7 +156,7 @@ function CarrouselThumbnails({ images, currentSlide, moveToSlide }) {
 
     const thumbnails = Array.from(thumbnailsContainer.children);
 
-    thumbnails[currentSlide].scrollIntoView({
+    thumbnails[currentSlide]?.scrollIntoView({
       inline: 'nearest',
       block: 'nearest',
       behavior: 'smooth',
@@ -176,7 +165,7 @@ function CarrouselThumbnails({ images, currentSlide, moveToSlide }) {
 
   return (
     <div className={styles.carrouselThumbnails} ref={thumbnailsRef}>
-      {(images ?? Array.from({ length: 3 }).fill(false)).map((img, i) => (
+      {(loading ? Array.from({ length: 3 }).fill(null) : (images ?? [null]))?.map((img, i) => (
         <button
           className={styles.thumbnailButton}
           key={i}
@@ -185,7 +174,7 @@ function CarrouselThumbnails({ images, currentSlide, moveToSlide }) {
           aria-label={`See image ${i + 1}`}
           aria-current={i === currentSlide}
         >
-          {img ? <img src={img} alt="" /> : <Skeleton height="100%" />}
+          {!loading ? <img src={img ?? '/fallback.png'} alt="" /> : <Skeleton height="100%" />}
         </button>
       ))}
     </div>

@@ -10,11 +10,16 @@ import { Moon } from '../icons/Moon';
 
 export function ThemeButton({ dialogDirection = 'down' }) {
   const dialogRef = useRef(null);
-  const { openModal } = useModal({
+  const { openModal, closeModal } = useModal({
     dialogRef,
     hiddenScrollbar: false,
   });
   const { themeMode, setThemeMode } = useTheme();
+
+  const handleClick = (theme) => {
+    setThemeMode(theme);
+    closeModal();
+  };
 
   return (
     <>
@@ -28,20 +33,17 @@ export function ThemeButton({ dialogDirection = 'down' }) {
         <Desktop className={styles.desktop} />
       </button>
 
-      <dialog
-        ref={dialogRef}
-        className={`${styles.dialog} ${styles[dialogDirection]}`}
-      >
+      <dialog ref={dialogRef} className={`${styles.dialog} ${styles[dialogDirection]}`}>
         <div className={styles.dialogFlex}>
-          <button aria-label="light" onClick={() => setThemeMode('light')}>
+          <button aria-label="light" onClick={() => handleClick('light')}>
             <Sun />
             Light
           </button>
-          <button aria-label="dark" onClick={() => setThemeMode('dark')}>
+          <button aria-label="dark" onClick={() => handleClick('dark')}>
             <Moon />
             Dark
           </button>
-          <button aria-label="system" onClick={() => setThemeMode('system')}>
+          <button aria-label="system" onClick={() => handleClick('system')}>
             <Desktop />
             System
           </button>

@@ -1,18 +1,20 @@
 import styles from './Product.module.css';
-
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-
 import { useState, useEffect } from 'react';
-
 import { productFetch } from '@/services/productFetch';
 import { formatProduct } from '@/utils/formatProducts';
-
 import { ProductCarrousel } from '../ProductCarrousel/ProductCarrousel';
+import { useRouter } from '@/hooks/useRoute';
 
 export function Product({ slug }) {
-  const [product, setProduct] = useState({});
-  const [loading, setLoading] = useState(true);
+  const { location } = useRouter();
+  const [product, setProduct] = useState(() =>
+    location.state?.product.slug === slug ? location.state?.product : {}
+  );
+  const [loading, setLoading] = useState(() =>
+    location.state?.product.slug === slug ? false : true
+  );
   const [error, setError] = useState(false);
 
   const {
@@ -27,6 +29,8 @@ export function Product({ slug }) {
   } = product;
 
   useEffect(() => {
+    if (product.slug === slug) return;
+
     productFetch(slug)
       .then((product) => {
         setProduct(formatProduct(product));
@@ -37,7 +41,7 @@ export function Product({ slug }) {
       .finally(() => {
         setLoading(false);
       });
-  }, [slug]);
+  }, [slug, product.slug]);
 
   if (error) {
     return <p>A error as occurred</p>;

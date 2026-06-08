@@ -10,7 +10,7 @@ import { Product } from '@/components/Product/Product';
 export default function ModalProduct() {
   const dialogRef = useRef(null);
   const { navigate } = useRouter();
-  useModal({
+  const { closeModal } = useModal({
     dialogRef,
     closeDelay: 200,
     initialState: true,
@@ -22,6 +22,17 @@ export default function ModalProduct() {
 
   return (
     <dialog ref={dialogRef} className={styles.modal}>
+      <button className={styles.closeBtn} onClick={closeModal} aria-label="close menu">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          fill="#1f1f1f"
+        >
+          <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+        </svg>
+      </button>
       <Product slug={slug} />
     </dialog>
   );

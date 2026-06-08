@@ -77,10 +77,6 @@ body::-webkit-scrollbar-thumb {
   border-radius: 5px;
 }
 
-body::-webkit-scrollbar-track {
-  background-color: var(--bg-color-sec);
-}
-
 main {
   flex-grow: 1;
   display: flex;

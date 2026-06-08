@@ -4,7 +4,11 @@ export const differentObjectProperties = (obj1, obj2) => {
   const differentProperties = [];
 
   for (const i in obj1) {
-    if (obj1[i] !== obj2[i]) differentProperties.push(i);
+    if (typeof obj1[i] === 'object') {
+      if (differentObjectProperties(obj1[i], obj2[i]).length) differentProperties.push(i);
+    } else {
+      if (obj1[i] !== obj2[i]) differentProperties.push(i);
+    }
   }
 
   return differentProperties;
