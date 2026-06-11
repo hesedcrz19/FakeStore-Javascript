@@ -76,8 +76,9 @@ export function FiltersButton() {
 function SearchInput({ changeText, filters }) {
   return (
     <input
-      type="search"
       className={styles.filterInput}
+      aria-label="Search product"
+      type="search"
       placeholder="Search..."
       name="search"
       value={filters[FILTERS_KEYS.SEARCH]}

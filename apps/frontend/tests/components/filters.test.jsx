@@ -21,7 +21,7 @@ describe('filters test', () => {
 
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 
-    const openButton = screen.getByRole('button', { name: /filters/i });
+    const openButton = screen.getByRole('button', { name: /open filters/i });
     await user.click(openButton);
 
     expect(screen.getByRole('dialog')).toBeInTheDocument();
@@ -54,8 +54,8 @@ describe('filters test', () => {
 
     await user.click(screen.getByRole('button', { name: /filters/i }));
 
-    const minPriceInput = screen.getByRole('textbox', { name: /min./i });
-    const maxPriceInput = screen.getByRole('textbox', { name: /max./i });
+    const minPriceInput = screen.getByRole('textbox', { name: /min/i });
+    const maxPriceInput = screen.getByRole('textbox', { name: /max/i });
 
     await user.type(minPriceInput, 'a 12 .  3 . b 4 5');
     expect(minPriceInput).toHaveValue('112.34');

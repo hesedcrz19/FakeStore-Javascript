@@ -6,9 +6,9 @@ export function ProductsGrid({ products, loading }) {
   if (!products?.length && !loading) return <NotFound />;
 
   return (
-    <section className={styles.productsGrid}>
+    <ul className={styles.productsGrid} aria-label="Products list">
       {<ProductsCards products={products} loading={loading} />}
-    </section>
+    </ul>
   );
 }
 

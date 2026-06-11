@@ -7,7 +7,11 @@
     "apps/*"
   ],
   "scripts": {
-    "test": "concurrently \"npm run test --workspace=frontend\" \"npm run test --workspace=backend\"",
+    "test": "npm run test:api && npm run test:web",
+    "test:api": "npm run test --workspace=backend",
+    "test:web": "npm run test --workspace=frontend",
+    "e2e": "node ./node_modules/@playwright/test/cli.js test",
+    "e2e:ui": "node ./node_modules/@playwright/test/cli.js test --ui",
     "dev": "concurrently \"npm run dev --workspace=frontend\" \"npm run dev --workspace=backend\"",
     "lint": "eslint ."
   },
@@ -17,6 +21,8 @@
   "type": "module",
   "devDependencies": {
     "@eslint/js": "^9.39.4",
+    "@playwright/test": "1.60.0",
+    "@types/node": "^25.9.2",
     "concurrently": "10.0.1",
     "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",

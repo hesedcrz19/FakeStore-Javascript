@@ -21,7 +21,7 @@ export default function Products() {
   }, [searchParams, fetchProducts, fetchFilters]);
 
   return (
-    <div className={styles.productsContainer}>
+    <section className={styles.productsContainer} data-testid="products">
       <div className={styles.productsHeader}>
         <h2>{counter() ?? <Skeleton width={170} />}</h2>
         <FiltersProvider>
@@ -29,6 +29,6 @@ export default function Products() {
         </FiltersProvider>
       </div>
       <ProductsGrid products={products} loading={loading} />
-    </div>
+    </section>
   );
 }
