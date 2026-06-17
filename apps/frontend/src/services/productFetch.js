@@ -1,4 +1,4 @@
-import { PRODUCT_API_URL } from '../consts/productApi.js';
+import { PRODUCT_API_URL } from '../consts/productApi';
 
 export async function productFetch(slug) {
   const res = await fetch(`${PRODUCT_API_URL}/${slug}`);

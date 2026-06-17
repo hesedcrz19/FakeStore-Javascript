@@ -1,4 +1,4 @@
-import { FILTERS_DEFAULT_VALUES, FILTERS_KEYS } from '@/consts/filtersConsts.js';
+import { FILTERS_DEFAULT_VALUES, FILTERS_KEYS } from '@/consts/filtersConsts';
 import { create } from 'zustand';
 import { productsFetch } from '@/services/productsFetch.js';
 import { formatProduct } from '@/utils/formatProducts';

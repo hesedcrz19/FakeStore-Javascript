@@ -10,7 +10,6 @@
 .title {
   font-family: 'Poppins', sans-serif;
   font-size: var(--h2-size);
-  text-wrap: pretty;
   font-weight: 500;
   color: var(--text-color);
   text-align: center;

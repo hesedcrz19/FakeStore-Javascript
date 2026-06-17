@@ -1,4 +1,4 @@
-import { FILTERS_KEYS, FILTERS_DEFAULT_VALUES } from '@/consts/filtersConsts.js';
+import { FILTERS_KEYS, FILTERS_DEFAULT_VALUES } from '@/consts/filtersConsts';
 
 export function setFiltersByParams(searchParams) {
   return {

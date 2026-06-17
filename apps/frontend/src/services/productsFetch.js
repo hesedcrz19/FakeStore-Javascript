@@ -1,5 +1,5 @@
-import { PRODUCTS_API_URL, PRODUCTS_API_FILTERS } from '@/consts/productsApi.js';
-import { FILTERS_KEYS, FILTERS_DEFAULT_VALUES } from '@/consts/filtersConsts.js';
+import { PRODUCTS_API_URL, PRODUCTS_API_FILTERS } from '@/consts/productsApi';
+import { FILTERS_KEYS, FILTERS_DEFAULT_VALUES } from '@/consts/filtersConsts';
 
 export async function productsFetch(filters = {}) {
   const url = new URL(PRODUCTS_API_URL);

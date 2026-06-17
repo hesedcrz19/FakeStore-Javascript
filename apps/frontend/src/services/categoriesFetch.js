@@ -1,4 +1,4 @@
-import { CATEGORIES_API_URL } from '../consts/categoriesApi.js';
+import { CATEGORIES_API_URL } from '../consts/categoriesApi';
 
 export async function categoriesFetch() {
   const data = await fetch(CATEGORIES_API_URL);

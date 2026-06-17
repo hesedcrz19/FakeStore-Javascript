@@ -1,4 +1,4 @@
-import { FILTERS_KEYS } from '@/consts/filtersConsts.js';
+import { FILTERS_KEYS } from '@/consts/filtersConsts';
 
 import { useReducer, useCallback } from 'react';
 
