@@ -13,8 +13,6 @@ export async function productsFetch(filters = {}) {
     }
   }
 
-  console.log(url);
-
   const data = await fetch(url);
   if (!data.ok) throw new Error('A error ocurre fetching the products');
   return await data.json();

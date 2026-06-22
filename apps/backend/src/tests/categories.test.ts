@@ -63,10 +63,9 @@ describe('Categories', () => {
   describe('PATCH /categories', () => {
     const id = 'c72a053b-a33b-41aa-9e17-008651ee5f55';
     const name = 'Updated category';
-    test('Should create partially a new category', async () => {
+    test('Should update partially a new category', async () => {
       const { status, body } = await request(app).patch(`/categories/${id}`).send({
         name,
-        image: 'https://placehold.co/600x400',
       });
       assert.strictEqual(status, 201, 'Should return a 201 status');
       assert.strictEqual(body.name, name, 'Should return a category with the correct name');
@@ -85,7 +84,7 @@ describe('Categories', () => {
   describe('PUT /categories', () => {
     const id = 'c72a053b-a33b-41aa-9e17-008651ee5f55';
     const name = 'Updated category';
-    test('Should create a new category', async () => {
+    test('Should update a new category', async () => {
       const { status, body } = await request(app).put(`/categories/${id}`).send({
         name,
         image: 'https://placehold.co/600x400',
@@ -116,7 +115,7 @@ describe('Categories', () => {
       assert.strictEqual(
         body.error.code,
         ERROR_CODES.CATEGORY_NOT_FOUND,
-        'Should return a category not found error code',
+        'Should return a category not found error code'
       );
     });
   });

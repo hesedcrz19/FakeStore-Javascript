@@ -1,5 +1,5 @@
 import z from 'zod';
-import { SORT_OPTIONS, SORT_ORDER_OPTIONS } from '../const.js';
+import { SORT_OPTIONS, SORT_ORDER_OPTIONS } from '../consts.js';
 
 export const productQuerySchema = z.object({
   title: z.string('The title must be a string').toLowerCase().optional(),
@@ -18,19 +18,19 @@ export const productQuerySchema = z.object({
     .positive('The maxPrice must be positive')
     .transform((val) => Number(val.toFixed(2)))
     .optional(),
-  categoryId: z.string('The categoryId must be a string').uuid('The categoryId must be a valid UUID').optional(),
+  categoryId: z.uuid('The categoryId must be a valid UUID').optional(),
   categorySlug: z
     .string('The categorySlug must be a string')
     .regex(/^[a-z0-9-]+$/, 'The categorySlug must be a valid slug')
     .optional(),
   sortBy: z
-    .enum([SORT_OPTIONS.PRICE, SORT_OPTIONS.TITLE, SORT_OPTIONS.RATING, SORT_OPTIONS.NEWEST], {
-      message: 'The sortBy must be either "price", "title", "rating", or "newest"',
+    .enum(Object.values(SORT_OPTIONS), {
+      error: 'The sortBy must be either "price", "title", "rating", or "newest"',
     })
     .optional(),
   sortOrder: z
     .enum([SORT_ORDER_OPTIONS.ASC, SORT_ORDER_OPTIONS.DESC], {
-      message: 'The sortOrder must be either "asc" or "desc"',
+      error: 'The sortOrder must be either "asc" or "desc"',
     })
     .optional(),
   discountPercentage: z.coerce
@@ -52,15 +52,15 @@ export const productQuerySchema = z.object({
     .transform((val) => Number(val.toFixed(2)))
     .optional(),
   hasDiscount: z
-    .enum(['true', 'false'], { message: 'The hasDiscount must be either "true" or "false"' })
+    .enum(['true', 'false'], { error: 'The hasDiscount must be either "true" or "false"' })
     .transform((val) => val === 'true')
     .optional(),
   hasPromotion: z
-    .enum(['true', 'false'], { message: 'The hasPromotion must be either "true" or "false"' })
+    .enum(['true', 'false'], { error: 'The hasPromotion must be either "true" or "false"' })
     .transform((val) => val === 'true')
     .optional(),
   freeShipping: z
-    .enum(['true', 'false'], { message: 'The freeShipping must be either "true" or "false"' })
+    .enum(['true', 'false'], { error: 'The freeShipping must be either "true" or "false"' })
     .transform((val) => val === 'true')
     .optional(),
   limit: z.coerce
@@ -74,3 +74,5 @@ export const productQuerySchema = z.object({
     .int('The offset must be an integer')
     .optional(),
 });
+
+export type ProductQuerySchema = z.infer<typeof productQuerySchema>;

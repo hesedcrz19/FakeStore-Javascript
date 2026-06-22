@@ -1,5 +1,5 @@
 ### Get all products
-GET http://localhost:3000/products
+GET http://localhost:2000/products
 
 ### Filter by category
 GET http://localhost:3000/products?hasPromotion=true 
@@ -12,11 +12,11 @@ GET http://localhost:3000/products/slug/sleek-olive-green-hardshell-carry-on-lug
 
 
 ### Create un producto  
-POST http://localhost:3000/products
+POST http://localhost:2000/products
 Content-Type: application/json
 
 {
-  "title": " ipit  ",
+  "title": "string",
   "description": "Una descripcion",
   "originalPrice": 100.22,
   "discountPercentage": -0,
@@ -30,7 +30,7 @@ Content-Type: application/json
 
 
 ### Update partially a existent product
-PATCH http://localhost:3000/products/6f76662d-a667-431b-a441-187c6cb37c21
+PATCH http://localhost:2000/products/6f76662d-a667-431b-a441-187c6cb37c21
 Content-Type: application/json
 
 {
@@ -41,11 +41,11 @@ Content-Type: application/json
 }
 
 ### Update a existent product
-PUT http://localhost:3000/products/6f76662d-a667-431b-a441-187c6cb37c21
+PUT http://localhost:2000/products/6f76662d-a667-431b-a441-187c6cb37c21
 Content-Type: application/json
 
 {
-  "title": "Titulo  modificadooooooooooooooo",
+  "title": "Titulo modificadooooooooooooooo",
   "originalPrice": 10000000000000,
   "discountPercentage": 50,
   "categoryId": "fd7eeb9e-e3e6-4349-a006-fb81ba05540d",
@@ -64,28 +64,35 @@ DELETE  http://localhost:3000/products/3dba7643-1a95-405f-a2c9-03fa5fc54c52
 
 
 ### Get all categories
-GET http://localhost:3000/categories
+GET http://localhost:2000/categories
+
 
 ### Get category by id
-GET http://localhost:3000/categories/fd7eeb9e-e3e6-4349-a006-fb81ba05540d/products?hasPromotion=false
+GET http://localhost:2000/categories/fd7eeb9e-e3e6-4349-a006-fb81ba05540d
 
 ### Get products by category id
-GET http://localhost:3000/categories/slug/shoes/products?freeShipping=false
+GET http://localhost:2000/categories/fd7eeb9e-e3e6-4349-a006-fb81ba05540d/products?hasPromotion=true
+
+### Get category by slug
+GET http://localhost:2000/categories/slug/shoes
+
+### Get products by category slug
+GET http://localhost:2000/categories/slug/shoes/products?freeShipping=true
 
 
 
 ### Get category by id
-POST http://localhost:3000/categories
+POST http://localhost:2000/categories
 Content-Type: application/json
 
 {
-  "name": "  Ropa  asd   ",
+  "name": "  Ropa asd   ",
   "image": "https://placehold.co/600x400"
 }
 
 
 ### Patch category by id
-PATCH http://localhost:3000/categories/fd7eeb9e-e3e6-4349-a006-fb81ba05540d
+PATCH http://localhost:2000/categories/a74ebe52-2e41-4d26-b3a3-90a35dd85049
 Content-Type: application/json
 
 {
@@ -93,11 +100,11 @@ Content-Type: application/json
 }
 
 ### Put category by id
-PUT http://localhost:3000/categories/fd7eeb9e-e3e6-4349-a006-fb81ba05540d
+PUT http://localhost:2000/categories/fd7eeb9e-e3e6-4349-a006-fb81ba05540d
 Content-Type: application/json
 
 {
-  "name": "Platanoss",
+  "name": "Manzanas verdes",
   "image": "https://placehold.co/600x400"
 }
 

@@ -1,8 +1,13 @@
-import { SORT_OPTIONS, SORT_ORDER_OPTIONS, SORT_ORDER_OPTIONS_DEFAULT, SORT_OPTIONS_DEFAULT } from './const.js';
+import {
+  SORT_OPTIONS,
+  SORT_ORDER_OPTIONS,
+  SORT_ORDER_OPTIONS_DEFAULT,
+  SORT_OPTIONS_DEFAULT,
+} from './consts.js';
+import type { ProductQuerySchema } from './schemas/productQuerySchema.js';
 
-export const filterProducts = (
-  products,
-  {
+export const filterProducts = (products: Product[], filters: ProductQuerySchema) => {
+  const {
     title,
     price,
     minPrice,
@@ -19,8 +24,7 @@ export const filterProducts = (
     freeShipping,
     limit,
     offset = 0,
-  },
-) => {
+  } = filters;
   if (title) {
     products = products.filter((product) => product.title.toLowerCase().includes(title));
   }
@@ -59,18 +63,20 @@ export const filterProducts = (
 
   if (hasDiscount !== undefined) {
     products = products.filter((product) =>
-      hasDiscount ? product.discountPercentage > 0 : product.discountPercentage === 0,
+      hasDiscount ? product.discountPercentage > 0 : product.discountPercentage === 0
     );
   }
 
   if (freeShipping !== undefined) {
     products = products.filter((product) =>
-      freeShipping ? product.shippingCost === 0 : product.shippingCost > 0,
+      freeShipping ? product.shippingCost === 0 : product.shippingCost > 0
     );
   }
 
   if (hasPromotion !== undefined) {
-    products = products.filter((product) => (hasPromotion ? product.promotion : !product.promotion));
+    products = products.filter((product) =>
+      hasPromotion ? product.promotion : !product.promotion
+    );
   }
 
   if (limit !== undefined) {
