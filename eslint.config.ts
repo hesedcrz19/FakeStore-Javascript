@@ -8,6 +8,7 @@ import prettier from 'eslint-config-prettier';
 export default [
   js.configs.recommended,
   ...tseslint.configs.recommended,
+  ...tseslint.configs.recommendedTypeChecked,
   react.configs.flat.recommended,
   reactHooks.configs.flat.recommended,
 
@@ -18,6 +19,9 @@ export default [
         ...globals.browser,
         ...globals.node,
       },
+      parserOptions: {
+        projectService: true,
+      },
     },
     settings: {
       react: {
@@ -27,7 +31,8 @@ export default [
     rules: {
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/no-explicit-any': 'error',
-      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      'no-unused-vars': 'off',
+
       // React
       'react/display-name': 'off',
       'react/prop-types': 'off',

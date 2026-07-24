@@ -5,7 +5,7 @@ export const corsMiddleware = () =>
     origin: (origin, callback) => {
       const ACCEPTED_ORIGINS = process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(',') : [];
 
-      if (ACCEPTED_ORIGINS.includes(origin ?? '') || !origin) {
+      if (!origin || ACCEPTED_ORIGINS.includes(origin)) {
         return callback(null, true);
       }
 
