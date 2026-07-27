@@ -81,12 +81,12 @@ GET http://localhost:2000/categories/slug/shoes/products?freeShipping=true
 
 
 
-### Get category by id
+### Create a category
 POST http://localhost:2000/categories
 Content-Type: application/json
 
 {
-  "name": "  Ropa asd   ",
+  "name": "Shoes",
   "image": "https://placehold.co/600x400"
 }
 
@@ -110,4 +110,4 @@ Content-Type: application/json
 
 
 ### Delete category by id
-DELETE  http://localhost:3000/categories/3dba7643-1a95-405f-a2c9-03fa5fc54c52
+DELETE  http://localhost:2000/categories/3dba7643-1a95-405f-a2c9-03fa5fc54c52

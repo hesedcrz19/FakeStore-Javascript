@@ -85,7 +85,7 @@ test('should test the filters', async ({ page }) => {
   const productCards = productsList.getByRole('article');
   await expect(productCards).toHaveCount(1);
 
-  for (let card of await productCards.all()) {
+  for (const card of await productCards.all()) {
     await expect(card.getByTestId('price')).toContainText(priceRegExp);
     await expect(card.getByRole('heading', { level: 3 })).toContainText(/red/i);
   }

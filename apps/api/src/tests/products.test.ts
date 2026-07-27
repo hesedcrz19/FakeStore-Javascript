@@ -3,25 +3,37 @@ import request from 'supertest';
 import assert from 'node:assert';
 import app from '../app.js';
 import ERROR_CODES from '../const/errorCodes.js';
+import { ZodIssue } from 'zod/v3';
+
+interface RequestResponse<T> {
+  status: number;
+  body?: T;
+}
 
 describe('Products', () => {
   describe('GET /products', () => {
     test('Should return an array', async () => {
-      const { status, body } = await request(app).get('/products').send();
+      const { status, body } = (await request(app).get('/products').send()) as RequestResponse<
+        Product[]
+      >;
       assert.strictEqual(status, 200, 'Should return a 200 status');
       assert.ok(Array.isArray(body), 'The response should be an array');
     });
 
     test('Should get a product by id', async () => {
       const id = '6f76662d-a667-431b-a441-187c6cb37c21';
-      const { status, body } = await request(app).get(`/products/${id}`).send();
+      const { status, body } = (await request(app)
+        .get(`/products/${id}`)
+        .send()) as RequestResponse<Product>;
       assert.strictEqual(status, 200, 'Should return a 200 status');
-      assert.strictEqual(body.id, id, `Should return a product with the id: ${id}`);
+      assert.strictEqual(body?.id, id, `Should return a product with the id: ${id}`);
     });
 
     test('Should get related products by id', async () => {
       const id = '6f76662d-a667-431b-a441-187c6cb37c21';
-      const { status, body } = await request(app).get(`/products/${id}/related`).send();
+      const { status, body } = (await request(app)
+        .get(`/products/${id}/related`)
+        .send()) as RequestResponse<Product[]>;
       assert.strictEqual(status, 200, 'Should return a 200 status');
       assert.ok(Array.isArray(body), 'Should return an array');
       assert.ok(
@@ -32,14 +44,18 @@ describe('Products', () => {
 
     test('Should get a product by slug', async () => {
       const slug = 'majestic-mountain-graphic-t-shirt';
-      const { status, body } = await request(app).get(`/products/slug/${slug}`).send();
+      const { status, body } = (await request(app)
+        .get(`/products/slug/${slug}`)
+        .send()) as RequestResponse<Product>;
       assert.strictEqual(status, 200, 'Should return a 200 status');
-      assert.strictEqual(body.slug, slug, `Should return a product with the slug: ${slug}`);
+      assert.strictEqual(body?.slug, slug, `Should return a product with the slug: ${slug}`);
     });
 
     test('Should get related products by slug', async () => {
       const slug = 'majestic-mountain-graphic-t-shirt';
-      const { status, body } = await request(app).get(`/products/slug/${slug}/related`).send();
+      const { status, body } = (await request(app)
+        .get(`/products/slug/${slug}/related`)
+        .send()) as RequestResponse<Product[]>;
       assert.strictEqual(status, 200, 'Should return a 200 status');
       assert.ok(Array.isArray(body), 'Should return an array');
       assert.ok(
@@ -53,7 +69,9 @@ describe('Products', () => {
     describe('Filter products', () => {
       test('Should filter by title', async () => {
         const title = 'orange';
-        const { status, body } = await request(app).get(`/products?title=${title}`).send();
+        const { status, body } = (await request(app)
+          .get(`/products?title=${title}`)
+          .send()) as RequestResponse<Product[]>;
 
         assert.strictEqual(status, 200, 'Should return a 200 status');
         assert.ok(Array.isArray(body));
@@ -64,7 +82,9 @@ describe('Products', () => {
       });
       test('Should filter by exact price', async () => {
         const price = 10;
-        const { status, body } = await request(app).get(`/products?price=${price}`).send();
+        const { status, body } = (await request(app)
+          .get(`/products?price=${price}`)
+          .send()) as RequestResponse<Product[]>;
         assert.strictEqual(status, 200, 'Should return a 200 status');
         assert.ok(Array.isArray(body));
         assert.ok(
@@ -75,9 +95,9 @@ describe('Products', () => {
       test('Should filter by price range', async () => {
         const minPrice = 10;
         const maxPrice = 20;
-        const { status, body } = await request(app)
+        const { status, body } = (await request(app)
           .get(`/products?minPrice=${minPrice}&maxPrice=${maxPrice}`)
-          .send();
+          .send()) as RequestResponse<Product[]>;
         assert.strictEqual(status, 200, 'Should return a 200 status');
         assert.ok(Array.isArray(body));
         assert.ok(
@@ -87,7 +107,9 @@ describe('Products', () => {
       });
       test('Should filter by category slug', async () => {
         const slug = 'shoes';
-        const { status, body } = await request(app).get(`/products?categorySlug=${slug}`).send();
+        const { status, body } = (await request(app)
+          .get(`/products?categorySlug=${slug}`)
+          .send()) as RequestResponse<Product[]>;
         assert.strictEqual(status, 200, 'Should return a 200 status');
         assert.ok(Array.isArray(body));
         assert.ok(
@@ -97,7 +119,9 @@ describe('Products', () => {
       });
       test('Should filter by category id', async () => {
         const id = 'c72a053b-a33b-41aa-9e17-008651ee5f55';
-        const { status, body } = await request(app).get(`/products?categoryId=${id}`).send();
+        const { status, body } = (await request(app)
+          .get(`/products?categoryId=${id}`)
+          .send()) as RequestResponse<Product[]>;
         assert.strictEqual(status, 200, 'Should return a 200 status');
         assert.ok(Array.isArray(body));
         assert.ok(
@@ -111,7 +135,7 @@ describe('Products', () => {
   describe('POST /products', () => {
     test('Should create a product formatting the title and creating a slug', async () => {
       const title = '    Mi producto   ';
-      const { body } = await request(app)
+      const { body } = (await request(app)
         .post('/products')
         .send({
           title,
@@ -123,9 +147,9 @@ describe('Products', () => {
           rating: 5,
           images: ['https://placehold.co/600x400'],
           categoryId: 'c72a053b-a33b-41aa-9e17-008651ee5f55',
-        });
+        })) as RequestResponse<Product>;
       assert.strictEqual(
-        body.title,
+        body?.title,
         title.trim().replace(/\s+/g, ' '),
         'Should modify and create the title'
       );
@@ -137,7 +161,7 @@ describe('Products', () => {
     });
 
     test('Should fail the creation and return a type error from the title', async () => {
-      const response = await request(app)
+      const { status, body } = (await request(app)
         .post('/products')
         .send({
           title: '',
@@ -148,16 +172,15 @@ describe('Products', () => {
           shippingCost: 0,
           categoryId: 'c72a053b-a33b-41aa-9e17-008651ee5f55',
           images: ['https://placehold.co/600x400'],
-        });
-      const { body } = response;
-      assert.strictEqual(response.status, 400, 'Should return a 400 status');
+        })) as RequestResponse<{ error: { code: string; errors: ZodIssue[] } }>;
+      assert.strictEqual(status, 400, 'Should return a 400 status');
       assert.strictEqual(
-        body.error.code,
+        body?.error.code,
         ERROR_CODES.TYPE_ERROR,
         'Should return a type error code'
       );
       assert.ok(
-        body.error.errors.some((val: any) => val.path.includes('title')),
+        body?.error.errors.some((val: ZodIssue) => val.path.includes('title')),
         'The errors should include a title error'
       );
     });
@@ -166,24 +189,24 @@ describe('Products', () => {
   describe('PATCH /products', () => {
     test('Should modified partially a product', async () => {
       const originalPrice = 140;
-      const response = await request(app)
+      const { status, body } = (await request(app)
         .patch('/products/6f76662d-a667-431b-a441-187c6cb37c21')
-        .send({ originalPrice });
-      assert.strictEqual(response.status, 200, 'Should return a 200 status');
+        .send({ originalPrice })) as RequestResponse<Product>;
+      assert.strictEqual(status, 200, 'Should return a 200 status');
       assert.strictEqual(
-        response.body.price,
-        originalPrice - response.body.discount,
+        body?.price,
+        originalPrice - (body?.discount ?? 0),
         'Should modify the price'
       );
     });
 
     test('Should return an error patching a product', async () => {
-      const response = await request(app)
+      const { status, body } = (await request(app)
         .patch('/products/6f76662d-a667-431b-a441-187c6cb37c21')
-        .send({ originalPrice: '140' });
-      assert.strictEqual(response.status, 400, 'Should return a 400 status');
+        .send({ originalPrice: '140' })) as RequestResponse<{ error: { code: string } }>;
+      assert.strictEqual(status, 400, 'Should return a 400 status');
       assert.strictEqual(
-        response.body.error.code,
+        body?.error.code,
         ERROR_CODES.TYPE_ERROR,
         'Should return a type error code'
       );
@@ -193,7 +216,7 @@ describe('Products', () => {
   describe('PUT /products', async () => {
     test('Should modified completely a product', async () => {
       const title = 'Titulo';
-      const response = await request(app)
+      const { status, body } = (await request(app)
         .put('/products/6f76662d-a667-431b-a441-187c6cb37c21')
         .send({
           title,
@@ -205,13 +228,13 @@ describe('Products', () => {
           rating: 5,
           categoryId: 'c72a053b-a33b-41aa-9e17-008651ee5f55',
           images: ['https://placehold.co/600x400'],
-        });
-      assert.strictEqual(response.status, 200, 'Shoould return 200 status');
-      assert.strictEqual(response.body.title, title, 'should modified the title');
+        })) as RequestResponse<Product>;
+      assert.strictEqual(status, 200, 'Should return 200 status');
+      assert.strictEqual(body?.title, title, 'should modified the title');
     });
 
     test('Should return an error putting a product', async () => {
-      const response = await request(app)
+      const { status, body } = (await request(app)
         .put('/products/6f76662d-a667-431b-a441-187c6cb37c21')
         .send({
           title: 'title',
@@ -220,10 +243,10 @@ describe('Products', () => {
           discountPercentage: 0,
           rating: 5,
           categoryId: 'c72a053b-a33b-41aa-9e17-008651ee5f55',
-        });
-      assert.strictEqual(response.status, 400, 'Should return 400 status');
+        })) as RequestResponse<{ error: { code: string } }>;
+      assert.strictEqual(status, 400, 'Should return 400 status');
       assert.strictEqual(
-        response.body.error.code,
+        body?.error.code,
         ERROR_CODES.TYPE_ERROR,
         'Should return a type error code'
       );
@@ -239,14 +262,14 @@ describe('Products', () => {
     });
 
     test('Should return an error deleting a product', async () => {
-      const { status, body } = await request(app)
+      const { status, body } = (await request(app)
         .delete('/products/6f76662d-a667-431b-a441-187c6cb37c21')
-        .send();
+        .send()) as RequestResponse<{ error: { code: string } }>;
       assert.strictEqual(status, 404, 'Should return a 404 status');
       assert.strictEqual(
-        body.error.code,
+        body?.error.code,
         ERROR_CODES.PRODUCT_NOT_FOUND,
-        'Should return a prodct not found error'
+        'Should return a product not found error'
       );
     });
   });

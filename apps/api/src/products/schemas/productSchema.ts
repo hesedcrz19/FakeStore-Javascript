@@ -54,6 +54,6 @@ export type CreateProduct = z.infer<typeof productSchema>;
 export type UpdateProduct = Omit<CreateProduct, 'categoryId'> & {
   id: string;
   categoryId?: string;
-  createdAt: string;
   category: Category;
+  createdAt: string;
 };

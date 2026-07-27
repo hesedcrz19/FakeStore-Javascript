@@ -1,9 +1,4 @@
-import ERROR_CODES from '../const/errorCodes.js';
-import {
-  categoryNameExistsError,
-  categoryNotFoundError,
-  createError,
-} from '../utils/createError.js';
+import { categoryNameExistsError, categoryNotFoundError } from '../utils/createError.js';
 import { createCategory, updateCategory } from './createCategory.js';
 import { categories } from '../data/categories.js';
 import { products } from '../data/products.js';

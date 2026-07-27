@@ -3,6 +3,7 @@ import { productQuerySchema } from './schemas/productQuerySchema.js';
 import { uuidSchema } from '../schemas/uuidSchema.js';
 import z from 'zod';
 import type { Request, Response } from 'express';
+import type { CreateProduct, UpdateProduct } from './schemas/productSchema.js';
 
 export class ProductController {
   static async getAll(req: Request, res: Response) {
@@ -39,14 +40,14 @@ export class ProductController {
   }
 
   static async create(req: Request, res: Response) {
-    const newProduct = await ProductModel.create({ body: req.body });
+    const newProduct = await ProductModel.create({ body: req.body as CreateProduct });
     res.status(201).json(newProduct);
   }
 
   static async update(req: Request, res: Response) {
     const newProduct = await ProductModel.update({
       id: uuidSchema.parse(req.params.id),
-      body: req.body,
+      body: req.body as UpdateProduct,
     });
     res.json(newProduct);
   }

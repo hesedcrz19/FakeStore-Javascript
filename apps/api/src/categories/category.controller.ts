@@ -3,9 +3,10 @@ import { uuidSchema } from '../schemas/uuidSchema.js';
 import { productQuerySchema } from '../products/schemas/productQuerySchema.js';
 import type { Request, Response } from 'express';
 import z from 'zod';
+import { CreateCategory } from './schemas/categorySchema.js';
 
 export class CategoryController {
-  static async getAll(req: Request, res: Response) {
+  static async getAll(_req: Request, res: Response) {
     const categories = await CategoryModel.getAll();
     res.json(categories);
   }
@@ -39,14 +40,14 @@ export class CategoryController {
   }
 
   static async create(req: Request, res: Response) {
-    const category = await CategoryModel.create({ body: req.body });
+    const category = await CategoryModel.create({ body: req.body as CreateCategory });
     res.status(201).json(category);
   }
 
   static async update(req: Request, res: Response) {
     const category = await CategoryModel.update({
       id: uuidSchema.parse(req.params.id),
-      body: req.body,
+      body: req.body as CreateCategory,
     });
     res.status(201).json(category);
   }

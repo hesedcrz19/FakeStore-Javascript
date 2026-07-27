@@ -8,11 +8,11 @@
   ],
   "scripts": {
     "test": "npm run test:api && npm run test:web",
-    "test:api": "npm run test --workspace=backend",
-    "test:web": "npm run test --workspace=frontend",
+    "test:api": "npm run test --workspace=api",
+    "test:web": "npm run test --workspace=web",
     "e2e": "node ./node_modules/@playwright/test/cli.js test",
     "e2e:ui": "node ./node_modules/@playwright/test/cli.js test --ui",
-    "dev": "concurrently \"npm run dev --workspace=frontend\" \"npm run dev --workspace=backend\"",
+    "dev": "concurrently \"npm run dev --workspace=web\" \"npm run dev --workspace=api\"",
     "lint": "eslint ."
   },
   "keywords": [],

@@ -20,7 +20,9 @@ export default [
         ...globals.node,
       },
       parserOptions: {
-        projectService: true,
+        projectService: {
+          allowDefaultProject: ['eslint.config.ts'],
+        },
       },
     },
     settings: {
@@ -31,6 +33,8 @@ export default [
     rules: {
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/require-await': 'off',
+
       'no-unused-vars': 'off',
 
       // React
@@ -41,6 +45,12 @@ export default [
       // Hooks
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
+    },
+  },
+  {
+    files: ['apps/api/src/tests/**/*'],
+    rules: {
+      '@typescript-eslint/no-floating-promises': 'off',
     },
   },
   prettier,

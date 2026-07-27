@@ -1,12 +1,12 @@
-import type { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import { ZodError } from 'zod';
 import { AppError } from '../utils/createError.js';
 
 export const errorMiddleware = (
   err: ZodError | AppError,
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   if (err instanceof ZodError) {
     return res.status(400).json({

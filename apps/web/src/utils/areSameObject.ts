@@ -1,4 +1,4 @@
-export const areSameObjects = <T extends Object>(obj1: T, obj2: T) => {
+export const areSameObjects = <T extends object>(obj1: T, obj2: T) => {
   const keys1 = Object.keys(obj1) as (keyof T)[];
   const keys2 = Object.keys(obj2) as (keyof T)[];
 

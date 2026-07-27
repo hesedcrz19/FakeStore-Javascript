@@ -1,6 +1,6 @@
 import type { CreateProduct, UpdateProduct } from './schemas/productSchema.js';
 import { categories } from '../data/categories.js';
-import { categoryNotFoundError, createError } from '../utils/createError.js';
+import { categoryNotFoundError } from '../utils/createError.js';
 
 export const updateProduct = (product: UpdateProduct): Product => {
   const {
