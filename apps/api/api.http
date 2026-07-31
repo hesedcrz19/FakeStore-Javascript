@@ -1,5 +1,5 @@
 ### Get all products
-GET http://localhost:2000/products
+GET http://localhost:3000/products
 
 ### Filter by category
 GET http://localhost:3000/products?hasPromotion=true 
@@ -12,7 +12,7 @@ GET http://localhost:3000/products/slug/sleek-olive-green-hardshell-carry-on-lug
 
 
 ### Create un producto  
-POST http://localhost:2000/products
+POST http://localhost:3000/products
 Content-Type: application/json
 
 {
@@ -82,11 +82,11 @@ GET http://localhost:2000/categories/slug/shoes/products?freeShipping=true
 
 
 ### Create a category
-POST http://localhost:2000/categories
+POST http://localhost:3000/categories
 Content-Type: application/json
 
 {
-  "name": "Shoes",
+  "name": "Food",
   "image": "https://placehold.co/600x400"
 }
 

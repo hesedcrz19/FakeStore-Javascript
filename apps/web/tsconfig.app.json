@@ -2,7 +2,8 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@trending-store/shared/*": ["../../packages/shared/src/*"]
     },
 
     "useDefineForClassFields": true,
@@ -14,12 +15,13 @@
     "skipLibCheck": true,
 
     /* Bundler mode */
+    "composite": true,
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx"
   },
+  "references": [{ "path": "../../packages/shared" }],
   "include": ["src/**/*", "tests/**/*"]
 }

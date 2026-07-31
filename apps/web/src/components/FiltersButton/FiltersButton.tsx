@@ -9,6 +9,7 @@ import { formatCategory } from '@/utils/formatCategory';
 import { FILTERS_KEYS, FILTERS_DEFAULT_VALUES } from '@/consts/filtersConsts';
 import type { Filters } from '@/types/filtersTypes';
 import type { Changers } from '@/hooks/useFiltersReducer';
+import type { FormattedCategory } from '@/types/formattedCategory';
 
 export function FiltersButton() {
   const filtersRef = useRef<HTMLDialogElement>(null);
@@ -142,11 +143,11 @@ interface CategoryRadiosProps {
 }
 
 function CategoryRadios({ changeCategory, filters }: CategoryRadiosProps) {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<FormattedCategory[]>([]);
 
   useEffect(() => {
     categoriesFetch()
-      .then((data) => setCategories(data))
+      .then((data) => setCategories(data.map((category) => formatCategory(category))))
       .catch(() => setCategories([]));
   }, []);
 

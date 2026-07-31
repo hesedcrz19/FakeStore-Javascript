@@ -4,15 +4,19 @@
   "description": "",
   "main": "index.js",
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "scripts": {
-    "test": "npm run test:api && npm run test:web",
     "test:api": "npm run test --workspace=api",
     "test:web": "npm run test --workspace=web",
-    "e2e": "node ./node_modules/@playwright/test/cli.js test",
+    "test": "npm run test:api && npm run test:web",
     "e2e:ui": "node ./node_modules/@playwright/test/cli.js test --ui",
-    "dev": "concurrently \"npm run dev --workspace=web\" \"npm run dev --workspace=api\"",
+    "e2e": "node ./node_modules/@playwright/test/cli.js test",
+    "dev:api": "npm run dev --workspace=api",
+    "dev:web": "npm run dev --workspace=web",
+    "dev:shared": "npm run dev --workspace=@trending-store/shared",
+    "dev": "concurrently \"npm run dev:shared\" \"npm run dev:api\" \"npm run dev:web\"",
     "lint": "eslint ."
   },
   "keywords": [],

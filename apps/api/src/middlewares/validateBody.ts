@@ -3,7 +3,7 @@ import type { ZodObject, ZodType } from 'zod';
 import type z from 'zod';
 
 export function validateBody<T extends ZodObject<Record<string, ZodType>>>(schema: T) {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return (req: Request, _res: Response, next: NextFunction) => {
     try {
       const validation = schema.parse(req.body);
       req.body = validation;
@@ -14,7 +14,7 @@ export function validateBody<T extends ZodObject<Record<string, ZodType>>>(schem
   };
 }
 export function validatePartialBody<T extends z.ZodObject<Record<string, ZodType>>>(schema: T) {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return (req: Request, _res: Response, next: NextFunction) => {
     try {
       const validation = schema.partial().parse(req.body);
       req.body = validation;

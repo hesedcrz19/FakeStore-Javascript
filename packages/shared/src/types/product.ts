@@ -1,13 +1,6 @@
-interface Category {
-  id: string;
-  name: string;
-  slug: string;
-  image: string;
-  updatedAt: string;
-  createdAt: string;
-}
+import type { Category } from './category.js';
 
-interface Product {
+export interface Product {
   id: string;
   title: string;
   slug: string;

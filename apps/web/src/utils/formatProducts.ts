@@ -1,6 +1,7 @@
 import { formatPrice } from './formatPrice';
 import { shortenText } from './shortenText';
 import type { FormattedProduct } from '@/types/formattedProduct';
+import type { Product } from '@trending-store/shared';
 
 export function formatProduct({
   id,

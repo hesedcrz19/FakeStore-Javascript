@@ -1,6 +1,7 @@
 import { PRODUCTS_API_URL, PRODUCTS_API_FILTERS } from '@/consts/productsApi';
 import { FILTERS_KEYS, FILTERS_DEFAULT_VALUES } from '@/consts/filtersConsts';
 import type { Filters } from '@/types/filtersTypes';
+import type { Product } from '@trending-store/shared';
 
 export async function productsFetch(filters: Filters) {
   const url = new URL(PRODUCTS_API_URL);

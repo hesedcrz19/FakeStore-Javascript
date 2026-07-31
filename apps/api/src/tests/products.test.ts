@@ -1,3 +1,4 @@
+import type { Product } from '@trending-store/shared';
 import { test, describe } from 'node:test';
 import request from 'supertest';
 import assert from 'node:assert';

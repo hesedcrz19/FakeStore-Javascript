@@ -1,3 +1,4 @@
+import { Product } from '@trending-store/shared';
 import {
   SORT_OPTIONS,
   SORT_ORDER_OPTIONS,
