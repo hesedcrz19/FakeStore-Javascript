@@ -8,11 +8,12 @@ const Page404 = lazy(() => import('./pages/Page404/Page404'));
 import ProductModal from './pages/ProductModal/ProductModal';
 
 function App() {
-  const { state } = useLocation() as { state?: { backgroundLocation?: string } };
+  const location = useLocation();
+  const state = location.state as { backgroundLocation?: Location };
 
   return (
     <>
-      <Routes location={state?.backgroundLocation || location}>
+      <Routes location={state?.backgroundLocation ?? location}>
         <Route path="/" element={<AppLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />

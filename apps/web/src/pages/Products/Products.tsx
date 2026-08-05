@@ -5,15 +5,15 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import { useProductsStore } from '@/stores/productsStore';
 import { useEffect } from 'react';
 import { setFiltersByParams } from '@/utils/setFiltersByParams';
-import { useRouter } from '@/hooks/useRoute';
 import { ProductsGrid } from '@/Layouts/ProductsGrid/ProductsGrid';
 import { FiltersProvider } from '@/context/FiltersContext';
 import { FiltersButton } from '@/components/FiltersButton/FiltersButton';
 import { areSameObjects } from '@/utils/areSameObject';
+import { useSearchParams } from 'react-router';
 
 export default function Products() {
   const { fetchFilters, fetchProducts, counter, products, loading } = useProductsStore();
-  const { searchParams } = useRouter();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     if (fetchFilters === null || !areSameObjects(fetchFilters, setFiltersByParams(searchParams))) {

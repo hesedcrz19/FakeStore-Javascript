@@ -13,7 +13,10 @@ export interface Changers {
 }
 
 export function useFiltersReducer(initialState: Filters) {
-  const [filters, dispatchFilters] = useReducer(filtersReducer, initialState);
+  const [filters, dispatchFilters] = useReducer(filtersReducer, initialState, (filters) => {
+    console.log(initialState);
+    return filters;
+  });
 
   const changeText = useCallback((value: string) => {
     dispatchFilters({

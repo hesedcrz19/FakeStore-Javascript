@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useRef } from 'react';
 
-import { useRouter } from '@/hooks/useRoute.js';
 import { useFiltersReducer, type Changers } from '@/hooks/useFiltersReducer';
 
 import { areSameObjects } from '@/utils/areSameObject';
@@ -8,6 +7,7 @@ import { setFiltersByParams } from '@/utils/setFiltersByParams';
 import { setSearchParamsByFilters } from '@/utils/setSearchParamsByFilters';
 
 import type { Filters } from '@/types/filtersTypes';
+import { useSearchParams } from 'react-router';
 
 interface FiltersContextType {
   filters: Filters;
@@ -17,7 +17,7 @@ interface FiltersContextType {
 const FiltersContext = createContext<FiltersContextType | null>(null);
 
 export function FiltersProvider({ children }: React.PropsWithChildren) {
-  const { setSearchParams, searchParams } = useRouter();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { filters, changers, newFilters } = useFiltersReducer(setFiltersByParams(searchParams));
   const previousFilters = useRef<Filters>(setFiltersByParams(searchParams));
   const filtersReadyRef = useRef<boolean>(true);
@@ -37,6 +37,7 @@ export function FiltersProvider({ children }: React.PropsWithChildren) {
     const timeout = setTimeout(() => {
       previousFilters.current = filters;
       filtersReadyRef.current = true;
+      console.log('seteando');
       setSearchParams(setSearchParamsByFilters(filters));
     }, delay);
 

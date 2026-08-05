@@ -8,7 +8,6 @@
 }
 
 .title {
-  font-family: 'Poppins', sans-serif;
   font-size: var(--h2-size);
   font-weight: 500;
   color: var(--text-color);
@@ -29,7 +28,7 @@
 }
 
 .description {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-family-2);
   font-size: var(--text-size-small);
   color: var(--text-color-sec);
   margin-bottom: 10px;
@@ -41,7 +40,7 @@
 
   .detailsItem {
     font-style: italic;
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--font-family-2);
     font-size: var(--text-size);
     color: var(--text-color-sec);
     align-items: start;
@@ -81,7 +80,6 @@
     display: flex;
     font-size: var(--h2-size);
     color: var(--text-color);
-    font-family: 'Poppins', sans-serif;
     gap: 10px;
 
     .originalPrice {
@@ -107,7 +105,6 @@
   margin-bottom: 40px;
   font-size: var(--text-size);
   color: var(--text-color-sec);
-  font-family: 'Poppins', sans-serif;
 }
 
 .footer {
@@ -116,7 +113,6 @@
 
   .addToCartButton {
     height: 35px;
-    font-family: 'Poppins', sans-serif;
     background-color: var(--primary-color);
     color: var(--accent-color);
     font-size: var(--text-size);

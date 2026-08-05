@@ -1,4 +1,4 @@
-import type { Category } from '@trending-store/shared';
+import type { Category } from '@trending-market/shared';
 import type { CreateCategory } from './schemas/categorySchema.js';
 
 export const createCategory = ({ name, image }: CreateCategory): Category => ({

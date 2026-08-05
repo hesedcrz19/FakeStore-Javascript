@@ -1,4 +1,4 @@
-import type { Category, Product } from '@trending-store/shared/types';
+import type { Category, Product } from '@trending-market/shared/types';
 import { test, describe } from 'node:test';
 import request from 'supertest';
 import assert from 'node:assert';

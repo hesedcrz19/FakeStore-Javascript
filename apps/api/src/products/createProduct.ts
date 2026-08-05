@@ -1,7 +1,7 @@
 import type { CreateProduct, UpdateProduct } from './schemas/productSchema.js';
 import { categories } from '../data/categories.js';
 import { categoryNotFoundError } from '../utils/createError.js';
-import type { Category, Product } from '@trending-store/shared';
+import type { Category, Product } from '@trending-market/shared';
 
 export const updateProduct = (product: UpdateProduct): Product => {
   const {

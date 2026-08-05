@@ -1,5 +1,5 @@
 import type { FormattedCategory } from '@/types/formattedCategory';
-import type { Category } from '@trending-store/shared';
+import type { Category } from '@trending-market/shared';
 
 export const formatCategory = (category: Category): FormattedCategory => ({
   id: category.id,

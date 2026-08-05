@@ -1,11 +1,11 @@
+import 'react-loading-skeleton/dist/skeleton.css';
 import styles from './ProductCard.module.css';
 import fallbackImage from '@/assets/images/fallback.png';
 import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
 import { Link } from 'react-router';
-import { useRouter } from '@/hooks/useRoute';
+import { useLocation, useSearchParams } from 'react-router';
 import type { FormattedProduct } from '@/types/formattedProduct';
-import type React from 'react';
+import type { SyntheticEvent } from 'react';
 
 interface ProductCardProps {
   product: Partial<FormattedProduct>;
@@ -24,7 +24,7 @@ export function ProductCard({ product, loading }: ProductCardProps) {
     category,
   } = product;
 
-  const imageError = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
+  const imageError = (event: SyntheticEvent<HTMLImageElement, Event>) => {
     const imageElement = event.target as HTMLImageElement;
     imageElement.src = fallbackImage;
   };
@@ -99,12 +99,12 @@ export function ProductCard({ product, loading }: ProductCardProps) {
 }
 
 function ProductLink({ product }: { product: Partial<FormattedProduct> }) {
-  const { location, searchParams } = useRouter();
-
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
   return (
     <Link
       to={`/products/${product.slug ?? ''}?${searchParams.toString()}`}
-      state={{ backgroundLocation: location.pathname, product: product }}
+      state={{ backgroundLocation: location, product: product }}
       className={styles.link}
       aria-label={`See more about ${product.title?.fullContent}`}
       replace

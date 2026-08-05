@@ -47,7 +47,6 @@
   }
 
   h3 {
-    font-family: 'Poppins';
     font-size: var(--text-size);
     font-weight: 500;
     margin-bottom: 5px;
@@ -89,7 +88,6 @@
       display: flex;
       gap: 10px;
       font-size: var(--h3-size);
-      font-family: 'Poppins';
 
       .originalPrice {
         position: relative;
@@ -113,7 +111,6 @@
   .shippingCost {
     color: var(--text-color-sec);
     font-size: var(--text-size-small);
-    font-family: 'Poppins';
     margin-bottom: 20px;
   }
 
@@ -122,7 +119,6 @@
     flex-direction: column;
 
     .addToCartBtn {
-      font-family: 'Poppins';
       font-size: var(--text-size-small);
       background-color: var(--primary-color);
       color: var(--accent-color);

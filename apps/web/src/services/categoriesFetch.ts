@@ -1,5 +1,5 @@
 import { CATEGORIES_API_URL } from '../consts/categoriesApi';
-import type { Category } from '@trending-store/shared';
+import type { Category } from '@trending-market/shared';
 
 export async function categoriesFetch() {
   const data = await fetch(CATEGORIES_API_URL);

@@ -1,6 +1,6 @@
 import styles from './ProductModal.module.css';
 
-import { useParams } from 'react-router';
+import { useParams, useSearchParams } from 'react-router';
 import { useModal } from '@/hooks/useModal';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router';
@@ -10,12 +10,14 @@ import { Product } from '@/components/Product/Product';
 export default function ProductModal() {
   const dialogRef = useRef(null);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { closeModal } = useModal({
     dialogRef,
     closeDelay: 200,
     initialState: true,
     onClose: () => {
-      void navigate('/products', { replace: true });
+      console.log('cerrando');
+      void navigate(`/products?${searchParams.toString()}`, { replace: true });
     },
   });
   const { slug } = useParams();

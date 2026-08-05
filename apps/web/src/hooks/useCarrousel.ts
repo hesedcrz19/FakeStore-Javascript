@@ -1,6 +1,15 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 
-export function useCarrousel() {
+export type CarrouselType = {
+  currentSlide: number;
+  moveToSlide: (slide: number) => void;
+  nextSlide: () => void;
+  prevSlide: () => void;
+  sliderRef: React.RefCallback<HTMLDivElement>;
+  slides: Element[];
+};
+
+export function useCarrousel(): CarrouselType {
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideToMoveRef = useRef<number>(null);
   const [slider, setSlider] = useState<HTMLDivElement | null>(null);
@@ -79,5 +88,3 @@ export function useCarrousel() {
 
   return { currentSlide, moveToSlide, nextSlide, prevSlide, sliderRef, slides };
 }
-
-export type CarrouselType = ReturnType<typeof useCarrousel>;

@@ -55,22 +55,17 @@ h1 {
   display: flex;
   margin-right: auto;
   align-items: center;
-  gap: 5px;
-  padding: clamp(7px, 2dvw, 10px) clamp(10px, 2dvw, 15px);
+  padding: clamp(5px, 1dvw, 8px);
   border-radius: 10px;
-  border: 1px solid var(--border-color);
   transition: 0.2s border-color;
 
-  &:hover {
-    border-color: var(--primary-color);
-    border-width: 2px;
-  }
-
   a {
+    position: relative;
     font-size: var(--text-size);
     text-decoration: none;
     color: var(--text-color);
-    padding: 0 10px;
+    padding: 3px 15px;
+    border-radius: 6px;
     transition:
       0.2s color,
       0.2s scale;
@@ -84,23 +79,17 @@ h1 {
       transition: 0.2s inset;
     }
 
-    &:hover {
-      color: var(--primary-color);
-      scale: 1.05;
-
-      &::after {
-        inset: 100% 0%;
-      }
+    .cursor {
+      position: absolute;
+      inset: 0;
+      background-color: var(--primary-color);
+      z-index: -1;
+      border-radius: inherit;
     }
-  }
-
-  a.active {
-    color: var(--primary-color);
-    scale: 1.05;
   }
 }
 
-.githubHeader {
+.gitHubHeader {
   display: flex;
 
   svg {

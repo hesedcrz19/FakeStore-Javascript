@@ -11,7 +11,7 @@
 
   h2 {
     font-size: var(--h2-size);
-    font-family: 'Montserrat';
+    font-family: var(--font-family-2);
     color: var(--text-color);
   }
 

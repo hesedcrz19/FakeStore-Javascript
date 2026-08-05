@@ -19,7 +19,7 @@
     margin-top: 5px;
   }
   .details {
-    font-family: 'Montserrat';
+    font-family: var(--font-family-2);
     font-size: var(--text-size);
     color: var(--text-color-sec);
   }

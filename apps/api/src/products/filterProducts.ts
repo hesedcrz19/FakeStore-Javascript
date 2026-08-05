@@ -1,4 +1,4 @@
-import { Product } from '@trending-store/shared';
+import { Product } from '@trending-market/shared';
 import {
   SORT_OPTIONS,
   SORT_ORDER_OPTIONS,

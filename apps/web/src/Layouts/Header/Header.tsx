@@ -1,13 +1,18 @@
 import './Header.css';
-
 import { useMatchMedia } from '@/hooks/useMatchMedia';
-
-import { Link, NavLink } from 'react-router';
-
+import { Link, NavLink, useLocation } from 'react-router';
 import { ThemeButton } from '@/components/ThemeButton/ThemeButton';
 import { MenuButton } from '@/components/MenuButton/MenuButton';
+import { motion } from 'motion/react';
+
+const links = [
+  { to: '/', label: 'Home' },
+  { to: '/products', label: 'Products' },
+  { to: '/about', label: 'About' },
+];
 
 export function Header() {
+  const location = useLocation();
   const smallScreen = useMatchMedia('(max-width:800px)');
 
   return (
@@ -16,27 +21,24 @@ export function Header() {
         {smallScreen && <MenuButton />}
 
         <h1>
-          <Link to="/">Fake Store</Link>
+          <Link to="/">Trending Market</Link>
         </h1>
 
         {/* Only in big screens */}
         {!smallScreen && (
           <>
             <nav className="header-nav">
-              <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')}>
-                Home
-              </NavLink>
-              <NavLink to="/products" className={({ isActive }) => (isActive ? 'active' : '')}>
-                Products
-              </NavLink>
-              <NavLink to="/about" className={({ isActive }) => (isActive ? 'active' : '')}>
-                About
-              </NavLink>
+              {links.map(({ to, label }) => (
+                <NavLink key={to} to={to} className={({ isActive }) => (isActive ? 'active' : '')}>
+                  {location.pathname === to && <motion.div className="cursor" layoutId="cursor" />}
+                  {label}
+                </NavLink>
+              ))}
             </nav>
 
             <a
-              aria-label="github repository"
-              className="githubHeader"
+              aria-label="gitHub repository"
+              className="gitHubHeader"
               href="https://github.com/hesedcrz19/FakeStore-Javascript"
               target="_blank"
               rel="noreferrer author"

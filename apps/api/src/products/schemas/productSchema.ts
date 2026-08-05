@@ -1,6 +1,6 @@
 import z from 'zod';
 import { PROMOTIONS } from '../../const/promotions.js';
-import type { Category } from '@trending-store/shared';
+import type { Category } from '@trending-market/shared';
 import { categories } from '@/data/categories.js';
 
 const categoriesID = categories.map((category) => category.id);

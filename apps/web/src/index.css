@@ -6,10 +6,12 @@
   --text-size: clamp(0.6rem, 3.5vw, 1rem);
   --text-size-small: clamp(0.5rem, 3vw, 0.75rem);
 
+  --font-family-1: 'Poppins', sans-serif;
+  --font-family-2: 'Montserrat';
+
   --primary-color: #7700ff;
   --accent-color: #ddd;
   --shadow: 0 0 10px #0007;
-  --loading-color: red;
 }
 :root[data-theme='dark'] {
   --skeleton-color: #333;
@@ -60,7 +62,7 @@ body {
   height: 100%;
   background-color: var(--bg-color);
   color: var(--text-color);
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-family-1);
   transition: transform 0.15s;
 }
 

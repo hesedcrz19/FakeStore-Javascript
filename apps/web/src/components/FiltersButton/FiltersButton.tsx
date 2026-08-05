@@ -151,8 +151,7 @@ function CategoryRadios({ changeCategory, filters }: CategoryRadiosProps) {
       .catch(() => setCategories([]));
   }, []);
 
-  const categoriesElements = categories.map((category) => {
-    const { id, name, slug } = formatCategory(category);
+  const categoriesElements = categories.map(({ id, name, slug }) => {
     return (
       <label className={styles.button} key={id}>
         {name}
