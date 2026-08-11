@@ -14,8 +14,8 @@
     0.2s border-color;
 
   svg {
-    height: 25px;
     fill: var(--text-color);
+    height: var(--h2-size);
     transition: 0.2s fill;
   }
 

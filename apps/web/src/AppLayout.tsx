@@ -1,8 +1,15 @@
 import { Header } from './Layouts/Header/Header';
 import { Footer } from './Layouts/Footer/Footer';
 import { Outlet } from 'react-router';
+import { useEffect } from 'react';
+import { useCategoriesStore } from './stores/categoriesStore';
 
 export function AppLayout() {
+  const { fetchCategories } = useCategoriesStore();
+  useEffect(() => {
+    void fetchCategories();
+  }, [fetchCategories]);
+
   return (
     <>
       <Header />

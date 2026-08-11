@@ -16,7 +16,6 @@ export default function ProductModal() {
     closeDelay: 200,
     initialState: true,
     onClose: () => {
-      console.log('cerrando');
       void navigate(`/products?${searchParams.toString()}`, { replace: true });
     },
   });

@@ -8,18 +8,20 @@ import {
   type SetStateAction,
 } from 'react';
 
-import { THEMES } from '@/consts/themesConst';
+import { THEMES, type Theme } from '@/consts/themesConst';
 
 import { useMatchMedia } from '@/hooks/useMatchMedia';
 
 interface ThemeContextType {
-  themeMode: string;
-  setThemeMode: Dispatch<SetStateAction<string>>;
+  themeMode: Theme;
+  setThemeMode: Dispatch<SetStateAction<Theme>>;
 }
 const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export function ThemeProvider({ children }: PropsWithChildren) {
-  const [themeMode, setThemeMode] = useState(() => localStorage.getItem('theme') ?? THEMES.SYSTEM);
+  const [themeMode, setThemeMode] = useState<Theme>(
+    () => (localStorage.getItem('theme') as Theme) ?? THEMES.SYSTEM
+  );
   const isSystemDark = useMatchMedia('(prefers-color-scheme: dark)');
 
   useEffect(() => {

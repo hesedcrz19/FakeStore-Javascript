@@ -1,120 +1,48 @@
-.button {
-  anchor-name: --button;
-  display: flex;
+.container {
   position: relative;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.8 !important;
-  }
-
-  svg {
-    width: clamp(20px, 8dvw, 35px);
-    height: auto;
-    fill: var(--text-color);
-    position: absolute;
-    top: 0;
-    transition:
-      opacity 0.3s,
-      scale 0.5s;
-  }
-
-  &.dark .sun {
-    opacity: 0;
-    scale: 0.5;
-  }
-  &.dark .desktop {
-    opacity: 0;
-    scale: 0.5;
-  }
-  &.dark .moon {
-    opacity: 1;
-    scale: 1;
-    position: relative;
-  }
-
-  &.system .moon {
-    opacity: 0;
-    scale: 0.5;
-  }
-  &.system .sun {
-    opacity: 0;
-    scale: 0.5;
-  }
-  &.system .desktop {
-    opacity: 1;
-    scale: 1;
-    position: relative;
-  }
-
-  &.light .moon {
-    opacity: 0;
-    scale: 0.5;
-  }
-  &.light .desktop {
-    opacity: 0;
-    scale: 0.5;
-  }
-  &.light .sun {
-    opacity: 1;
-    scale: 1;
-    position: relative;
-  }
+  display: flex;
 }
 
-.dialog {
+.popover {
   position: absolute;
-  position-anchor: --button;
-  background-color: transparent;
-  border: none;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-color);
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: var(--small-shadow);
 
   &.down {
-    top: calc(anchor(bottom) + 10px);
-    left: anchor(center);
-    transform: translateX(-50%);
+    top: calc(100% + 8px);
+    left: 50%;
+    translate: -50% 0;
   }
   &.up {
-    top: calc(anchor(top) + -10px);
-    left: anchor(center);
-    transform: translateX(-50%) translateY(-100%);
+    bottom: calc(100% + 8px);
+    left: 50%;
+    translate: -50% 0;
   }
 
-  &::backdrop {
-    background-color: transparent;
-  }
-
-  .dialogFlex {
+  button {
     display: flex;
-    flex-direction: column;
-    background-color: var(--bg-color-sec);
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    overflow: hidden;
+    align-items: center;
+    gap: 5px;
+    font-size: var(--text-size);
+    padding: 4px 8px;
+    color: var(--text-color);
+    cursor: pointer;
+    border: 1px solid transparent;
 
-    button {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: var(--text-size);
-      padding: 4px 8px;
-      color: var(--text-color);
-      cursor: pointer;
-      border: 1px solid transparent;
+    &:hover,
+    &:focus-visible {
+      background-color: var(--hover-color);
+      outline: none;
+    }
 
-      &:focus-visible {
-        outline: none;
-        background-color: var(--bg-color);
-        border: 1px solid var(--text-color);
-      }
-
-      &:hover {
-        background-color: var(--bg-color);
-      }
-
-      svg {
-        width: 28px;
-        fill: var(--text-color);
-      }
+    svg {
+      height: var(--h3-size);
+      width: auto;
+      fill: var(--text-color);
     }
   }
 }

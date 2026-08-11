@@ -37,7 +37,6 @@ export function FiltersProvider({ children }: React.PropsWithChildren) {
     const timeout = setTimeout(() => {
       previousFilters.current = filters;
       filtersReadyRef.current = true;
-      console.log('seteando');
       setSearchParams(setSearchParamsByFilters(filters));
     }, delay);
 
