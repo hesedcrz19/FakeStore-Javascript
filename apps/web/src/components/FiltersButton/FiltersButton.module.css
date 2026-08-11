@@ -39,14 +39,11 @@
   box-shadow: var(--shadow);
 
   &::-webkit-scrollbar {
-    display: none;
+    width: 5px;
   }
-
-  &[data-open='true'] {
-    animation: open-right-dialog 0.15s both;
-  }
-  &[data-open='false'] {
-    animation: close-right-dialog 0.15s both;
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--bg-color-sec);
+    border-radius: 0px;
   }
 
   &::backdrop {
@@ -247,24 +244,5 @@
       0.2s scale,
       0.2s color,
       0.2s transform;
-  }
-}
-
-@keyframes open-right-dialog {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(-100%);
-  }
-}
-@keyframes close-right-dialog {
-  from {
-    transform: translateX(-100%);
-  }
-
-  to {
-    transform: translateX(0);
   }
 }

@@ -108,7 +108,7 @@ export function ThemeButton({
           animate={{ scale: 1 }}
           exit={{ scale: 0 }}
           transition={{ duration: 0.2 }}
-          className={buttonClassName}
+          className={`${styles.button} ${buttonClassName}`}
           onClick={(e) => {
             e.stopPropagation();
             setPopoverOpen((prev) => !prev);

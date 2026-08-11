@@ -1,29 +1,49 @@
 import styles from './FiltersButton.module.css';
-
 import { useRef, useState, useEffect } from 'react';
 import { useModal } from '@/hooks/useModal';
 import { useFilters } from '@/context/FiltersContext';
-
 import { categoriesFetch } from '@/services/categoriesFetch';
 import { formatCategory } from '@/utils/formatCategory';
 import { FILTERS_KEYS, FILTERS_DEFAULT_VALUES } from '@/consts/filtersConsts';
 import type { Filters } from '@/types/filtersTypes';
 import type { Changers } from '@/hooks/useFiltersReducer';
 import type { FormattedCategory } from '@/types/formattedCategory';
+import { motion, type Variants } from 'motion/react';
+
+const dialogVariants: Variants = {
+  close: {
+    x: 0,
+    transition: {
+      duration: 0.2,
+      ease: 'easeOut',
+    },
+  },
+  open: {
+    x: '-100%',
+    transition: {
+      duration: 0.2,
+      ease: 'easeOut',
+    },
+  },
+};
 
 export function FiltersButton() {
   const filtersRef = useRef<HTMLDialogElement>(null);
-  const { openModal, closeModal } = useModal({
+  const { isOpening, open, close, startClosing, startOpening } = useModal({
     dialogRef: filtersRef,
-    hiddenScrollbar: false,
-    closeDelay: 150,
+    shouldHideScrollbar: false,
+    autoClose: true,
   });
   const { filters, changers } = useFilters();
   const { changeText, changeMinPrice, changeMaxPrice, changeCategory } = changers;
 
+  useEffect(() => {
+    if (isOpening) open();
+  }, [isOpening, close, open]);
+
   return (
     <>
-      <button className={styles.filtersButton} aria-label="open filters" onClick={openModal}>
+      <button className={styles.filtersButton} aria-label="Open filters" onClick={startOpening}>
         Filters
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -36,11 +56,20 @@ export function FiltersButton() {
         </svg>
       </button>
 
-      <dialog className={styles.filtersDialog} data-direction="right" ref={filtersRef}>
+      <motion.dialog
+        className={styles.filtersDialog}
+        variants={dialogVariants}
+        initial={isOpening ? 'open' : 'close'}
+        animate={isOpening ? 'open' : 'close'}
+        onAnimationComplete={(variant) => {
+          if (variant === 'close') close();
+        }}
+        ref={filtersRef}
+      >
         <div className={styles.filtersDialogFlex}>
           <button
             className={styles.filtersDialogClose}
-            onClick={closeModal}
+            onClick={startClosing}
             aria-label="close filters"
           >
             <svg
@@ -71,7 +100,7 @@ export function FiltersButton() {
             </fieldset>
           </form>
         </div>
-      </dialog>
+      </motion.dialog>
     </>
   );
 }

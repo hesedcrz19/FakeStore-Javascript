@@ -25,21 +25,14 @@
   box-shadow: var(--shadow);
   overflow-x: hidden;
 
-  &[data-open='true'] {
-    animation: open-left-dialog 0.15s both ease-out;
-  }
-  &[data-open='false'] {
-    animation: close-left-dialog 0.15s both;
-  }
-
   &::backdrop {
     backdrop-filter: blur(1px);
     background-color: #0008;
   }
+
   &::-webkit-scrollbar {
     width: 5px;
   }
-
   &::-webkit-scrollbar-thumb {
     background-color: var(--bg-color-sec);
     border-radius: 0px;
@@ -141,7 +134,8 @@
       margin-top: auto;
       gap: 10px;
 
-      .themeContainer {
+      li {
+        list-style: none;
         flex: 1;
       }
 
@@ -149,11 +143,11 @@
       .theme,
       .account,
       .cart {
-        flex: 1;
         display: flex;
         justify-content: center;
         align-items: center;
         aspect-ratio: 1/1;
+        width: 100%;
         border-radius: 5px;
         background-color: var(--bg-color-sec);
         cursor: pointer;
@@ -172,24 +166,5 @@
         }
       }
     }
-  }
-}
-
-@keyframes open-left-dialog {
-  from {
-    transform: translateX(-100%);
-  }
-
-  to {
-    transform: translateX(0);
-  }
-}
-@keyframes close-left-dialog {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(-100%);
   }
 }

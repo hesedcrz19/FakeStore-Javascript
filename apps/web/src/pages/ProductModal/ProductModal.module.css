@@ -25,79 +25,15 @@
     }
   }
 
-  &[data-open='true']::backdrop {
-    height: 100lvh;
-    animation: openBackdrop 0.2s both;
-  }
-  &[data-open='false']::backdrop {
-    animation: closeBackdrop 0.2s both;
-  }
-
-  &[data-open='true'] {
-    animation: openDialog 0.2s both;
-  }
-
-  &[data-open='false'] {
-    animation: closeDialog 0.2s both;
-  }
-
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
   &::-webkit-scrollbar-track-piece {
     margin: 10px;
   }
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
   &::-webkit-scrollbar-thumb {
-    background-color: var(--primary-color);
-    border-radius: 10px;
-  }
-}
-
-@media (pointer: coarse) {
-  .modal {
-    scrollbar-width: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
-}
-
-@keyframes openDialog {
-  from {
-    transform: scale(0.5);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-@keyframes closeDialog {
-  from {
-    transform: scale(1);
-    opacity: 1;
-  }
-  to {
-    transform: scale(0.5);
-    opacity: 0;
-  }
-}
-
-@keyframes openBackdrop {
-  from {
-    background-color: transparent;
-  }
-  to {
-    background-color: #0005;
-  }
-}
-@keyframes closeBackdrop {
-  from {
-    background-color: #0005;
-  }
-  to {
-    background-color: transparent;
+    background-color: var(--bg-color-sec);
+    border-radius: 0px;
   }
 }
 
