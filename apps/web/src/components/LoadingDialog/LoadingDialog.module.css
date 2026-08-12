@@ -1,0 +1,42 @@
+.dialog {
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  width: min(400px, 70dvw);
+  padding: 30px 15px;
+  padding-bottom: 50px;
+  text-wrap: balance;
+  z-index: 999;
+  border: none;
+  background-color: var(--bg-color);
+  box-shadow: var(--shadow);
+  font-size: var(--h3-size);
+  align-content: center;
+  text-align: center;
+  color: var(--text-color);
+  border-radius: 10px;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 50px;
+  }
+  button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    svg {
+      fill: var(--text-color);
+    }
+  }
+
+  &::backdrop {
+    background-color: #0008;
+  }
+}

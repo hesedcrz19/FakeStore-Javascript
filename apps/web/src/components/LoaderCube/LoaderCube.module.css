@@ -1,22 +1,20 @@
 .loadingScreen {
+  --width: clamp(80px, 20dvw, 100px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 25px;
   position: relative;
-  width: 100%;
-  margin: auto;
-  height: 100%;
+  height: var(--width);
 
   h2 {
-    font-size: var(--h2-size);
+    font-size: var(--h3-size);
     font-family: var(--font-family-2);
     color: var(--text-color);
   }
 
   .cube {
-    --width: clamp(100px, 25dvw, 150px);
     width: var(--width);
     height: var(--width);
     aspect-ratio: 1/1;

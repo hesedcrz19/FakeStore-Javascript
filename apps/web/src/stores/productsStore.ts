@@ -5,9 +5,10 @@ import { formatProduct } from '@/utils/formatProducts';
 import type { Filters } from '@/types/filtersTypes';
 import type { FormattedProduct } from '@/types/formattedProduct';
 
-interface ProductStore {
+interface ProductsStore {
   products: FormattedProduct[];
   loading: boolean;
+  longLoading: boolean;
   error: null | true;
   fetchFilters: Filters | null;
   productsLength: () => number;
@@ -15,9 +16,10 @@ interface ProductStore {
   fetchProducts: (filters: Filters) => Promise<void>;
 }
 
-export const useProductsStore = create<ProductStore>((set, get) => ({
+export const useProductsStore = create<ProductsStore>((set, get) => ({
   products: [],
   loading: true,
+  longLoading: false,
   error: null,
   fetchFilters: null,
 
@@ -33,13 +35,19 @@ export const useProductsStore = create<ProductStore>((set, get) => ({
   },
   fetchProducts: async (filters: Filters) => {
     set({ loading: true, error: null, fetchFilters: filters });
+
+    const timeout = setTimeout(() => {
+      set({ longLoading: true });
+    }, 3000);
+
     try {
       const products = await productsFetch(filters);
       set({ products: products.map((p) => formatProduct(p)), error: null });
     } catch {
       set({ products: [], error: true });
     } finally {
-      set({ loading: false });
+      clearTimeout(timeout);
+      set({ loading: false, longLoading: false });
     }
   },
 }));
