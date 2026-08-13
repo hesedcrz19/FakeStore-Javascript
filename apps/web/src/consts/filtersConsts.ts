@@ -1,7 +1,7 @@
 export const FILTERS_KEYS = {
   SEARCH: 'search',
-  MIN_PRICE: 'minPrice',
-  MAX_PRICE: 'maxPrice',
+  MIN_PRICE: 'min_price',
+  MAX_PRICE: 'max_price',
   CATEGORY: 'category',
 } as const;
 export const FILTERS_DEFAULT_VALUES = {

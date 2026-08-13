@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { FiltersButton } from '@/components/FiltersButton/FiltersButton';
 import { FiltersProvider } from '@/context/FiltersContext';
 import { MemoryRouter } from 'react-router';
+import { FILTERS_KEYS } from '@/consts/filtersConsts';
 
 const setup = ({ search }: { search?: string } = {}) =>
   render(
@@ -34,7 +35,7 @@ describe('filters test', () => {
   });
 
   it('Should change the search input', async () => {
-    setup({ search: '?search=Red' });
+    setup({ search: `?${FILTERS_KEYS.SEARCH}=Red` });
     const user = userEvent.setup();
 
     await user.click(screen.getByRole('button', { name: /filters/i }));
@@ -49,7 +50,7 @@ describe('filters test', () => {
   });
 
   it('Should change de min price and max price input', async () => {
-    setup({ search: '?minPrice=1&maxPrice=10' });
+    setup({ search: `?${FILTERS_KEYS.MIN_PRICE}=1&${FILTERS_KEYS.MAX_PRICE}=10` });
     const user = userEvent.setup();
 
     await user.click(screen.getByRole('button', { name: /filters/i }));
@@ -65,7 +66,7 @@ describe('filters test', () => {
   });
 
   it('Should checked the furniture category', async () => {
-    setup({ search: '?category=shoes' });
+    setup({ search: `?${FILTERS_KEYS.CATEGORY}=shoes` });
     const user = userEvent.setup();
 
     await user.click(screen.getByRole('button', { name: /filters/i }));

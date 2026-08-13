@@ -57,7 +57,7 @@ const setup = ({
 }: { products?: FormattedProduct[]; loading?: boolean } = {}) =>
   render(
     <MemoryRouter>
-      <ProductsGrid products={products} loading={loading} />
+      <ProductsGrid products={products} loading={loading} error={null} />
     </MemoryRouter>
   );
 

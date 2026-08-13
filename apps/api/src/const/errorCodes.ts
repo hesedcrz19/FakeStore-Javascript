@@ -4,6 +4,7 @@ const ERROR_CODES = {
   TITLE_ALREADY_EXIST: 'title_already_exist',
   CATEGORY_NOT_FOUND: 'category_not_found',
   NAME_ALREADY_EXIST: 'name_already_exist',
+  ERROR_404: 'error_404',
 } as const;
 
 export default ERROR_CODES;

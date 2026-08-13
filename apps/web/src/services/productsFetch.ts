@@ -1,7 +1,7 @@
 import { PRODUCTS_API_URL, PRODUCTS_API_FILTERS } from '@/consts/productsApi';
 import { FILTERS_KEYS, FILTERS_DEFAULT_VALUES } from '@/consts/filtersConsts';
 import type { Filters } from '@/types/filtersTypes';
-import type { Product } from '@trending-market/shared';
+import { AppError, type Product } from '@trending-market/shared';
 
 export async function productsFetch(filters: Filters) {
   const url = new URL(PRODUCTS_API_URL);
@@ -12,9 +12,10 @@ export async function productsFetch(filters: Filters) {
     }
   }
 
-  console.log(url);
-
-  const data = await fetch(url);
-  if (!data.ok) throw new Error('A error ocurre fetching the products');
-  return (await data.json()) as Promise<Product[]>;
+  const response = await fetch(url);
+  if (!response.ok) {
+    const error = (await response.json()) as AppError;
+    throw new AppError(error);
+  }
+  return (await response.json()) as Product[];
 }

@@ -1,24 +1,9 @@
 import { createProduct, updateProduct } from './createProduct.js';
 import { filterProducts } from './filterProducts.js';
-import { createError } from '../utils/createError.js';
-import ERROR_CODES from '../const/errorCodes.js';
+import { titleAlreadyExistError, productNotFoundError } from '../utils/createError.js';
 import { products } from '../data/products.js';
 import type { ProductQuerySchema } from './schemas/productQuerySchema.js';
 import type { CreateProduct, UpdateProduct } from './schemas/productSchema.js';
-
-const titleAlreadyExistError = () =>
-  createError({
-    code: ERROR_CODES.TITLE_ALREADY_EXIST,
-    message: 'The product title already exist',
-    status: 400,
-  });
-
-const productNotFoundError = () =>
-  createError({
-    code: ERROR_CODES.PRODUCT_NOT_FOUND,
-    message: 'Product not found',
-    status: 404,
-  });
 
 export class ProductModel {
   static async getAll(filters: ProductQuerySchema) {

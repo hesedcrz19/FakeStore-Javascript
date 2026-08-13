@@ -4,12 +4,13 @@ import { productsFetch } from '@/services/productsFetch.js';
 import { formatProduct } from '@/utils/formatProducts';
 import type { Filters } from '@/types/filtersTypes';
 import type { FormattedProduct } from '@/types/formattedProduct';
+import { AppError } from '@trending-market/shared';
 
 interface ProductsStore {
   products: FormattedProduct[];
   loading: boolean;
   longLoading: boolean;
-  error: null | true;
+  error: null | AppError | Error;
   fetchFilters: Filters | null;
   productsLength: () => number;
   counter: () => string | null;
@@ -25,26 +26,30 @@ export const useProductsStore = create<ProductsStore>((set, get) => ({
 
   productsLength: () => get().products.length,
   counter: () => {
-    const { loading, error, productsLength, fetchFilters } = get();
+    const { loading, productsLength, fetchFilters } = get();
     const category =
       fetchFilters?.[FILTERS_KEYS.CATEGORY] === FILTERS_DEFAULT_VALUES[FILTERS_KEYS.CATEGORY]
         ? 'products'
         : fetchFilters?.[FILTERS_KEYS.CATEGORY];
     const categoryCapitalized = category?.charAt(0).toUpperCase().concat(category?.slice(1));
-    return loading ? null : error ? '' : `${categoryCapitalized} (${productsLength()})`;
+    return loading ? null : `${categoryCapitalized} (${productsLength()})`;
   },
   fetchProducts: async (filters: Filters) => {
     set({ loading: true, error: null, fetchFilters: filters });
 
     const timeout = setTimeout(() => {
       set({ longLoading: true });
-    }, 3000);
+    }, 5000);
 
     try {
       const products = await productsFetch(filters);
       set({ products: products.map((p) => formatProduct(p)), error: null });
-    } catch {
-      set({ products: [], error: true });
+    } catch (e) {
+      if (e instanceof Error || e instanceof AppError) {
+        set({ products: [], error: e });
+      } else {
+        set({ products: [], error: new Error('Error fetching the products') });
+      }
     } finally {
       clearTimeout(timeout);
       set({ loading: false, longLoading: false });

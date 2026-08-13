@@ -38,7 +38,7 @@ const linksVariants: Variants = {
     x: 0,
     opacity: 1,
     transition: {
-      duration: 0.06,
+      duration: 0.1,
       ease: 'easeOut',
     },
   },
@@ -71,7 +71,7 @@ const linksListVariants: Variants = {
   },
   open: {
     transition: {
-      delayChildren: stagger(0.06, { startDelay: 0.2 }),
+      delayChildren: stagger(0.1, { startDelay: 0.2 }),
     },
   },
 };
@@ -194,19 +194,19 @@ export function MenuButton() {
                 </NavLink>
               </motion.li>
             </ul>
-            <hr />
-            <ul>
+            <motion.hr variants={linksVariants} />
+            <motion.ul variants={linksVariants}>
               {categories.map((cat) => (
-                <motion.li variants={linksVariants} key={cat.id}>
+                <li key={cat.id}>
                   <CategoryLink
                     to={{ pathname: '/products', search: `?${FILTERS_KEYS.CATEGORY}=${cat.slug}` }}
                     onClick={() => startClosing()}
                   >
                     • {cat.name}
                   </CategoryLink>
-                </motion.li>
+                </li>
               ))}
-            </ul>
+            </motion.ul>
           </motion.nav>
 
           <motion.ul className={styles.options} variants={optionsListVariants}>

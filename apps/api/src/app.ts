@@ -3,6 +3,7 @@ import { corsMiddleware } from './middlewares/cors.js';
 import { productsRouter } from './products/product.routes.js';
 import { categoriesRouter } from './categories/category.routes.js';
 import { errorMiddleware } from './middlewares/errorMiddleware.js';
+import { error404 } from './utils/createError.js';
 
 const app = express();
 app.disable('x-powered-by');
@@ -12,14 +13,12 @@ app.use(corsMiddleware());
 app.use('/categories', categoriesRouter);
 app.use('/products', productsRouter);
 
-app.use((req, res) => {
-  const url = req.url;
+app.use((_req, res) => {
+  const { code, message, status } = error404();
   res.status(404).json({
-    error: {
-      code: 'error_404',
-      message: 'Error 404',
-      url,
-    },
+    message,
+    code,
+    status,
   });
 });
 

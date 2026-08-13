@@ -7,72 +7,86 @@ export const productQuerySchema = z.object({
     .number('The price must be a number')
     .positive('The price must be positive')
     .transform((val) => Number(val.toFixed(2)))
-    .optional(),
+    .optional()
+    .catch(undefined),
   minPrice: z.coerce
-    .number('The minPrice must be a number')
-    .positive('The minPrice must be positive')
+    .number('The min price must be a number')
+    .positive('The min price must be positive')
     .transform((val) => Number(val.toFixed(2)))
-    .optional(),
+    .optional()
+    .catch(undefined),
   maxPrice: z.coerce
-    .number('The maxPrice must be a number')
-    .positive('The maxPrice must be positive')
+    .number('The max price must be a number')
+    .positive('The max price must be positive')
     .transform((val) => Number(val.toFixed(2)))
-    .optional(),
-  categoryId: z.uuid('The categoryId must be a valid UUID').optional(),
+    .optional()
+    .catch(undefined),
+  categoryId: z.uuid('The category id must be a valid UUID').optional(),
   categorySlug: z
-    .string('The categorySlug must be a string')
-    .regex(/^[a-z0-9-]+$/, 'The categorySlug must be a valid slug')
-    .optional(),
+    .string('The category slug must be a string')
+    .regex(/^[a-z0-9-]+$/, 'The category slug must be a valid slug')
+    .optional()
+    .catch(undefined),
   sortBy: z
     .enum(Object.values(SORT_OPTIONS), {
-      error: 'The sortBy must be either "price", "title", "rating", or "newest"',
+      error: 'The sort by must be either "price", "title", "rating", or "newest"',
     })
-    .optional(),
+    .optional()
+    .catch(undefined),
   sortOrder: z
     .enum([SORT_ORDER_OPTIONS.ASC, SORT_ORDER_OPTIONS.DESC], {
-      error: 'The sortOrder must be either "asc" or "desc"',
+      error: 'The sort order must be either "asc" or "desc"',
     })
-    .optional(),
+    .optional()
+    .catch(undefined),
   discountPercentage: z.coerce
-    .number('The discountPercentage must be a number')
-    .min(0, 'The discountPercentage must be at least 0')
-    .max(100, 'The discountPercentage must be at most 100')
+    .number('The discount percentage must be a number')
+    .min(0, 'The discount percentage must be at least 0')
+    .max(100, 'The discount percentage must be at most 100')
     .transform((val) => Number(val.toFixed(2)))
-    .optional(),
+    .optional()
+    .catch(undefined),
   minDiscountPercentage: z.coerce
-    .number('The minDiscountPercentage must be a number')
-    .min(0, 'The minDiscountPercentage must be at least 0')
-    .max(100, 'The minDiscountPercentage must be at most 100')
+    .number('The min discount percentage must be a number')
+    .min(0, 'The min discount percentage must be at least 0')
+    .max(100, 'The min discount percentage must be at most 100')
     .transform((val) => Number(val.toFixed(2)))
-    .optional(),
+    .optional()
+    .catch(undefined),
   maxDiscountPercentage: z.coerce
-    .number('The maxDiscountPercentage must be a number')
-    .min(0, 'The maxDiscountPercentage must be at least 0')
-    .max(100, 'The maxDiscountPercentage must be at most 100')
+    .number('The max discount percentage must be a number')
+    .min(0, 'The max discount percentage must be at least 0')
+    .max(100, 'The max discount percentage must be at most 100')
     .transform((val) => Number(val.toFixed(2)))
-    .optional(),
+    .optional()
+    .catch(undefined),
   hasDiscount: z
-    .enum(['true', 'false'], { error: 'The hasDiscount must be either "true" or "false"' })
+    .enum(['true', 'false'], { error: 'The has discount must be either "true" or "false"' })
     .transform((val) => val === 'true')
-    .optional(),
+    .optional()
+    .catch(undefined),
   hasPromotion: z
-    .enum(['true', 'false'], { error: 'The hasPromotion must be either "true" or "false"' })
+    .enum(['true', 'false'], { error: 'The has promotion must be either "true" or "false"' })
     .transform((val) => val === 'true')
-    .optional(),
+    .optional()
+    .catch(undefined),
   freeShipping: z
-    .enum(['true', 'false'], { error: 'The freeShipping must be either "true" or "false"' })
+    .enum(['true', 'false'], { error: 'The free shipping must be either "true" or "false"' })
     .transform((val) => val === 'true')
-    .optional(),
+    .optional()
+    .catch(undefined),
   limit: z.coerce
     .number('The limit must be a number')
     .positive('The limit must be positive')
     .int('The limit must be an integer')
-    .optional(),
+    .optional()
+    .catch(undefined),
   offset: z.coerce
     .number('The offset must be a number')
     .nonnegative('The offset must be non-negative')
     .int('The offset must be an integer')
-    .optional(),
+    .optional()
+    .catch(undefined),
 });
 
 export type ProductQuerySchema = z.infer<typeof productQuerySchema>;

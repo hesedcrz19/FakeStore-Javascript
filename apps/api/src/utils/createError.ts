@@ -1,14 +1,5 @@
 import ERROR_CODES from '../const/errorCodes.js';
-
-export class AppError extends Error {
-  public status: number;
-  public code: string;
-  constructor(message: string, status: number, code: string) {
-    super(message);
-    this.status = status;
-    this.code = code;
-  }
-}
+import { AppError } from '@trending-market/shared';
 
 export const createError = ({
   status,
@@ -18,7 +9,7 @@ export const createError = ({
   status: number;
   code: string;
   message: string;
-}) => new AppError(message, status, code);
+}) => new AppError({ message, status, code });
 
 export const categoryNotFoundError = () =>
   createError({
@@ -32,4 +23,25 @@ export const categoryNameExistsError = () =>
     code: ERROR_CODES.NAME_ALREADY_EXIST,
     message: 'The category name already exists',
     status: 400,
+  });
+
+export const titleAlreadyExistError = () =>
+  createError({
+    code: ERROR_CODES.TITLE_ALREADY_EXIST,
+    message: 'The product title already exist',
+    status: 400,
+  });
+
+export const productNotFoundError = () =>
+  createError({
+    code: ERROR_CODES.PRODUCT_NOT_FOUND,
+    message: 'Product not found',
+    status: 404,
+  });
+
+export const error404 = () =>
+  createError({
+    code: ERROR_CODES.ERROR_404,
+    message: 'Error 404',
+    status: 404,
   });

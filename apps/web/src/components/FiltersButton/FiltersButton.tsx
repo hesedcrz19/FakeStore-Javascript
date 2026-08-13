@@ -1,14 +1,12 @@
 import styles from './FiltersButton.module.css';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { useModal } from '@/hooks/useModal';
 import { useFilters } from '@/context/FiltersContext';
-import { categoriesFetch } from '@/services/categoriesFetch';
-import { formatCategory } from '@/utils/formatCategory';
 import { FILTERS_KEYS, FILTERS_DEFAULT_VALUES } from '@/consts/filtersConsts';
 import type { Filters } from '@/types/filtersTypes';
 import type { Changers } from '@/hooks/useFiltersReducer';
-import type { FormattedCategory } from '@/types/formattedCategory';
 import { motion, type Variants } from 'motion/react';
+import { useCategoriesStore } from '@/stores/categoriesStore';
 
 const dialogVariants: Variants = {
   close: {
@@ -117,7 +115,7 @@ function SearchInput({ changeText, filters }: SearchInputProps) {
       aria-label="Search product"
       type="search"
       placeholder="Search..."
-      name="search"
+      name={FILTERS_KEYS.SEARCH}
       value={filters[FILTERS_KEYS.SEARCH]}
       onChange={(event) => changeText(event.target.value)}
     />
@@ -138,7 +136,7 @@ function MinPriceInput({ changeMinPrice, filters }: MinPriceInputProps) {
         inputMode="numeric"
         min="0"
         value={filters[FILTERS_KEYS.MIN_PRICE]}
-        name="minPrice"
+        name={FILTERS_KEYS.MIN_PRICE}
         onChange={(event) => changeMinPrice(event.target.value)}
       />
     </label>
@@ -159,7 +157,7 @@ function MaxPriceInput({ changeMaxPrice, filters }: MaxPriceInputProps) {
         inputMode="numeric"
         min="0"
         value={filters[FILTERS_KEYS.MAX_PRICE]}
-        name="maxPrice"
+        name={FILTERS_KEYS.MAX_PRICE}
         onChange={(event) => changeMaxPrice(event.target.value)}
       />
     </label>
@@ -172,13 +170,7 @@ interface CategoryRadiosProps {
 }
 
 function CategoryRadios({ changeCategory, filters }: CategoryRadiosProps) {
-  const [categories, setCategories] = useState<FormattedCategory[]>([]);
-
-  useEffect(() => {
-    categoriesFetch()
-      .then((data) => setCategories(data.map((category) => formatCategory(category))))
-      .catch(() => setCategories([]));
-  }, []);
+  const categories = useCategoriesStore((state) => state.categories);
 
   const categoriesElements = categories.map(({ id, name, slug }) => {
     return (
@@ -186,7 +178,7 @@ function CategoryRadios({ changeCategory, filters }: CategoryRadiosProps) {
         {name}
         <input
           type="radio"
-          name="category"
+          name={FILTERS_KEYS.CATEGORY}
           value={slug}
           checked={filters[FILTERS_KEYS.CATEGORY] === slug}
           onChange={() => changeCategory(slug)}

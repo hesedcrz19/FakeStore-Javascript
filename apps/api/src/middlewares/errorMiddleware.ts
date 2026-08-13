@@ -1,27 +1,32 @@
 import type { NextFunction, Request, Response } from 'express';
 import { ZodError } from 'zod';
-import { AppError } from '../utils/createError.js';
+import { AppError } from '@trending-market/shared';
 
 export const errorMiddleware = (
-  err: ZodError | AppError,
+  err: ZodError | AppError | Error,
   _req: Request,
   res: Response,
   _next: NextFunction
 ) => {
   if (err instanceof ZodError) {
-    return res.status(400).json({
-      error: {
-        code: 'type_error',
-        message: 'Type error',
-        errors: err.issues,
-      },
+    const response: AppError = new AppError({
+      message: 'Type error',
+      status: 400,
+      code: 'type_error',
+      issues: err.issues,
+    });
+    return res.status(400).json(response);
+  }
+
+  if (err instanceof AppError) {
+    return res.status(err.status || 500).json({
+      message: err.message,
+      status: err.status,
+      code: err.code,
     });
   }
 
-  res.status(err.status || 500).json({
-    error: {
-      code: err.code || 'internal_error',
-      message: err.message || 'Internal error',
-    },
-  });
+  res
+    .status(500)
+    .json(new AppError({ message: 'Internal error', status: 500, code: 'internal_error' }));
 };

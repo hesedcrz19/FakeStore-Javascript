@@ -4,6 +4,7 @@ import request from 'supertest';
 import assert from 'node:assert';
 import app from '../app.js';
 import ERROR_CODES from '../const/errorCodes.js';
+import { AppError } from '@trending-market/shared';
 
 interface RequestResponse<T> {
   status: number;
@@ -70,9 +71,9 @@ describe('Categories', () => {
     test('Should fail creating a new category', async () => {
       const { status, body } = (await request(app).post('/categories').send({
         name: 'New Category',
-      })) as RequestResponse<{ error: { code: string } }>;
+      })) as RequestResponse<AppError>;
       assert.strictEqual(status, 400, 'Should return a 400 status');
-      assert.strictEqual(body?.error.code, ERROR_CODES.TYPE_ERROR, 'Should type error code');
+      assert.strictEqual(body?.code, ERROR_CODES.TYPE_ERROR, 'Should type error code');
     });
   });
 
@@ -91,9 +92,9 @@ describe('Categories', () => {
       const { status, body } = (await request(app).patch(`/categories/${id}`).send({
         name,
         image: 'das',
-      })) as RequestResponse<{ error: { code: string } }>;
+      })) as RequestResponse<AppError>;
       assert.strictEqual(status, 400, 'Should return a 400 status');
-      assert.strictEqual(body?.error.code, ERROR_CODES.TYPE_ERROR, 'Should type error code');
+      assert.strictEqual(body?.code, ERROR_CODES.TYPE_ERROR, 'Should type error code');
     });
   });
 
@@ -112,9 +113,9 @@ describe('Categories', () => {
     test('Should fail updating a new category', async () => {
       const { status, body } = (await request(app).put(`/categories/${id}`).send({
         name,
-      })) as RequestResponse<{ error: { code: string } }>;
+      })) as RequestResponse<AppError>;
       assert.strictEqual(status, 400, 'Should return a 400 status');
-      assert.strictEqual(body?.error.code, ERROR_CODES.TYPE_ERROR, 'Should type error code');
+      assert.strictEqual(body?.code, ERROR_CODES.TYPE_ERROR, 'Should type error code');
     });
   });
 
@@ -128,10 +129,10 @@ describe('Categories', () => {
     test('Should fail deleting a non-existent category', async () => {
       const { status, body } = (await request(app)
         .delete(`/categories/${id}`)
-        .send()) as RequestResponse<{ error: { code: string } }>;
+        .send()) as RequestResponse<AppError>;
       assert.strictEqual(status, 404, 'Should return a 404 status');
       assert.strictEqual(
-        body?.error.code,
+        body?.code,
         ERROR_CODES.CATEGORY_NOT_FOUND,
         'Should return a category not found error code'
       );

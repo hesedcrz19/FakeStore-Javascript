@@ -9,11 +9,12 @@
 
 .productsHeader {
   display: flex;
-  justify-content: space-between;
+  justify-content: end;
   align-items: center;
   flex-wrap: wrap;
 
   h2 {
     font-size: var(--h2-size);
+    margin-right: auto;
   }
 }

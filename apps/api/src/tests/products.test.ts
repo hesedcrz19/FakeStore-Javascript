@@ -1,10 +1,10 @@
-import type { Product } from '@trending-market/shared';
+import type { AppError, Product } from '@trending-market/shared';
 import { test, describe } from 'node:test';
 import request from 'supertest';
 import assert from 'node:assert';
 import app from '../app.js';
 import ERROR_CODES from '../const/errorCodes.js';
-import { ZodIssue } from 'zod/v3';
+import { z } from 'zod';
 
 interface RequestResponse<T> {
   status: number;
@@ -173,15 +173,11 @@ describe('Products', () => {
           shippingCost: 0,
           categoryId: 'c72a053b-a33b-41aa-9e17-008651ee5f55',
           images: ['https://placehold.co/600x400'],
-        })) as RequestResponse<{ error: { code: string; errors: ZodIssue[] } }>;
+        })) as RequestResponse<AppError>;
       assert.strictEqual(status, 400, 'Should return a 400 status');
-      assert.strictEqual(
-        body?.error.code,
-        ERROR_CODES.TYPE_ERROR,
-        'Should return a type error code'
-      );
+      assert.strictEqual(body?.code, ERROR_CODES.TYPE_ERROR, 'Should return a type error code');
       assert.ok(
-        body?.error.errors.some((val: ZodIssue) => val.path.includes('title')),
+        body?.issues?.some((val: z.core.$ZodIssue) => val.path.includes('title')),
         'The errors should include a title error'
       );
     });
@@ -204,13 +200,9 @@ describe('Products', () => {
     test('Should return an error patching a product', async () => {
       const { status, body } = (await request(app)
         .patch('/products/6f76662d-a667-431b-a441-187c6cb37c21')
-        .send({ originalPrice: '140' })) as RequestResponse<{ error: { code: string } }>;
+        .send({ originalPrice: '140' })) as RequestResponse<AppError>;
       assert.strictEqual(status, 400, 'Should return a 400 status');
-      assert.strictEqual(
-        body?.error.code,
-        ERROR_CODES.TYPE_ERROR,
-        'Should return a type error code'
-      );
+      assert.strictEqual(body?.code, ERROR_CODES.TYPE_ERROR, 'Should return a type error code');
     });
   });
 
@@ -244,13 +236,9 @@ describe('Products', () => {
           discountPercentage: 0,
           rating: 5,
           categoryId: 'c72a053b-a33b-41aa-9e17-008651ee5f55',
-        })) as RequestResponse<{ error: { code: string } }>;
+        })) as RequestResponse<AppError>;
       assert.strictEqual(status, 400, 'Should return 400 status');
-      assert.strictEqual(
-        body?.error.code,
-        ERROR_CODES.TYPE_ERROR,
-        'Should return a type error code'
-      );
+      assert.strictEqual(body?.code, ERROR_CODES.TYPE_ERROR, 'Should return a type error code');
     });
   });
 
@@ -265,10 +253,10 @@ describe('Products', () => {
     test('Should return an error deleting a product', async () => {
       const { status, body } = (await request(app)
         .delete('/products/6f76662d-a667-431b-a441-187c6cb37c21')
-        .send()) as RequestResponse<{ error: { code: string } }>;
+        .send()) as RequestResponse<AppError>;
       assert.strictEqual(status, 404, 'Should return a 404 status');
       assert.strictEqual(
-        body?.error.code,
+        body?.code,
         ERROR_CODES.PRODUCT_NOT_FOUND,
         'Should return a product not found error'
       );
