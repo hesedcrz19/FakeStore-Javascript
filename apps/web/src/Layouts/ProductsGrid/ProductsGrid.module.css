@@ -2,7 +2,6 @@
   display: grid;
   justify-items: center;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr));
-  margin-top: 30px;
   gap: 13px;
 }
 

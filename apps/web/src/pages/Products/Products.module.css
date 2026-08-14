@@ -5,16 +5,11 @@
   flex-direction: column;
   padding: 20px min(5dvw, 20px);
   margin: 0 auto;
+  gap: 25px;
 }
 
 .productsHeader {
   display: flex;
-  justify-content: end;
+  gap: 10px;
   align-items: center;
-  flex-wrap: wrap;
-
-  h2 {
-    font-size: var(--h2-size);
-    margin-right: auto;
-  }
 }

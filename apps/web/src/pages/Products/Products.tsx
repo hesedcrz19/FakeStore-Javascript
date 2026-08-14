@@ -1,7 +1,4 @@
 import styles from './Products.module.css';
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
-
 import { useProductsStore } from '@/stores/productsStore';
 import { useEffect } from 'react';
 import { setFiltersByParams } from '@/utils/setFiltersByParams';
@@ -11,10 +8,10 @@ import { FiltersButton } from '@/components/FiltersButton/FiltersButton';
 import { areSameObjects } from '@/utils/areSameObject';
 import { useSearchParams } from 'react-router';
 import { LoadingDialog } from '@/components/LoadingDialog/LoadingDialog';
+import { CategoriesButtons } from '@/components/CategoriesButtons/CategoriesButtons';
 
 export default function Products() {
-  const { fetchFilters, fetchProducts, counter, products, loading, longLoading, error } =
-    useProductsStore();
+  const { fetchFilters, fetchProducts, products, loading, longLoading, error } = useProductsStore();
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
@@ -27,8 +24,8 @@ export default function Products() {
     <section className={styles.productsContainer} data-testid="products">
       {longLoading && <LoadingDialog />}
       <div className={styles.productsHeader}>
-        {!error && <h2>{counter() ?? <Skeleton width={170} />}</h2>}
         <FiltersProvider>
+          <CategoriesButtons />
           <FiltersButton />
         </FiltersProvider>
       </div>

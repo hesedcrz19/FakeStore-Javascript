@@ -1,4 +1,3 @@
-import { FILTERS_DEFAULT_VALUES, FILTERS_KEYS } from '@/consts/filtersConsts';
 import { create } from 'zustand';
 import { productsFetch } from '@/services/productsFetch.js';
 import { formatProduct } from '@/utils/formatProducts';
@@ -8,34 +7,24 @@ import { AppError } from '@trending-market/shared';
 
 interface ProductsStore {
   products: FormattedProduct[];
+  productsLength: number;
   loading: boolean;
   longLoading: boolean;
   error: null | AppError | Error;
   fetchFilters: Filters | null;
-  productsLength: () => number;
-  counter: () => string | null;
   fetchProducts: (filters: Filters) => Promise<void>;
 }
 
-export const useProductsStore = create<ProductsStore>((set, get) => ({
+export const useProductsStore = create<ProductsStore>((set) => ({
   products: [],
+  productsLength: 0,
   loading: true,
   longLoading: false,
   error: null,
   fetchFilters: null,
 
-  productsLength: () => get().products.length,
-  counter: () => {
-    const { loading, productsLength, fetchFilters } = get();
-    const category =
-      fetchFilters?.[FILTERS_KEYS.CATEGORY] === FILTERS_DEFAULT_VALUES[FILTERS_KEYS.CATEGORY]
-        ? 'products'
-        : fetchFilters?.[FILTERS_KEYS.CATEGORY];
-    const categoryCapitalized = category?.charAt(0).toUpperCase().concat(category?.slice(1));
-    return loading ? null : `${categoryCapitalized} (${productsLength()})`;
-  },
   fetchProducts: async (filters: Filters) => {
-    set({ loading: true, error: null, fetchFilters: filters });
+    set({ products: [], loading: true, error: null, fetchFilters: filters, productsLength: 0 });
 
     const timeout = setTimeout(() => {
       set({ longLoading: true });
@@ -43,12 +32,16 @@ export const useProductsStore = create<ProductsStore>((set, get) => ({
 
     try {
       const products = await productsFetch(filters);
-      set({ products: products.map((p) => formatProduct(p)), error: null });
+      set({
+        products: products.map((p) => formatProduct(p)),
+        error: null,
+        productsLength: products.length,
+      });
     } catch (e) {
       if (e instanceof Error || e instanceof AppError) {
-        set({ products: [], error: e });
+        set({ error: e });
       } else {
-        set({ products: [], error: new Error('Error fetching the products') });
+        set({ error: new Error('Error fetching the products') });
       }
     } finally {
       clearTimeout(timeout);

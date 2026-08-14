@@ -1,11 +1,13 @@
 import styles from './MenuButton.module.css';
 import { useEffect, useRef } from 'react';
 import { useModal } from '@/hooks/useModal';
-import { NavLink, useSearchParams, type NavLinkProps, type Path } from 'react-router';
+import { NavLink } from 'react-router';
 import { ThemeButton } from '../ThemeButton/ThemeButton.jsx';
 import { FILTERS_KEYS } from '@/consts/filtersConsts';
 import { useCategoriesStore } from '@/stores/categoriesStore';
 import { motion, stagger, type Variants } from 'motion/react';
+import { CategoryLink } from '../CategoryLink/CategoryLink';
+import { AllProductsLink } from '../AllProductsLink/AllProductsLink';
 
 const dialogVariants: Variants = {
   close: {
@@ -173,7 +175,18 @@ export function MenuButton() {
                 </NavLink>
               </motion.li>
               <motion.li variants={linksVariants}>
-                <ProductsLink to="/products" onClick={() => startClosing()} />
+                <AllProductsLink className={styles.active} onClick={() => startClosing()}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#1f1f1f"
+                  >
+                    <path d="M240-80q-33 0-56.5-23.5T160-160v-480q0-33 23.5-56.5T240-720h80q0-66 47-113t113-47q66 0 113 47t47 113h80q33 0 56.5 23.5T800-640v480q0 33-23.5 56.5T720-80H240Zm0-80h480v-480h-80v80q0 17-11.5 28.5T600-520q-17 0-28.5-11.5T560-560v-80H400v80q0 17-11.5 28.5T360-520q-17 0-28.5-11.5T320-560v-80h-80v480Zm160-560h160q0-33-23.5-56.5T480-800q-33 0-56.5 23.5T400-720ZM240-160v-480 480Z" />
+                  </svg>
+                  Products
+                </AllProductsLink>
               </motion.li>
               <motion.li variants={linksVariants}>
                 <NavLink
@@ -200,6 +213,7 @@ export function MenuButton() {
                 <li key={cat.id}>
                   <CategoryLink
                     to={{ pathname: '/products', search: `?${FILTERS_KEYS.CATEGORY}=${cat.slug}` }}
+                    className={styles.active}
                     onClick={() => startClosing()}
                   >
                     • {cat.name}
@@ -248,48 +262,5 @@ export function MenuButton() {
         </div>
       </motion.dialog>
     </>
-  );
-}
-
-function ProductsLink(props: NavLinkProps) {
-  const [searchParams] = useSearchParams();
-
-  const noCategory = searchParams.get(FILTERS_KEYS.CATEGORY) === null;
-
-  return (
-    <NavLink {...props} className={({ isActive }) => (isActive && noCategory ? styles.active : '')}>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        height="24px"
-        viewBox="0 -960 960 960"
-        width="24px"
-        fill="#1f1f1f"
-      >
-        <path d="M240-80q-33 0-56.5-23.5T160-160v-480q0-33 23.5-56.5T240-720h80q0-66 47-113t113-47q66 0 113 47t47 113h80q33 0 56.5 23.5T800-640v480q0 33-23.5 56.5T720-80H240Zm0-80h480v-480h-80v80q0 17-11.5 28.5T600-520q-17 0-28.5-11.5T560-560v-80H400v80q0 17-11.5 28.5T360-520q-17 0-28.5-11.5T320-560v-80h-80v480Zm160-560h160q0-33-23.5-56.5T480-800q-33 0-56.5 23.5T400-720ZM240-160v-480 480Z" />
-      </svg>
-      Products
-    </NavLink>
-  );
-}
-
-function CategoryLink({
-  to,
-  children,
-  ...props
-}: Omit<NavLinkProps, 'to'> & { to: Partial<Path> }) {
-  const [searchParams] = useSearchParams();
-  const toSearchParams = new URLSearchParams(to.search);
-
-  const correctCategory =
-    searchParams.get(FILTERS_KEYS.CATEGORY) === toSearchParams.get(FILTERS_KEYS.CATEGORY);
-
-  return (
-    <NavLink
-      {...props}
-      to={to}
-      className={({ isActive }) => (isActive && correctCategory ? styles.active : '')}
-    >
-      {children}
-    </NavLink>
   );
 }

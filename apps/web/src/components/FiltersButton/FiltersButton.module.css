@@ -1,4 +1,6 @@
 .filtersButton {
+  margin-left: auto;
+  flex-shrink: 0;
   display: flex;
   gap: 15px;
   align-items: center;

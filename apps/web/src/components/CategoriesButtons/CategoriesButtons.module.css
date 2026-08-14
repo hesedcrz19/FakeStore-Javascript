@@ -1,0 +1,54 @@
+.nav {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+
+  &::-webkit-scrollbar {
+    height: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--bg-color-sec);
+    border-radius: 5px;
+  }
+
+  ul {
+    display: flex;
+    gap: 10px;
+
+    li {
+      list-style: none;
+      flex-shrink: 0;
+      flex-basis: 100px;
+      display: flex;
+
+      a {
+        text-wrap: nowrap;
+        font-size: var(--text-size);
+        min-width: 100%;
+        text-align: center;
+        place-content: center;
+        text-decoration: none;
+        color: var(--text-color);
+        background-color: var(--bg-color-sec);
+        padding: 5px 15px;
+        border-radius: 30px;
+        margin: 5px 0;
+
+        &.active {
+          background-color: var(--primary-color);
+        }
+      }
+    }
+  }
+}
+.button {
+  input {
+    display: none;
+  }
+}
+
+@media screen and (pointer: coarse) {
+  .nav::-webkit-scrollbar {
+    display: none;
+  }
+}
