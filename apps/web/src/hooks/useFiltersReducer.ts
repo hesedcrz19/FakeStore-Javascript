@@ -10,6 +10,11 @@ export interface Changers {
   changeText: (value: string) => void;
   changeMinPrice: (value: string) => void;
   changeMaxPrice: (value: string) => void;
+  changeSortBy: (value: string) => void;
+  changeSortOrder: (value: string) => void;
+  changeMinDiscount: (value: string) => void;
+  changeFreeShipping: (values: string) => void;
+  changeHasPromotion: (values: string) => void;
 }
 
 export function useFiltersReducer(initialState: Filters) {
@@ -17,18 +22,10 @@ export function useFiltersReducer(initialState: Filters) {
     return filters;
   });
 
-  const changeText = useCallback((value: string) => {
+  const newFilters = useCallback((newFilters: Filters) => {
     dispatchFilters({
-      type: 'TEXT',
-      filter: FILTERS_KEYS.SEARCH,
-      value: value,
-    });
-  }, []);
-  const changeCategory = useCallback((value: string) => {
-    dispatchFilters({
-      type: 'TEXT',
-      filter: FILTERS_KEYS.CATEGORY,
-      value: value,
+      type: 'NEW',
+      newState: newFilters,
     });
   }, []);
   const changeMinPrice = useCallback((value: string) => {
@@ -45,11 +42,53 @@ export function useFiltersReducer(initialState: Filters) {
       value: value,
     });
   }, []);
-
-  const newFilters = useCallback((newFilters: Filters) => {
+  const changeText = useCallback((value: string) => {
     dispatchFilters({
-      type: 'NEW',
-      newState: newFilters,
+      type: 'STRING',
+      filter: FILTERS_KEYS.SEARCH,
+      value: value,
+    });
+  }, []);
+  const changeCategory = useCallback((value: string) => {
+    dispatchFilters({
+      type: 'STRING',
+      filter: FILTERS_KEYS.CATEGORY,
+      value: value,
+    });
+  }, []);
+  const changeSortBy = useCallback((value: string) => {
+    dispatchFilters({
+      type: 'STRING',
+      filter: FILTERS_KEYS.SORT_BY,
+      value: value,
+    });
+  }, []);
+  const changeSortOrder = useCallback((value: string) => {
+    dispatchFilters({
+      type: 'STRING',
+      filter: FILTERS_KEYS.SORT_ORDER,
+      value: value,
+    });
+  }, []);
+  const changeMinDiscount = useCallback((value: string) => {
+    dispatchFilters({
+      type: 'STRING',
+      filter: FILTERS_KEYS.MIN_DISCOUNT,
+      value: value,
+    });
+  }, []);
+  const changeHasPromotion = useCallback((value: string) => {
+    dispatchFilters({
+      type: 'STRING',
+      filter: FILTERS_KEYS.HAS_PROMOTION,
+      value: value,
+    });
+  }, []);
+  const changeFreeShipping = useCallback((value: string) => {
+    dispatchFilters({
+      type: 'STRING',
+      filter: FILTERS_KEYS.FREE_SHIPPING,
+      value: value,
     });
   }, []);
 
@@ -58,6 +97,11 @@ export function useFiltersReducer(initialState: Filters) {
     changeMaxPrice,
     changeMinPrice,
     changeText,
+    changeSortBy,
+    changeSortOrder,
+    changeMinDiscount,
+    changeFreeShipping,
+    changeHasPromotion,
   };
 
   return { filters, changers, newFilters };

@@ -1,7 +1,7 @@
 import type { Filters, Filter } from '@/types/filtersTypes';
 
 interface FiltersAction {
-  type: 'NUMBER' | 'TEXT';
+  type: 'NUMBER' | 'STRING';
   value: string;
   filter: Filter;
 }
@@ -26,7 +26,7 @@ export const filtersReducer = (
       return { ...filters, [filter]: value };
     }
 
-    case 'TEXT': {
+    case 'STRING': {
       const { value, filter } = action;
       return { ...filters, [filter]: value };
     }

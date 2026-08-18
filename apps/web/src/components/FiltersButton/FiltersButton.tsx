@@ -2,11 +2,16 @@ import styles from './FiltersButton.module.css';
 import { useRef, useEffect } from 'react';
 import { useModal } from '@/hooks/useModal';
 import { useFilters } from '@/context/FiltersContext';
-import { FILTERS_KEYS, FILTERS_DEFAULT_VALUES } from '@/consts/filtersConsts';
+import {
+  FILTERS_KEYS,
+  FREE_SHIPPING_TRUE,
+  HAS_PROMOTION_TRUE,
+  SORT_BY,
+  SORT_ORDER,
+} from '@/consts/filtersConsts';
 import type { Filters } from '@/types/filtersTypes';
 import type { Changers } from '@/hooks/useFiltersReducer';
-import { motion, type Variants } from 'motion/react';
-import { useCategoriesStore } from '@/stores/categoriesStore';
+import { motion, stagger, type Variants } from 'motion/react';
 
 const dialogVariants: Variants = {
   close: {
@@ -14,6 +19,8 @@ const dialogVariants: Variants = {
     transition: {
       duration: 0.2,
       ease: 'easeOut',
+      when: 'afterChildren',
+      delayChildren: stagger(0.05, { startDelay: 0, from: 'last' }),
     },
   },
   open: {
@@ -21,6 +28,29 @@ const dialogVariants: Variants = {
     transition: {
       duration: 0.2,
       ease: 'easeOut',
+      delayChildren: stagger(0.1, { startDelay: 0.2 }),
+    },
+  },
+};
+
+const fieldsetVariants: Variants = {
+  close: {
+    y: 30,
+    opacity: 0,
+    transition: {
+      duration: 0.1,
+      ease: 'easeOut',
+      when: 'afterChildren',
+      delayChildren: stagger(0.05, { startDelay: 0, from: 'last' }),
+    },
+  },
+  open: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.15,
+      ease: 'easeOut',
+      delayChildren: stagger(0.15, { startDelay: 0.2 }),
     },
   },
 };
@@ -33,7 +63,16 @@ export function FiltersButton() {
     autoClose: true,
   });
   const { filters, changers } = useFilters();
-  const { changeText, changeMinPrice, changeMaxPrice, changeCategory } = changers;
+  const {
+    changeText,
+    changeMinPrice,
+    changeMaxPrice,
+    changeSortBy,
+    changeSortOrder,
+    changeMinDiscount,
+    changeFreeShipping,
+    changeHasPromotion,
+  } = changers;
 
   useEffect(() => {
     if (isOpening) open();
@@ -82,20 +121,46 @@ export function FiltersButton() {
           </button>
 
           <form className={styles.filtersForm} onSubmit={(e) => e.preventDefault()}>
-            <div className={styles.inputContainer}>
+            <motion.div variants={fieldsetVariants} className={styles.inputContainer}>
               <SearchInput changeText={changeText} filters={filters} />
-            </div>
+            </motion.div>
 
-            <fieldset className={styles.priceFilters}>
+            <motion.fieldset variants={fieldsetVariants} className={styles.priceFilters}>
               <legend>Price</legend>
               <MinPriceInput changeMinPrice={changeMinPrice} filters={filters} />
               <MaxPriceInput changeMaxPrice={changeMaxPrice} filters={filters} />
-            </fieldset>
+            </motion.fieldset>
 
-            <fieldset className={styles.buttonsContainer}>
-              <legend>Categories</legend>
-              <CategoryRadios changeCategory={changeCategory} filters={filters} />
-            </fieldset>
+            <motion.fieldset variants={fieldsetVariants} className={styles.sortFilters}>
+              <legend>Sort</legend>
+              <SortBySelect filters={filters} changeSortBy={changeSortBy} />
+              <SortOrderSelect filters={filters} changeSortOrder={changeSortOrder} />
+            </motion.fieldset>
+
+            <motion.fieldset variants={fieldsetVariants} className={styles.minDiscountFilter}>
+              <legend>Discount</legend>
+              <MinDiscountRange filters={filters} changeMinDiscount={changeMinDiscount} />
+            </motion.fieldset>
+
+            <motion.fieldset variants={fieldsetVariants} className={styles.othersFilters}>
+              <legend>Others</legend>
+              <label>
+                Free shipping
+                <input
+                  type="checkbox"
+                  onChange={(e) => changeFreeShipping(e.target.checked ? FREE_SHIPPING_TRUE : '')}
+                  checked={filters.free_shipping === FREE_SHIPPING_TRUE}
+                />
+              </label>
+              <label>
+                Has promotion
+                <input
+                  type="checkbox"
+                  onChange={(e) => changeHasPromotion(e.target.checked ? HAS_PROMOTION_TRUE : '')}
+                  checked={filters.has_promotion === HAS_PROMOTION_TRUE}
+                />
+              </label>
+            </motion.fieldset>
           </form>
         </div>
       </motion.dialog>
@@ -111,7 +176,7 @@ interface SearchInputProps {
 function SearchInput({ changeText, filters }: SearchInputProps) {
   return (
     <input
-      className={styles.filterInput}
+      className={styles.searchFilter}
       aria-label="Search product"
       type="search"
       placeholder="Search..."
@@ -164,41 +229,67 @@ function MaxPriceInput({ changeMaxPrice, filters }: MaxPriceInputProps) {
   );
 }
 
-interface CategoryRadiosProps {
-  changeCategory: Changers['changeCategory'];
+interface SortBySelectProps {
+  changeSortBy: Changers['changeSortBy'];
   filters: Filters;
 }
 
-function CategoryRadios({ changeCategory, filters }: CategoryRadiosProps) {
-  const categories = useCategoriesStore((state) => state.categories);
+function SortBySelect({ filters, changeSortBy }: SortBySelectProps) {
+  return (
+    <label>
+      Sort by:
+      <select
+        value={filters.sort_by}
+        name={FILTERS_KEYS.SORT_BY}
+        onChange={(e) => changeSortBy(e.target.value)}
+      >
+        <option value={SORT_BY.NEWEST}>Newest</option>
+        <option value={SORT_BY.PRICE}>Price</option>
+        <option value={SORT_BY.RATING}>Rating</option>
+        <option value={SORT_BY.TITLE}>Title</option>
+      </select>
+    </label>
+  );
+}
 
-  const categoriesElements = categories.map(({ id, name, slug }) => {
-    return (
-      <label className={styles.button} key={id}>
-        {name}
-        <input
-          type="radio"
-          name={FILTERS_KEYS.CATEGORY}
-          value={slug}
-          checked={filters[FILTERS_KEYS.CATEGORY] === slug}
-          onChange={() => changeCategory(slug)}
-        />
-      </label>
-    );
-  });
+interface SortOrderSelectProps {
+  changeSortOrder: Changers['changeSortOrder'];
+  filters: Filters;
+}
 
-  categoriesElements.unshift(
-    <label className={styles.button} key={FILTERS_DEFAULT_VALUES[FILTERS_KEYS.CATEGORY]}>
-      All
+function SortOrderSelect({ filters, changeSortOrder }: SortOrderSelectProps) {
+  return (
+    <label>
+      Sort order:
+      <select
+        name={FILTERS_KEYS.SORT_ORDER}
+        onChange={(e) => changeSortOrder(e.target.value)}
+        value={filters.sort_order}
+      >
+        <option value={SORT_ORDER.DESC}>Descendant</option>
+        <option value={SORT_ORDER.ASC}>Ascendant</option>
+      </select>
+    </label>
+  );
+}
+
+interface MinDiscountRangeProps {
+  changeMinDiscount: Changers['changeMinDiscount'];
+  filters: Filters;
+}
+
+function MinDiscountRange({ filters, changeMinDiscount }: MinDiscountRangeProps) {
+  return (
+    <label>
+      Min discount: {filters.min_discount}
       <input
-        type="radio"
-        name="category"
-        value={FILTERS_DEFAULT_VALUES[FILTERS_KEYS.CATEGORY]}
-        checked={filters[FILTERS_KEYS.CATEGORY] === FILTERS_DEFAULT_VALUES[FILTERS_KEYS.CATEGORY]}
-        onChange={() => changeCategory(FILTERS_DEFAULT_VALUES[FILTERS_KEYS.CATEGORY])}
+        type="range"
+        min={0}
+        max={100}
+        onChange={(e) => changeMinDiscount(e.target.value)}
+        value={filters.min_discount}
+        defaultValue={0}
       />
     </label>
   );
-
-  return categoriesElements;
 }

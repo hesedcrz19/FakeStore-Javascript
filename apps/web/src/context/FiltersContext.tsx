@@ -28,7 +28,7 @@ export function FiltersProvider({ children }: React.PropsWithChildren) {
     let delay;
     filtersReadyRef.current = false;
 
-    if (previousFilters.current.category !== filters.category) {
+    if (previousFilters.current.sort_by !== filters.sort_by) {
       delay = 0;
     } else {
       delay = 300;

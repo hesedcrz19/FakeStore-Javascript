@@ -1,12 +1,12 @@
-import { FILTERS_DEFAULT_VALUES } from '@/consts/filtersConsts';
+import { FILTERS_DEFAULT_VALUES, FILTERS_KEYS } from '@/consts/filtersConsts';
 import type { Filters } from '@/types/filtersTypes';
 
 export const setSearchParamsByFilters = (filters: Filters) => {
   const searchParams = new URLSearchParams();
 
-  for (const filter of Object.keys(filters) as (keyof Filters)[]) {
-    if (filters[filter] !== FILTERS_DEFAULT_VALUES[filter])
-      searchParams.set(filter, filters[filter]);
+  for (const filterKey of Object.values(FILTERS_KEYS)) {
+    if (filters[filterKey] !== FILTERS_DEFAULT_VALUES[filterKey])
+      searchParams.set(filterKey, filters[filterKey]);
   }
 
   return searchParams;
