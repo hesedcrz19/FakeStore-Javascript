@@ -15,6 +15,7 @@ export function formatProduct({
   promotion = null,
   images,
   category,
+  rating,
 }: Product): FormattedProduct {
   const shortedDescription = shortenText(description, 80);
   const shortedTitle = shortenText(title, 50);
@@ -42,5 +43,6 @@ export function formatProduct({
       slug: category.slug ?? '',
       image: category.image ?? '',
     },
+    rating,
   };
 }

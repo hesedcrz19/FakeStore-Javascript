@@ -26,6 +26,7 @@ export function Product({ slug }: { slug: string | undefined }) {
     discountPercentage,
     shippingCost,
     promotion,
+    rating,
   } = product;
 
   useEffect(() => {
@@ -65,6 +66,15 @@ export function Product({ slug }: { slug: string | undefined }) {
             </p>
           </div>
 
+          <div className={styles.ratingContainer}>
+            {Array(5)
+              .fill(null)
+              .map((_, i) => (
+                <RatingStar key={i} starNumber={i} rating={rating || 0} />
+              ))}
+            {rating ? `(${rating})` : ''}
+          </div>
+
           <div className={styles.pricesContainer}>
             {(discountPercentage !== 0 || promotion !== null) && (
               <ul className={styles.promos}>
@@ -98,5 +108,14 @@ export function Product({ slug }: { slug: string | undefined }) {
         </div>
       </div>
     </article>
+  );
+}
+
+function RatingStar({ starNumber, rating }: { starNumber: number; rating: number }) {
+  const starWidth = Math.max(0, (rating - starNumber) * 100);
+  return (
+    <div className={styles.star}>
+      {rating ? <div style={{ width: `${starWidth}%` }}></div> : <Skeleton />}
+    </div>
   );
 }

@@ -22,6 +22,7 @@ export function ProductCard({ product, loading }: ProductCardProps) {
     promotion,
     principalImage,
     category,
+    rating,
   } = product;
 
   const imageError = (event: SyntheticEvent<HTMLImageElement, Event>) => {
@@ -54,6 +55,15 @@ export function ProductCard({ product, loading }: ProductCardProps) {
         >
           {category?.name.content ?? <Skeleton width="50px" />}
         </Link>
+
+        <div className={styles.ratingContainer}>
+          {Array(5)
+            .fill(null)
+            .map((_, i) => (
+              <RatingStar key={i} starNumber={i} rating={rating || 0} />
+            ))}
+          {rating ? `(${rating})` : ''}
+        </div>
 
         <div className={styles.pricesContainer}>
           {(discountPercentage !== 0 || promotion !== null) && (
@@ -109,5 +119,14 @@ function ProductLink({ product }: { product: Partial<FormattedProduct> }) {
       aria-label={`See more about ${product.title?.fullContent}`}
       replace
     />
+  );
+}
+
+function RatingStar({ starNumber, rating }: { starNumber: number; rating: number }) {
+  const starWidth = Math.max(0, (rating - starNumber) * 100);
+  return (
+    <div className={styles.star}>
+      {rating ? <div style={{ width: `${starWidth}%` }}></div> : <Skeleton />}
+    </div>
   );
 }

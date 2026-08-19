@@ -10,7 +10,7 @@ export function ProductsError() {
 
   return (
     <section className={styles.container}>
-      <img src={errorImage} className={styles.img} />
+      <img src={errorImage} className={styles.img} alt="" />
       <h2>Unexpected fetch error</h2>
       <p>An error occurred trying to fetch the products.</p>
       <div>

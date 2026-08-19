@@ -109,15 +109,16 @@ function CarrouselTabs({ images }: { images?: string[] }) {
   return (
     <div className={styles.carrouselDots} role="radiogroup" aria-label="Select image">
       {(images ?? [null])?.map((_, i) => (
-        <input
-          key={i}
-          type="radio"
-          name={tabsId}
-          value={i}
-          checked={i === currentSlide}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => moveToSlide(Number(e.target.value))}
-          aria-label={`Image ${i + 1}`}
-        />
+        <label key={i}>
+          <input
+            type="radio"
+            name={tabsId}
+            value={i}
+            checked={i === currentSlide}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => moveToSlide(Number(e.target.value))}
+            aria-label={`Image ${i + 1}`}
+          />
+        </label>
       ))}
     </div>
   );

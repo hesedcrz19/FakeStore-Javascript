@@ -124,6 +124,8 @@
 
   .carrouselDots {
     position: absolute;
+    height: 11px;
+    width: 70px;
     left: 50%;
     bottom: 5px;
     translate: -50%;
@@ -131,9 +133,25 @@
     gap: 5px;
     z-index: 1000;
 
-    input {
-      accent-color: var(--primary-color);
+    label {
+      aspect-ratio: 1/1;
+      background-color: var(--accent-color);
+      border-radius: 10px;
       cursor: pointer;
+      transition: flex-grow 0.2s;
+
+      &:focus-within {
+        outline: auto;
+      }
+
+      &:has(input:checked) {
+        flex-grow: 1;
+        background-color: var(--primary-color);
+      }
+
+      input {
+        width: 0;
+      }
     }
   }
 }

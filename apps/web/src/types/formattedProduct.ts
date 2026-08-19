@@ -18,4 +18,5 @@ export interface FormattedProduct {
     slug: string;
     image: string;
   };
+  rating: number;
 }

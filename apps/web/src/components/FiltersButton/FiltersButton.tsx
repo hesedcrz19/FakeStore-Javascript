@@ -288,7 +288,6 @@ function MinDiscountRange({ filters, changeMinDiscount }: MinDiscountRangeProps)
         max={100}
         onChange={(e) => changeMinDiscount(e.target.value)}
         value={filters.min_discount}
-        defaultValue={0}
       />
     </label>
   );

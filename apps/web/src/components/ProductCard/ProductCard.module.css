@@ -59,10 +59,33 @@
     color: var(--text-color-sec);
     text-decoration: none;
     z-index: 10;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
 
     &:hover {
       text-decoration: underline;
+    }
+  }
+
+  .ratingContainer {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 30px;
+    align-items: center;
+    font-size: var(--text-size);
+
+    .star {
+      mask-image: url('../../assets/images/star.png');
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      mask-position: center;
+      background-color: var(--hover-color);
+      width: 20px;
+      aspect-ratio: 1/1;
+
+      div {
+        background-color: var(--primary-color);
+        height: 100%;
+      }
     }
   }
 
