@@ -1,4 +1,4 @@
-import type { Category, Product } from '@trending-market/shared/types';
+import type { Category, ProductsResponse } from '@trending-market/shared/types';
 import { test, describe } from 'node:test';
 import request from 'supertest';
 import assert from 'node:assert';
@@ -43,18 +43,18 @@ describe('Categories', () => {
       const id = 'c72a053b-a33b-41aa-9e17-008651ee5f55';
       const { status, body } = (await request(app)
         .get(`/categories/${id}/products`)
-        .send()) as RequestResponse<Product[]>;
+        .send()) as RequestResponse<ProductsResponse>;
       assert.strictEqual(status, 200, 'Should return a 200 status');
-      assert.ok(Array.isArray(body), 'Should return an array of products');
+      assert.ok(Array.isArray(body?.data), 'Should return an array of products');
     });
 
     test('Should get products of a category slug', async () => {
       const slug = 'electronics';
       const { status, body } = (await request(app)
         .get(`/categories/slug/${slug}/products`)
-        .send()) as RequestResponse<Product[]>;
+        .send()) as RequestResponse<ProductsResponse>;
       assert.strictEqual(status, 200, 'Should return a 200 status');
-      assert.ok(Array.isArray(body), 'Should return an array of products');
+      assert.ok(Array.isArray(body?.data), 'Should return an array of products');
     });
   });
 

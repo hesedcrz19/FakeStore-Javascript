@@ -1,4 +1,4 @@
-import type { AppError, Product } from '@trending-market/shared';
+import type { AppError, Product, ProductsResponse } from '@trending-market/shared';
 import { test, describe } from 'node:test';
 import request from 'supertest';
 import assert from 'node:assert';
@@ -14,11 +14,11 @@ interface RequestResponse<T> {
 describe('Products', () => {
   describe('GET /products', () => {
     test('Should return an array', async () => {
-      const { status, body } = (await request(app).get('/products').send()) as RequestResponse<
-        Product[]
-      >;
+      const { status, body } = (await request(app)
+        .get('/products')
+        .send()) as RequestResponse<ProductsResponse>;
       assert.strictEqual(status, 200, 'Should return a 200 status');
-      assert.ok(Array.isArray(body), 'The response should be an array');
+      assert.ok(Array.isArray(body?.data), 'The response should be an array');
     });
 
     test('Should get a product by id', async () => {
@@ -34,11 +34,14 @@ describe('Products', () => {
       const id = '6f76662d-a667-431b-a441-187c6cb37c21';
       const { status, body } = (await request(app)
         .get(`/products/${id}/related`)
-        .send()) as RequestResponse<Product[]>;
+        .send()) as RequestResponse<ProductsResponse>;
+      const products = body?.data;
       assert.strictEqual(status, 200, 'Should return a 200 status');
-      assert.ok(Array.isArray(body), 'Should return an array');
+      assert.ok(Array.isArray(products), 'Should return an array');
       assert.ok(
-        body.every((product) => product.category.id === body[0].category.id && product.id !== id),
+        products.every(
+          (product) => product.category.id === products[0].category.id && product.id !== id
+        ),
         "All products should be of the same category and shouldn't include the searched id product"
       );
     });
@@ -56,12 +59,13 @@ describe('Products', () => {
       const slug = 'majestic-mountain-graphic-t-shirt';
       const { status, body } = (await request(app)
         .get(`/products/slug/${slug}/related`)
-        .send()) as RequestResponse<Product[]>;
+        .send()) as RequestResponse<ProductsResponse>;
+      const products = body?.data;
       assert.strictEqual(status, 200, 'Should return a 200 status');
-      assert.ok(Array.isArray(body), 'Should return an array');
+      assert.ok(Array.isArray(products), 'Should return an array');
       assert.ok(
-        body.every(
-          (product) => product.category.id === body[0].category.id && product.slug !== slug
+        products.every(
+          (product) => product.category.id === products[0].category.id && product.slug !== slug
         ),
         'All products should be of the same category'
       );
@@ -72,12 +76,13 @@ describe('Products', () => {
         const title = 'orange';
         const { status, body } = (await request(app)
           .get(`/products?title=${title}`)
-          .send()) as RequestResponse<Product[]>;
+          .send()) as RequestResponse<ProductsResponse>;
 
+        const products = body?.data;
         assert.strictEqual(status, 200, 'Should return a 200 status');
-        assert.ok(Array.isArray(body));
+        assert.ok(Array.isArray(products));
         assert.ok(
-          body.every((product) => product.title.toLowerCase().includes(title)),
+          products.every((product) => product.title.toLowerCase().includes(title)),
           `All products should have the title: ${title}`
         );
       });
@@ -85,11 +90,13 @@ describe('Products', () => {
         const price = 10;
         const { status, body } = (await request(app)
           .get(`/products?price=${price}`)
-          .send()) as RequestResponse<Product[]>;
+          .send()) as RequestResponse<ProductsResponse>;
+
+        const products = body?.data;
         assert.strictEqual(status, 200, 'Should return a 200 status');
-        assert.ok(Array.isArray(body));
+        assert.ok(Array.isArray(products));
         assert.ok(
-          body.every((product) => product.price === price),
+          products.every((product) => product.price === price),
           `All products should have the price: ${price}`
         );
       });
@@ -97,36 +104,42 @@ describe('Products', () => {
         const minPrice = 10;
         const maxPrice = 20;
         const { status, body } = (await request(app)
-          .get(`/products?minPrice=${minPrice}&maxPrice=${maxPrice}`)
-          .send()) as RequestResponse<Product[]>;
+          .get(`/products?min_price=${minPrice}&max_price=${maxPrice}`)
+          .send()) as RequestResponse<ProductsResponse>;
+
+        const products = body?.data;
         assert.strictEqual(status, 200, 'Should return a 200 status');
-        assert.ok(Array.isArray(body));
+        assert.ok(Array.isArray(products));
         assert.ok(
-          body.every((product) => product.price >= minPrice && product.price <= maxPrice),
+          products.every((product) => product.price >= minPrice && product.price <= maxPrice),
           'All products should be in the price range'
         );
       });
       test('Should filter by category slug', async () => {
         const slug = 'shoes';
         const { status, body } = (await request(app)
-          .get(`/products?categorySlug=${slug}`)
-          .send()) as RequestResponse<Product[]>;
+          .get(`/products?category_slug=${slug}`)
+          .send()) as RequestResponse<ProductsResponse>;
+
+        const products = body?.data;
         assert.strictEqual(status, 200, 'Should return a 200 status');
-        assert.ok(Array.isArray(body));
+        assert.ok(Array.isArray(products));
         assert.ok(
-          body.every((product) => product.category.slug === slug),
+          products.every((product) => product.category.slug === slug),
           `All products should have the category slug: ${slug}`
         );
       });
       test('Should filter by category id', async () => {
         const id = 'c72a053b-a33b-41aa-9e17-008651ee5f55';
         const { status, body } = (await request(app)
-          .get(`/products?categoryId=${id}`)
-          .send()) as RequestResponse<Product[]>;
+          .get(`/products?category_id=${id}`)
+          .send()) as RequestResponse<ProductsResponse>;
+
+        const products = body?.data;
         assert.strictEqual(status, 200, 'Should return a 200 status');
-        assert.ok(Array.isArray(body));
+        assert.ok(Array.isArray(products));
         assert.ok(
-          body.every((product) => product.category.id === id),
+          products.every((product) => product.category.id === id),
           `All products should have the id: ${id}`
         );
       });

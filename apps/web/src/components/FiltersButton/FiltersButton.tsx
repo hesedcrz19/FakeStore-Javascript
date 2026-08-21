@@ -175,15 +175,17 @@ interface SearchInputProps {
 
 function SearchInput({ changeText, filters }: SearchInputProps) {
   return (
-    <input
-      className={styles.searchFilter}
-      aria-label="Search product"
-      type="search"
-      placeholder="Search..."
-      name={FILTERS_KEYS.SEARCH}
-      value={filters[FILTERS_KEYS.SEARCH]}
-      onChange={(event) => changeText(event.target.value)}
-    />
+    <label className={styles.searchFilter}>
+      Search:
+      <input
+        aria-label="Search product"
+        type="search"
+        placeholder="Shoes, headphones, shirt..."
+        name={FILTERS_KEYS.SEARCH}
+        value={filters[FILTERS_KEYS.SEARCH]}
+        onChange={(event) => changeText(event.target.value)}
+      />
+    </label>
   );
 }
 
@@ -195,7 +197,7 @@ interface MinPriceInputProps {
 function MinPriceInput({ changeMinPrice, filters }: MinPriceInputProps) {
   return (
     <label>
-      <span>Min.</span>
+      <span>Min:</span>
       <input
         type="text"
         inputMode="numeric"
@@ -216,7 +218,7 @@ interface MaxPriceInputProps {
 function MaxPriceInput({ changeMaxPrice, filters }: MaxPriceInputProps) {
   return (
     <label>
-      <span>Max.</span>
+      <span>Max:</span>
       <input
         type="text"
         inputMode="numeric"

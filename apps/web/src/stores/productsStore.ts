@@ -12,7 +12,11 @@ interface ProductsStore {
   longLoading: boolean;
   error: null | AppError | Error;
   fetchFilters: Filters | null;
-  fetchProducts: (filters: Filters) => Promise<void>;
+  fetchProducts: (filters: Filters, page: number) => Promise<void>;
+  page?: number;
+  totalPages?: number;
+  hasPreviousPage?: boolean;
+  hasNextPage?: boolean;
 }
 
 export const useProductsStore = create<ProductsStore>((set) => ({
@@ -22,8 +26,12 @@ export const useProductsStore = create<ProductsStore>((set) => ({
   longLoading: false,
   error: null,
   fetchFilters: null,
+  totalPages: undefined,
+  pages: undefined,
+  hasPreviousPage: undefined,
+  hasNextPage: undefined,
 
-  fetchProducts: async (filters: Filters) => {
+  fetchProducts: async (filters: Filters, page: number) => {
     set({ products: [], loading: true, error: null, fetchFilters: filters, productsLength: 0 });
 
     const timeout = setTimeout(() => {
@@ -31,11 +39,15 @@ export const useProductsStore = create<ProductsStore>((set) => ({
     }, 5000);
 
     try {
-      const products = await productsFetch(filters);
+      const { data, pagination } = await productsFetch(filters, page);
       set({
-        products: products.map((p) => formatProduct(p)),
+        products: data.map((p) => formatProduct(p)),
         error: null,
-        productsLength: products.length,
+        page: pagination.page,
+        productsLength: pagination.totalItems,
+        totalPages: pagination.totalPages,
+        hasPreviousPage: pagination.hasPreviousPage,
+        hasNextPage: pagination.hasNextPage,
       });
     } catch (e) {
       if (e instanceof Error || e instanceof AppError) {

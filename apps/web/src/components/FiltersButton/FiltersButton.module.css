@@ -90,23 +90,30 @@
 .searchFilter {
   font-size: var(--text-size-small);
   color: var(--text-color);
-  font-family: var(--font-family-2);
-  padding: 8px 10px;
-  width: 100%;
-  background-color: var(--bg-color-sec);
-  border: 1px solid transparent;
-  border-radius: 3px;
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
 
-  &::placeholder {
-    transition:
-      0.2s transform,
-      0.3s opacity;
-  }
+  input {
+    font-size: var(--text-size-small);
+    color: var(--text-color);
+    padding: 5px 8px;
+    background-color: var(--bg-color-sec);
+    border: 1px solid transparent;
+    border-radius: 3px;
+    font-family: var(--font-family-1);
 
-  &:focus-visible {
     &::placeholder {
-      transform: translateY(-5px);
-      opacity: 0;
+      transition:
+        0.2s transform,
+        0.3s opacity;
+    }
+
+    &:focus-visible {
+      &::placeholder {
+        transform: translateY(-5px);
+        opacity: 0;
+      }
     }
   }
 }
@@ -180,6 +187,10 @@
 
     input[type='range'] {
       accent-color: var(--primary-color);
+
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 }
@@ -195,6 +206,7 @@
     display: flex;
     gap: 5px;
     font-family: var(--font-family-1);
+    cursor: pointer;
 
     input {
       accent-color: var(--primary-color);

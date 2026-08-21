@@ -16,7 +16,7 @@ test('navigate to products section', async ({ page }) => {
 
   const productsList = page.getByRole('list', { name: /Products list/i });
   await expect(productsList).toBeVisible();
-  await expect(productsList.getByRole('article')).toHaveCount(51);
+  await expect(productsList.getByRole('article')).toHaveCount(12);
 });
 
 test('should open the first product modal and use the carrousel', async ({ page }) => {
@@ -41,6 +41,7 @@ test('should open the first product modal and use the carrousel', async ({ page 
   const prevButton = carrousel.getByRole('button', { name: /Previous slide/i });
   const nextButton = carrousel.getByRole('button', { name: /Next slide/i });
   const slide = carrousel.getByRole('group');
+  const radioGroup = carrousel.getByRole('radiogroup');
 
   await expect(carrousel).toBeVisible();
 
@@ -58,7 +59,7 @@ test('should open the first product modal and use the carrousel', async ({ page 
   await expect(slide.getByRole('img')).toHaveAccessibleName(/Image 3/);
 
   // Click the second tab of the carrousel
-  await carrousel.getByRole('radio', { name: /Image 2/ }).check();
+  await radioGroup.locator('label').nth(1).click();
   await expect(slide.getByRole('img')).toHaveAccessibleName(/Image 2/);
 
   // Click the "prev slide" button of the carrousel

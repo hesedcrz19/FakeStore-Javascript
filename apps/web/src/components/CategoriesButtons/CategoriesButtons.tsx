@@ -29,11 +29,7 @@ export function CategoriesButtons() {
           {Array(5)
             .fill(null)
             .map((_, i) => (
-              <li key={i}>
-                <a>
-                  <Skeleton />
-                </a>
-              </li>
+              <Skeleton key={i} width={110} height={30} borderRadius={15} />
             ))}
         </ul>
       </nav>

@@ -1,10 +1,23 @@
 import { describe, expect, it } from 'vitest';
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import {
+  fireEvent,
+  getAllByRole,
+  getByRole,
+  render,
+  screen,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { FiltersButton } from '@/components/FiltersButton/FiltersButton';
 import { FiltersProvider } from '@/context/FiltersContext';
 import { MemoryRouter } from 'react-router';
-import { FILTERS_KEYS } from '@/consts/filtersConsts';
+import {
+  FILTERS_KEYS,
+  FREE_SHIPPING_TRUE,
+  HAS_PROMOTION_TRUE,
+  SORT_BY,
+  SORT_ORDER,
+} from '@/consts/filtersConsts';
 
 const setup = ({ search }: { search?: string } = {}) =>
   render(
@@ -40,7 +53,7 @@ describe('filters test', () => {
 
     await user.click(screen.getByRole('button', { name: /filters/i }));
 
-    const searchInput = screen.getByRole('searchbox');
+    const searchInput = screen.getByRole('searchbox', { name: /search/i });
 
     expect(searchInput).toHaveValue('Red');
     await user.clear(searchInput);
@@ -65,24 +78,67 @@ describe('filters test', () => {
     expect(maxPriceInput).toHaveValue('1012.34');
   });
 
-  it('Should checked the furniture category', async () => {
-    setup({ search: `?${FILTERS_KEYS.CATEGORY}=shoes` });
+  it('Should change the sort by to rating', async () => {
+    setup({ search: `?${FILTERS_KEYS.SORT_BY}=${SORT_BY.PRICE}` });
     const user = userEvent.setup();
 
     await user.click(screen.getByRole('button', { name: /filters/i }));
 
-    const radios = screen.getAllByRole('radio');
-    expect(radios).toHaveLength(4);
+    const sortBySelect = screen.getByRole('combobox', { name: /sort by/i });
+    expect(sortBySelect).toHaveValue(SORT_BY.PRICE);
 
-    const shoesRadio = screen.getByRole('radio', { name: /shoes/i });
-    const furnitureRadio = screen.getByRole('radio', { name: /furniture/i });
+    const options = getAllByRole(sortBySelect, 'option');
+    expect(options).toHaveLength(4);
 
-    expect(shoesRadio).toBeChecked();
-    expect(furnitureRadio).not.toBeChecked();
+    const ratingOption = getByRole(sortBySelect, 'option', { name: /rating/i });
 
-    await user.click(furnitureRadio);
+    await user.selectOptions(sortBySelect, ratingOption);
+    expect(sortBySelect).toHaveValue(SORT_BY.RATING);
+  });
 
-    expect(shoesRadio).not.toBeChecked();
-    expect(furnitureRadio).toBeChecked();
+  it('Should change the sort order to descendant', async () => {
+    setup({ search: `?${FILTERS_KEYS.SORT_ORDER}=${SORT_ORDER.ASC}` });
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole('button', { name: /filters/i }));
+
+    const sortOrderSelect = screen.getByRole('combobox', { name: /sort order/i });
+    expect(sortOrderSelect).toHaveValue(SORT_ORDER.ASC);
+
+    const options = getAllByRole(sortOrderSelect, 'option');
+    expect(options).toHaveLength(2);
+
+    const descendantOption = getByRole(sortOrderSelect, 'option', { name: /descendant/i });
+
+    await user.selectOptions(sortOrderSelect, descendantOption);
+    expect(sortOrderSelect).toHaveValue(SORT_ORDER.DESC);
+  });
+
+  it('Should change the min discount', async () => {
+    setup({ search: `?${FILTERS_KEYS.MIN_DISCOUNT}=50` });
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole('button', { name: /filters/i }));
+
+    const slider = screen.getByRole('slider', { name: /min discount/i });
+    expect(slider).toHaveValue('50');
+
+    fireEvent.change(slider, { target: { value: '20' } });
+
+    expect(slider).toHaveValue('20');
+  });
+
+  it('Should test the free shipping and has promotion filters', async () => {
+    setup({
+      search: `?${FILTERS_KEYS.FREE_SHIPPING}=${FREE_SHIPPING_TRUE}&${FILTERS_KEYS.HAS_PROMOTION}=${HAS_PROMOTION_TRUE}`,
+    });
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole('button', { name: /filters/i }));
+
+    const freeShippingCheckbox = screen.getByRole('checkbox', { name: /free shipping/i });
+    expect(freeShippingCheckbox).toBeChecked();
+    const hasPromotionCheckbox = screen.getByRole('checkbox', { name: /has promotion/i });
+    expect(hasPromotionCheckbox).toBeChecked();
   });
 });

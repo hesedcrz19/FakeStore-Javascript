@@ -3,6 +3,7 @@ import styles from './ProductsError.module.css';
 import errorImage from '@/assets/images/error.png';
 import { useProductsStore } from '@/stores/productsStore';
 import { setFiltersByParams } from '@/utils/setFiltersByParams';
+import { PAGE } from '@/consts/filtersConsts';
 
 export function ProductsError() {
   const fetchProducts = useProductsStore((store) => store.fetchProducts);
@@ -14,7 +15,7 @@ export function ProductsError() {
       <h2>Unexpected fetch error</h2>
       <p>An error occurred trying to fetch the products.</p>
       <div>
-        <Link to={'/products'}>
+        <Link to={'/'}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="24px"
@@ -26,7 +27,11 @@ export function ProductsError() {
           </svg>
           Home
         </Link>
-        <button onClick={() => void fetchProducts(setFiltersByParams(searchParams))}>
+        <button
+          onClick={() =>
+            void fetchProducts(setFiltersByParams(searchParams), Number(searchParams.get(PAGE)))
+          }
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="24px"

@@ -4,22 +4,23 @@ import { productQuerySchema } from '../products/schemas/productQuerySchema.js';
 import type { Request, Response } from 'express';
 import z from 'zod';
 import { CreateCategory } from './schemas/categorySchema.js';
+import type { Category, ProductsResponse } from '@trending-market/shared';
 
 export class CategoryController {
   static async getAll(_req: Request, res: Response) {
-    const categories = await CategoryModel.getAll();
+    const categories: Category[] = await CategoryModel.getAll();
     res.json(categories);
   }
 
   static async getById(req: Request, res: Response) {
-    const category = await CategoryModel.getById({
+    const category: Category = await CategoryModel.getById({
       id: uuidSchema.parse(req.params.id),
     });
     res.json(category);
   }
 
   static async getProductsByCategoryId(req: Request, res: Response) {
-    const products = await CategoryModel.getProductsByCategoryId({
+    const products: ProductsResponse = await CategoryModel.getProductsByCategoryId({
       id: uuidSchema.parse(req.params.id),
       filters: productQuerySchema.parse(req.query),
     });
@@ -27,12 +28,14 @@ export class CategoryController {
   }
 
   static async getBySlug(req: Request, res: Response) {
-    const category = await CategoryModel.getBySlug({ slug: z.string().parse(req.params.slug) });
+    const category: Category = await CategoryModel.getBySlug({
+      slug: z.string().parse(req.params.slug),
+    });
     res.json(category);
   }
 
   static async getProductsByCategorySlug(req: Request, res: Response) {
-    const products = await CategoryModel.getProductsByCategorySlug({
+    const products: ProductsResponse = await CategoryModel.getProductsByCategorySlug({
       slug: z.string().parse(req.params.slug),
       filters: productQuerySchema.parse(req.query),
     });
@@ -40,12 +43,12 @@ export class CategoryController {
   }
 
   static async create(req: Request, res: Response) {
-    const category = await CategoryModel.create({ body: req.body as CreateCategory });
+    const category: Category = await CategoryModel.create({ body: req.body as CreateCategory });
     res.status(201).json(category);
   }
 
   static async update(req: Request, res: Response) {
-    const category = await CategoryModel.update({
+    const category: Category = await CategoryModel.update({
       id: uuidSchema.parse(req.params.id),
       body: req.body as CreateCategory,
     });

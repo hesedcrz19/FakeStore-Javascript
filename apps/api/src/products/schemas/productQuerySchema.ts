@@ -9,68 +9,68 @@ export const productQuerySchema = z.object({
     .transform((val) => Number(val.toFixed(2)))
     .optional()
     .catch(undefined),
-  minPrice: z.coerce
+  min_price: z.coerce
     .number('The min price must be a number')
     .positive('The min price must be positive')
     .transform((val) => Number(val.toFixed(2)))
     .optional()
     .catch(undefined),
-  maxPrice: z.coerce
+  max_price: z.coerce
     .number('The max price must be a number')
     .positive('The max price must be positive')
     .transform((val) => Number(val.toFixed(2)))
     .optional()
     .catch(undefined),
-  categoryId: z.uuid('The category id must be a valid UUID').optional(),
-  categorySlug: z
+  category_id: z.uuid('The category id must be a valid UUID').optional(),
+  category_slug: z
     .string('The category slug must be a string')
     .regex(/^[a-z0-9-]+$/, 'The category slug must be a valid slug')
     .optional()
     .catch(undefined),
-  sortBy: z
+  sort_by: z
     .enum(Object.values(SORT_OPTIONS), {
       error: 'The sort by must be either "price", "title", "rating", or "newest"',
     })
     .optional()
     .catch(undefined),
-  sortOrder: z
+  sort_order: z
     .enum([SORT_ORDER_OPTIONS.ASC, SORT_ORDER_OPTIONS.DESC], {
       error: 'The sort order must be either "asc" or "desc"',
     })
     .optional()
     .catch(undefined),
-  discountPercentage: z.coerce
+  discount_percentage: z.coerce
     .number('The discount percentage must be a number')
     .min(0, 'The discount percentage must be at least 0')
     .max(100, 'The discount percentage must be at most 100')
     .transform((val) => Number(val.toFixed(2)))
     .optional()
     .catch(undefined),
-  minDiscountPercentage: z.coerce
+  min_discount_percentage: z.coerce
     .number('The min discount percentage must be a number')
     .min(0, 'The min discount percentage must be at least 0')
     .max(100, 'The min discount percentage must be at most 100')
     .transform((val) => Number(val.toFixed(2)))
     .optional()
     .catch(undefined),
-  maxDiscountPercentage: z.coerce
+  max_discount_percentage: z.coerce
     .number('The max discount percentage must be a number')
     .min(0, 'The max discount percentage must be at least 0')
     .max(100, 'The max discount percentage must be at most 100')
     .transform((val) => Number(val.toFixed(2)))
     .optional()
     .catch(undefined),
-  hasDiscount: z
+  has_discount: z
     .enum(['true', 'false'], { error: 'The has discount must be either "true" or "false"' })
     .transform((val) => val === 'true')
     .optional()
     .catch(undefined),
-  hasPromotion: z
+  has_promotion: z
     .enum(['true', 'false'], { error: 'The has promotion must be either "true" or "false"' })
     .transform((val) => val === 'true')
     .optional()
     .catch(undefined),
-  freeShipping: z
+  free_shipping: z
     .enum(['true', 'false'], { error: 'The free shipping must be either "true" or "false"' })
     .transform((val) => val === 'true')
     .optional()

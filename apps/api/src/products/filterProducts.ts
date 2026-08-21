@@ -11,20 +11,18 @@ export const filterProducts = (products: Product[], filters: ProductQuerySchema)
   const {
     title,
     price,
-    minPrice,
-    maxPrice,
-    categorySlug,
-    categoryId,
-    sortBy = SORT_OPTIONS_DEFAULT,
-    sortOrder = SORT_ORDER_OPTIONS_DEFAULT,
-    discountPercentage,
-    minDiscountPercentage,
-    maxDiscountPercentage,
-    hasDiscount,
-    hasPromotion,
-    freeShipping,
-    limit,
-    offset = 0,
+    min_price,
+    max_price,
+    category_slug,
+    category_id,
+    sort_by = SORT_OPTIONS_DEFAULT,
+    sort_order = SORT_ORDER_OPTIONS_DEFAULT,
+    discount_percentage,
+    min_discount_percentage,
+    max_discount_percentage,
+    has_discount,
+    has_promotion,
+    free_shipping,
   } = filters;
   if (title) {
     products = products.filter((product) => product.title.toLowerCase().includes(title));
@@ -34,66 +32,60 @@ export const filterProducts = (products: Product[], filters: ProductQuerySchema)
     products = products.filter((product) => product.price === price);
   }
 
-  if (minPrice && !price) {
-    products = products.filter((product) => product.price >= minPrice);
+  if (min_price && !price) {
+    products = products.filter((product) => product.price >= min_price);
   }
 
-  if (maxPrice && !price) {
-    products = products.filter((product) => product.price <= maxPrice);
+  if (max_price && !price) {
+    products = products.filter((product) => product.price <= max_price);
   }
 
-  if (categoryId) {
-    products = products.filter((product) => product.category.id === categoryId);
+  if (category_id) {
+    products = products.filter((product) => product.category.id === category_id);
   }
 
-  if (categorySlug && !categoryId) {
-    products = products.filter((product) => product.category.slug === categorySlug);
+  if (category_slug && !category_id) {
+    products = products.filter((product) => product.category.slug === category_slug);
   }
 
-  if (discountPercentage) {
-    products = products.filter((product) => product.discountPercentage === discountPercentage);
+  if (discount_percentage) {
+    products = products.filter((product) => product.discountPercentage === discount_percentage);
   }
 
-  if (minDiscountPercentage) {
-    products = products.filter((product) => product.discountPercentage >= minDiscountPercentage);
+  if (min_discount_percentage) {
+    products = products.filter((product) => product.discountPercentage >= min_discount_percentage);
   }
 
-  if (maxDiscountPercentage) {
-    products = products.filter((product) => product.discountPercentage <= maxDiscountPercentage);
+  if (max_discount_percentage) {
+    products = products.filter((product) => product.discountPercentage <= max_discount_percentage);
   }
 
-  if (hasDiscount !== undefined) {
+  if (has_discount !== undefined) {
     products = products.filter((product) =>
-      hasDiscount ? product.discountPercentage > 0 : product.discountPercentage === 0
+      has_discount ? product.discountPercentage > 0 : product.discountPercentage === 0
     );
   }
 
-  if (freeShipping !== undefined) {
+  if (free_shipping !== undefined) {
     products = products.filter((product) =>
-      freeShipping ? product.shippingCost === 0 : product.shippingCost > 0
+      free_shipping ? product.shippingCost === 0 : product.shippingCost > 0
     );
   }
 
-  if (hasPromotion !== undefined) {
+  if (has_promotion !== undefined) {
     products = products.filter((product) =>
-      hasPromotion ? product.promotion : !product.promotion
+      has_promotion ? product.promotion : !product.promotion
     );
-  }
-
-  if (limit !== undefined) {
-    products = products.slice(offset, offset + limit);
-  } else {
-    products = products.slice(offset);
   }
 
   // Sorting
-  if (sortBy === SORT_OPTIONS.PRICE) {
+  if (sort_by === SORT_OPTIONS.PRICE) {
     products = products.sort((a, b) => b.price - a.price);
-  } else if (sortBy === SORT_OPTIONS.TITLE) {
+  } else if (sort_by === SORT_OPTIONS.TITLE) {
     products = products.sort((a, b) => a.title.localeCompare(b.title));
-  } else if (sortBy === SORT_OPTIONS.RATING) {
+  } else if (sort_by === SORT_OPTIONS.RATING) {
     products = products.sort((a, b) => b.rating - a.rating);
-  } else if (sortBy === SORT_OPTIONS.NEWEST) {
+  } else if (sort_by === SORT_OPTIONS.NEWEST) {
     products = products.sort((a, b) => {
       if (a.createdAt < b.createdAt) return 1;
       if (a.createdAt > b.createdAt) return -1;
@@ -101,7 +93,7 @@ export const filterProducts = (products: Product[], filters: ProductQuerySchema)
     });
   }
 
-  if (sortOrder === SORT_ORDER_OPTIONS.ASC) {
+  if (sort_order === SORT_ORDER_OPTIONS.ASC) {
     products = products.reverse();
   }
 

@@ -40,3 +40,5 @@ export const FILTERS_DEFAULT_VALUES = {
   [FILTERS_KEYS.FREE_SHIPPING]: '',
   [FILTERS_KEYS.HAS_PROMOTION]: '',
 } as const;
+
+export const PAGE = 'page';

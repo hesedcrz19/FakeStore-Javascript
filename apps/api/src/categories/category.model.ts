@@ -5,12 +5,15 @@ import { products } from '../data/products.js';
 import { filterProducts } from '../products/filterProducts.js';
 import type { ProductQuerySchema } from '../products/schemas/productQuerySchema.js';
 import type { CreateCategory } from './schemas/categorySchema.js';
+import { paginateProducts } from '@/products/paginateProducts.js';
 
 export class CategoryModel {
+  ///////////////////// GET CATEGORIES /////////////////////
   static async getAll() {
     return categories;
   }
 
+  ///////////////////// GET CATEGORIES BY ID /////////////////////
   static async getById({ id }: { id: string }) {
     const category = categories.find((category) => category.id === id);
     if (!category) throw categoryNotFoundError();
@@ -18,6 +21,7 @@ export class CategoryModel {
     return category;
   }
 
+  ///////////////////// GET PRODUCTS BY CATEGORY ID /////////////////////
   static async getProductsByCategoryId({
     id,
     filters,
@@ -29,16 +33,26 @@ export class CategoryModel {
     if (!category) throw categoryNotFoundError();
 
     const newProducts = products.filter((product) => product.category.id === id);
-    const productsFilter = filterProducts(newProducts, filters);
-    return productsFilter;
+    const filteredProducts = filterProducts(newProducts, filters);
+    const [paginatedProducts, pagination] = paginateProducts(
+      filteredProducts,
+      filters.offset,
+      filters.limit
+    );
+    return {
+      pagination,
+      data: paginatedProducts,
+    };
   }
 
+  ///////////////////// GET CATEGORIES BY SLUG /////////////////////
   static async getBySlug({ slug }: { slug: string }) {
     const category = categories.find((category) => category.slug === slug);
     if (!category) throw categoryNotFoundError();
     return category;
   }
 
+  ///////////////////// GET PRODUCTS BY CATEGORY SLUG /////////////////////
   static async getProductsByCategorySlug({
     slug,
     filters,
@@ -50,10 +64,19 @@ export class CategoryModel {
     if (!category) throw categoryNotFoundError();
 
     const newProducts = products.filter((product) => product.category.slug === slug);
-    const productsFilter = filterProducts(newProducts, filters);
-    return productsFilter;
+    const filteredProducts = filterProducts(newProducts, filters);
+    const [paginatedProducts, pagination] = paginateProducts(
+      filteredProducts,
+      filters.offset,
+      filters.limit
+    );
+    return {
+      pagination,
+      data: paginatedProducts,
+    };
   }
 
+  ///////////////////// CREATE CATEGORY /////////////////////
   static async create({ body }: { body: CreateCategory }) {
     const newCategory = createCategory(body);
 
@@ -63,6 +86,7 @@ export class CategoryModel {
     return newCategory;
   }
 
+  ///////////////////// UPDATE CATEGORY /////////////////////
   static async update({ id, body }: { id: string; body: CreateCategory }) {
     // Verifying if the category exist
     const prevCategoryIndex = categories.findIndex((category) => category.id === id);
@@ -95,6 +119,7 @@ export class CategoryModel {
     return newCategory;
   }
 
+  ///////////////////// DELETE CATEGORY /////////////////////
   static async delete({ id }: { id: string }) {
     const categoryIndex = categories.findIndex((category) => category.id === id);
 

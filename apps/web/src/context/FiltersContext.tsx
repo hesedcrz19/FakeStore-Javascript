@@ -28,7 +28,12 @@ export function FiltersProvider({ children }: React.PropsWithChildren) {
     let delay;
     filtersReadyRef.current = false;
 
-    if (previousFilters.current.sort_by !== filters.sort_by) {
+    if (
+      previousFilters.current.sort_by !== filters.sort_by ||
+      previousFilters.current.sort_order !== filters.sort_order ||
+      previousFilters.current.free_shipping !== filters.free_shipping ||
+      previousFilters.current.has_promotion !== filters.has_promotion
+    ) {
       delay = 0;
     } else {
       delay = 300;
