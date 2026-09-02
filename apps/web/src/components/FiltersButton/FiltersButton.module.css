@@ -14,8 +14,8 @@
     0.2s border-color;
 
   svg {
-    fill: var(--text-color);
-    height: var(--h3-size);
+    height: auto;
+    width: var(--h3-size);
     transition: 0.2s fill;
   }
 
@@ -58,15 +58,14 @@
     min-width: 100%;
 
     .filtersDialogClose {
-      background-color: transparent;
-      border: none;
       position: absolute;
       top: 10px;
       right: 10px;
+      display: flex;
 
       svg {
-        fill: var(--text-color);
-        width: clamp(20px, 5dvw, 25px);
+        color: var(--text-color);
+        width: 25px;
         height: auto;
         cursor: pointer;
 

@@ -5,6 +5,7 @@ import { ThemeButton } from '@/components/ThemeButton/ThemeButton';
 import { MenuButton } from '@/components/MenuButton/MenuButton';
 import { motion } from 'motion/react';
 import { useLayoutEffect, useRef, useState } from 'react';
+import { CartModal } from '@/components/CartModal/CartModal';
 
 const links = [
   { to: '/', label: 'Home' },
@@ -46,30 +47,32 @@ export function Header() {
 
         {/* Only in big screens */}
         {!smallScreen && (
-          <>
-            <nav className="header-nav" ref={navRef}>
-              {cursorStyle && (
-                <motion.div
-                  className="cursor"
-                  animate={{ x: cursorStyle.x, width: cursorStyle.width }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 35 }}
-                />
-              )}
-              {links.map(({ to, label }) => (
-                <NavLink
-                  className={({ isActive }) => (isActive ? 'active' : '')}
-                  key={to}
-                  to={to}
-                  ref={(el) => {
-                    linkRefs.current[to] = el;
-                  }}
-                >
-                  {label}
-                </NavLink>
-              ))}
-            </nav>
+          <nav className="header-nav" ref={navRef}>
+            {cursorStyle && (
+              <motion.div
+                className="cursor"
+                animate={{ x: cursorStyle.x, width: cursorStyle.width }}
+                transition={{ type: 'spring', stiffness: 400, damping: 35 }}
+              />
+            )}
+            {links.map(({ to, label }) => (
+              <NavLink
+                className={({ isActive }) => (isActive ? 'active' : '')}
+                key={to}
+                to={to}
+                ref={(el) => {
+                  linkRefs.current[to] = el;
+                }}
+              >
+                {label}
+              </NavLink>
+            ))}
+          </nav>
+        )}
 
-            <div className="header-options">
+        <div className="header-options">
+          {!smallScreen && (
+            <>
               <a
                 className="header-gitHub"
                 aria-label="gitHub repository"
@@ -82,11 +85,11 @@ export function Header() {
                 </svg>
               </a>
               <ThemeButton buttonClassName="header-theme" />
-            </div>
-          </>
-        )}
-
-        <button className="account-btn signUp">Sign Up</button>
+            </>
+          )}
+          <CartModal />
+        </div>
+        {/* <button className="account-btn signUp">Sign Up</button> */}
         <button className="account-btn login">Login</button>
       </div>
     </header>

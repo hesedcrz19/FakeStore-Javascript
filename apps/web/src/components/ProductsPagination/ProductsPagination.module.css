@@ -7,11 +7,11 @@
   a,
   span {
     background-color: var(--bg-color-sec);
+    color: var(--text-color);
     border-radius: 2px;
     width: 30px;
     aspect-ratio: 1/1;
     font-size: var(--text-size);
-    color: var(--accent-color);
     text-decoration: none;
     display: flex;
     justify-content: center;
@@ -19,10 +19,11 @@
 
     &.active {
       background: var(--primary-color);
+      color: var(--accent-color);
     }
 
     svg {
-      width: var(--text-size);
+      width: var(--h3-size);
     }
 
     &:first-child,

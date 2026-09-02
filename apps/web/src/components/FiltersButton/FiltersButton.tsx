@@ -12,6 +12,7 @@ import {
 import type { Filters } from '@/types/filtersTypes';
 import type { Changers } from '@/hooks/useFiltersReducer';
 import { motion, stagger, type Variants } from 'motion/react';
+import { SlidersHorizontal, X } from 'lucide-react';
 
 const dialogVariants: Variants = {
   close: {
@@ -82,15 +83,7 @@ export function FiltersButton() {
     <>
       <button className={styles.filtersButton} aria-label="Open filters" onClick={startOpening}>
         Filters
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="24px"
-          viewBox="0 -960 960 960"
-          width="24px"
-          fill="#e3e3e3"
-        >
-          <path d="M440-120v-240h80v80h320v80H520v80h-80Zm-320-80v-80h240v80H120Zm160-160v-80H120v-80h160v-80h80v240h-80Zm160-80v-80h400v80H440Zm160-160v-240h80v80h160v80H680v80h-80Zm-480-80v-80h400v80H120Z" />
-        </svg>
+        <SlidersHorizontal />
       </button>
 
       <motion.dialog
@@ -107,17 +100,9 @@ export function FiltersButton() {
           <button
             className={styles.filtersDialogClose}
             onClick={startClosing}
-            aria-label="close filters"
+            aria-label="Close filters"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 -960 960 960"
-              width="24px"
-              fill="#1f1f1f"
-            >
-              <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-            </svg>
+            <X />
           </button>
 
           <form className={styles.filtersForm} onSubmit={(e) => e.preventDefault()}>

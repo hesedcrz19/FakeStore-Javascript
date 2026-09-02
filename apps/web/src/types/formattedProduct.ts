@@ -5,6 +5,7 @@ export interface FormattedProduct {
   title: ShorterText;
   slug: string;
   description: ShorterText;
+  numericPrice: number;
   price: string;
   originalPrice: string;
   discountPercentage: number;

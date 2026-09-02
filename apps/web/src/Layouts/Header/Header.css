@@ -84,15 +84,20 @@ h1 {
 
 .header-options {
   display: flex;
-  gap: 8px;
-  margin-right: 10px;
+  align-items: center;
+  margin-right: 5px;
+  gap: 5px;
 
   .header-gitHub,
   .header-theme {
     display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
-    padding: 3px;
+    height: 35px;
+    aspect-ratio: 1/1;
     border-radius: 5px;
+    color: var(--text-color);
     transition: background-color 0.1s;
 
     &:hover {
@@ -101,9 +106,11 @@ h1 {
 
     svg {
       width: auto;
-      height: var(--h1-size);
-      fill: var(--text-color);
+      height: var(--h2-size);
     }
+  }
+  .header-gitHub svg {
+    fill: var(--text-color);
   }
 }
 

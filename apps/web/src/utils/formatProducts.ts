@@ -30,6 +30,7 @@ export function formatProduct({
     title: shortedTitle,
     slug,
     description: shortedDescription,
+    numericPrice: price,
     price: formatPrice(Number(price)),
     originalPrice: formatPrice(Number(originalPrice)),
     discountPercentage,

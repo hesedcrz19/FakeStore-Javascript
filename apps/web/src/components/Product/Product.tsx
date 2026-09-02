@@ -2,7 +2,7 @@ import styles from './Product.module.css';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { useState, useEffect } from 'react';
-import { productFetch } from '@/services/productFetch';
+import { fetchProductBySlug } from '@/services/fetchProductBySlug';
 import { formatProduct } from '@/utils/formatProducts';
 import { ProductCarrousel } from '../ProductCarrousel/ProductCarrousel';
 import { useLocation } from 'react-router';
@@ -32,7 +32,7 @@ export function Product({ slug }: { slug: string | undefined }) {
   useEffect(() => {
     if (product.slug === slug) return;
 
-    productFetch(slug)
+    fetchProductBySlug(slug)
       .then((product) => {
         setProduct(formatProduct(product));
       })

@@ -1,11 +1,13 @@
 import 'react-loading-skeleton/dist/skeleton.css';
+import Skeleton from 'react-loading-skeleton';
 import styles from './ProductCard.module.css';
 import fallbackImage from '@/assets/images/fallback.png';
-import Skeleton from 'react-loading-skeleton';
 import { Link } from 'react-router';
 import { useLocation, useSearchParams } from 'react-router';
 import type { FormattedProduct } from '@/types/formattedProduct';
-import type { SyntheticEvent } from 'react';
+import { type SyntheticEvent } from 'react';
+import { AddToCartButton } from '../AddToCartButton/AddToCartButton';
+import { Star } from 'lucide-react';
 
 interface ProductCardProps {
   product: Partial<FormattedProduct>;
@@ -14,6 +16,7 @@ interface ProductCardProps {
 
 export function ProductCard({ product, loading }: ProductCardProps) {
   const {
+    id,
     title,
     price,
     originalPrice,
@@ -38,7 +41,7 @@ export function ProductCard({ product, loading }: ProductCardProps) {
         <header className={styles.header}>
           {!loading ? (
             <img
-              src={principalImage || '/fallback.png'}
+              src={principalImage || fallbackImage}
               alt={title?.fullContent}
               onError={imageError}
             />
@@ -66,30 +69,30 @@ export function ProductCard({ product, loading }: ProductCardProps) {
         </div>
 
         <div className={styles.pricesContainer}>
-          {(discountPercentage !== 0 || promotion !== null) && (
-            <ul className={styles.promos}>
-              {promotion !== null && (
-                <li className={styles.promotion}>{promotion ?? <Skeleton width="50px" />}</li>
-              )}
-              {discountPercentage !== 0 && (
-                <li className={styles.promotion}>
-                  {discountPercentage ? `${discountPercentage}% off` : <Skeleton width="50px" />}
-                </li>
-              )}
-            </ul>
-          )}
           <div className={styles.prices}>
-            <p className={styles.price} data-testid="price">
-              <span className="sr-only">Price: </span>
-              {price ?? <Skeleton width="80px" />}
-            </p>
             {originalPrice !== price && (
               <p className={styles.originalPrice}>
                 <span className="sr-only">Original price: </span>
                 {originalPrice}
               </p>
             )}
+            <p
+              className={`${styles.price} ${originalPrice !== price ? styles.hasDiscount : ''}`}
+              data-testid="price"
+            >
+              <span className="sr-only">Price: </span>
+              {price ?? <Skeleton width="80px" />}
+            </p>
           </div>
+
+          {(discountPercentage || promotion) && (
+            <ul className={styles.promos}>
+              {discountPercentage !== 0 && discountPercentage && (
+                <li className={styles.promotion}>{`-${discountPercentage}%`}</li>
+              )}
+              {promotion && <li className={styles.promotion}>{promotion}</li>}
+            </ul>
+          )}
         </div>
 
         <p className={styles.shippingCost}>
@@ -97,10 +100,24 @@ export function ProductCard({ product, loading }: ProductCardProps) {
         </p>
 
         <footer className={styles.footer}>
-          {loading ? (
-            <Skeleton height={30} />
+          {loading || !id ? (
+            <div style={{ flexGrow: 1 }}>
+              <Skeleton style={{ flexGrow: 1 }} height={'100%'} />
+            </div>
           ) : (
-            <button className={styles.addToCartBtn}>Add to Cart</button>
+            <>
+              <AddToCartButton
+                id={id}
+                image={principalImage}
+                title={title?.content ?? ''}
+                buttonProps={{ className: styles.addToCartBtn }}
+                controlProps={{ className: styles.itemControls }}
+                deleteBtnProps={{ className: styles.deleteItem }}
+              />
+              <button className={styles.favBtn} aria-label="Add product to favorites">
+                <Star />
+              </button>
+            </>
           )}
         </footer>
       </article>

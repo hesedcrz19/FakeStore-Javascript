@@ -12,12 +12,15 @@
 
   .closeBtn {
     position: absolute;
-    left: 3px;
+    right: 3px;
     top: 3px;
+    cursor: pointer;
+    display: flex;
+    color: var(--text-color);
 
     svg {
-      fill: var(--text-color);
-      cursor: pointer;
+      height: auto;
+      width: var(--h2-size);
 
       &:hover {
         opacity: 0.8;

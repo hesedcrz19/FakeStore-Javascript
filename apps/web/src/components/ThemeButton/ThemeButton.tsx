@@ -1,10 +1,8 @@
 import styles from './ThemeButton.module.css';
 import { useEffect, useState, useRef, useId } from 'react';
 import { useTheme } from '@/context/ThemeContext';
-import { Desktop } from '../icons/Desktop';
-import { Sun } from '../icons/Sun';
-import { Moon } from '../icons/Moon';
 import { THEMES } from '@/consts/themesConst';
+import { Sun, Moon, Monitor } from 'lucide-react';
 import type { Theme } from '@/types/themesTypes';
 import { AnimatePresence, motion, stagger, type Variants } from 'motion/react';
 
@@ -27,7 +25,7 @@ const themes = [
     label: 'System',
     theme: THEMES.SYSTEM,
     svg() {
-      return <Desktop />;
+      return <Monitor />;
     },
   },
 ];
@@ -114,13 +112,7 @@ export function ThemeButton({
             setPopoverOpen((prev) => !prev);
           }}
         >
-          {themeMode === 'light' ? (
-            <Sun className={styles.sun} />
-          ) : themeMode === 'dark' ? (
-            <Moon className={styles.moon} />
-          ) : (
-            <Desktop className={styles.desktop} />
-          )}
+          {themeMode === 'light' ? <Sun /> : themeMode === 'dark' ? <Moon /> : <Monitor />}
         </motion.button>
 
         {popoverOpen && (

@@ -45,9 +45,8 @@
     }
 
     svg {
-      height: var(--h3-size);
+      height: var(--text-size);
       width: auto;
-      fill: var(--text-color);
     }
   }
 }
