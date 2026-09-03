@@ -1,4 +1,4 @@
-import { Product } from '@/components/Product/Product';
+import { Product } from '@/components/products/Product/Product';
 import type { FormattedProduct } from '@/types/formattedProduct';
 import { formatProduct } from '@/utils/formatProducts';
 import { render, screen } from '@testing-library/react';

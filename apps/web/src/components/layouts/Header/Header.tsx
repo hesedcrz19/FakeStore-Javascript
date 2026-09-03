@@ -1,11 +1,13 @@
 import './Header.css';
 import { useMatchMedia } from '@/hooks/useMatchMedia';
 import { Link, NavLink, useLocation } from 'react-router';
-import { ThemeButton } from '@/components/ThemeButton/ThemeButton';
-import { MenuButton } from '@/components/MenuButton/MenuButton';
+import { ThemeButton } from '@/components/dialogs/ThemeButton/ThemeButton';
+import { MenuButton } from '@/components/dialogs/MenuButton/MenuButton';
 import { motion } from 'motion/react';
 import { useLayoutEffect, useRef, useState } from 'react';
-import { CartModal } from '@/components/CartModal/CartModal';
+import { ShoppingCart } from 'lucide-react';
+import { useModalContext } from '@/context/ModalContext';
+import { CART_MODAL_KEY } from '@/components/cart/CartModal/CartModal';
 
 const links = [
   { to: '/', label: 'Home' },
@@ -16,6 +18,7 @@ const links = [
 export function Header() {
   const location = useLocation();
   const smallScreen = useMatchMedia('(max-width:1000px)');
+  const { open } = useModalContext();
 
   const navRef = useRef<HTMLElement>(null);
   const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
@@ -87,7 +90,9 @@ export function Header() {
               <ThemeButton buttonClassName="header-theme" />
             </>
           )}
-          <CartModal />
+          <button className="cartBtn" onClick={() => open(CART_MODAL_KEY)} aria-label="Open cart">
+            <ShoppingCart />
+          </button>
         </div>
         {/* <button className="account-btn signUp">Sign Up</button> */}
         <button className="account-btn login">Login</button>

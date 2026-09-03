@@ -73,7 +73,7 @@
   font-size: var(--text-size);
 
   .star {
-    mask-image: url('../../assets/images/star.png');
+    mask-image: url(../../../assets/images/star.png);
     mask-size: contain;
     mask-repeat: no-repeat;
     mask-position: center;

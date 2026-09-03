@@ -2,7 +2,7 @@ import { render, screen, waitForElementToBeRemoved } from '@testing-library/reac
 import { describe, it, expect } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from '@/context/ThemeContext';
-import { ThemeButton } from '@/components/ThemeButton/ThemeButton';
+import { ThemeButton } from '@/components/dialogs/ThemeButton/ThemeButton';
 
 const setup = () =>
   render(

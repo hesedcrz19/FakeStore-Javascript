@@ -2,12 +2,12 @@ import styles from './MenuButton.module.css';
 import { useEffect, useRef } from 'react';
 import { useModal } from '@/hooks/useModal';
 import { NavLink } from 'react-router';
-import { ThemeButton } from '../ThemeButton/ThemeButton.jsx';
+import { ThemeButton } from '../ThemeButton/ThemeButton';
 import { FILTERS_KEYS } from '@/consts/filtersConsts';
 import { useCategoriesStore } from '@/stores/categoriesStore';
 import { motion, stagger, type Variants } from 'motion/react';
-import { CategoryLink } from '../CategoryLink/CategoryLink';
-import { AllProductsLink } from '../AllProductsLink/AllProductsLink';
+import { CategoryLink } from '../../categories/CategoryLink/CategoryLink';
+import { AllProductsLink } from '../../products/AllProductsLink/AllProductsLink';
 import { House, Info, ShoppingBag, ShoppingCart, User, Menu, X } from 'lucide-react';
 
 const dialogVariants: Variants = {

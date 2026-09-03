@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router';
 import { ThemeProvider } from './context/ThemeContext';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import App from './App.js';
+import { ModalContextProvider } from './context/ModalContext';
 
 createRoot(document.getElementById('root') ?? document.body).render(
   <StrictMode>
@@ -14,7 +15,9 @@ createRoot(document.getElementById('root') ?? document.body).render(
         highlightColor="var(--skeleton-highlight-color)"
       >
         <ThemeProvider>
-          <App />
+          <ModalContextProvider>
+            <App />
+          </ModalContextProvider>
         </ThemeProvider>
       </SkeletonTheme>
     </BrowserRouter>

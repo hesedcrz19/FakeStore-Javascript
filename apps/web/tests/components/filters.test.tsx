@@ -8,7 +8,7 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { FiltersButton } from '@/components/FiltersButton/FiltersButton';
+import { FiltersButton } from '@/components/dialogs/FiltersButton/FiltersButton';
 import { FiltersProvider } from '@/context/FiltersContext';
 import { MemoryRouter } from 'react-router';
 import {

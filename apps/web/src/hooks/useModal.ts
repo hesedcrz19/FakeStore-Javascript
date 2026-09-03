@@ -1,7 +1,15 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 
 import { itsOutside } from '@/utils/itsOutside';
 
+export interface ModalControls {
+  isOpen: boolean;
+  isOpening: boolean;
+  startOpening: () => void;
+  startClosing: () => void;
+  open: () => void;
+  close: () => void;
+}
 interface useModalProps {
   dialogRef: React.RefObject<HTMLDialogElement | null>;
   autoClose: boolean;
@@ -15,14 +23,12 @@ export function useModal({
   dialogRef,
   autoClose,
   shouldHideScrollbar,
-  enabled = true,
   initialOpen = false,
   onClose,
-}: useModalProps) {
+}: useModalProps): ModalControls {
   const [isOpening, setIsOpening] = useState(initialOpen);
+  const [isOpen, setIsOpen] = useState(initialOpen);
   const hiddenScrollbarRef = useRef(false);
-
-  const shouldBeOpen = isOpening && enabled;
 
   const hideScrollbar = useCallback(() => {
     if (hiddenScrollbarRef.current) return;
@@ -51,17 +57,27 @@ export function useModal({
   const open = useCallback(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
+
+    if (!isOpening) setIsOpening(true);
+    setIsOpen(true);
+
     dialog.showModal();
+
     if (shouldHideScrollbar) hideScrollbar();
-  }, [hideScrollbar, shouldHideScrollbar, dialogRef]);
+  }, [hideScrollbar, shouldHideScrollbar, dialogRef, isOpening]);
 
   const close = useCallback(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
+
+    if (isOpening) setIsOpening(false);
+    setIsOpen(false);
+
     dialog.close();
+
     if (shouldHideScrollbar) showScrollbar();
     if (onClose) onClose();
-  }, [showScrollbar, dialogRef, shouldHideScrollbar, onClose]);
+  }, [showScrollbar, dialogRef, shouldHideScrollbar, onClose, isOpening]);
 
   // Close the modal when the component is dismounting
   useEffect(() => {
@@ -113,13 +129,18 @@ export function useModal({
     };
   }, [dialogRef, autoClose]);
 
-  return {
-    isOpening: shouldBeOpen,
-    startOpening: () => setIsOpening(true),
-    startClosing: () => setIsOpening(false),
-    open,
-    close,
-    showScrollbar,
-    hideScrollbar,
-  };
+  const startOpening = useCallback(() => setIsOpening(true), []);
+  const startClosing = useCallback(() => setIsOpening(false), []);
+
+  return useMemo(
+    () => ({
+      isOpening,
+      isOpen,
+      startOpening,
+      startClosing,
+      open,
+      close,
+    }),
+    [close, open, startClosing, startOpening, isOpening, isOpen]
+  );
 }

@@ -1,9 +1,9 @@
 import styles from './ProductsGrid.module.css';
-import { ProductCard } from '@/components/ProductCard/ProductCard';
-import { NotFound } from '@/components/NotFound/NotFound';
+import { ProductCard } from '@/components/products/ProductCard/ProductCard';
+import { NotFound } from '@/components/products/NotFound/NotFound';
 import type { FormattedProduct } from '@/types/formattedProduct';
 import type { AppError } from '@trending-market/shared';
-import { ProductsError } from '@/components/ProductsError/ProductsError';
+import { ProductsError } from '@/components/products/ProductsError/ProductsError';
 
 interface ProductsGridProps {
   products: FormattedProduct[];

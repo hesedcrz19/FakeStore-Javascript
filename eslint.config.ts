@@ -6,6 +6,17 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import prettier from 'eslint-config-prettier';
 
 export default [
+  {
+    ignores: [
+      'dist/',
+      'build/',
+      'logs/',
+      '**/*.config.js',
+      'src/generated/**/*.js',
+      'playwright-report/',
+    ],
+  },
+
   js.configs.recommended,
   ...tseslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,

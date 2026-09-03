@@ -89,7 +89,8 @@ h1 {
   gap: 5px;
 
   .header-gitHub,
-  .header-theme {
+  .header-theme,
+  .cartBtn {
     display: flex;
     justify-content: center;
     align-items: center;

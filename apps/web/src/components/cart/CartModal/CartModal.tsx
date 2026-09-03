@@ -9,48 +9,52 @@ import type { FormattedProduct } from '@/types/formattedProduct';
 import { formatProduct } from '@/utils/formatProducts';
 import { useEffect, useRef, useState } from 'react';
 import { CartControllers } from '../CartControllers/CartControllers';
-import { Star, Trash, ShoppingCart } from 'lucide-react';
+import { Star, Trash } from 'lucide-react';
+import { useModalContext } from '@/context/ModalContext';
+import { createPortal } from 'react-dom';
+
+export const CART_MODAL_KEY = 'cartModal';
 
 export function CartModal() {
   const [total, setTotal] = useState<Record<string, number>>({});
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const { isOpening, open, close, startOpening } = useModal({
+  const modalControls = useModal({
     dialogRef,
     autoClose: true,
     shouldHideScrollbar: true,
   });
+  const { addModalControls } = useModalContext();
   const cart = useCartStore((store) => store.cart);
+
+  useEffect(() => {
+    addModalControls(CART_MODAL_KEY, modalControls);
+  }, [addModalControls, modalControls]);
 
   useEffect(() => {
     if (!dialogRef.current) return;
 
-    if (!isOpening) {
-      close();
+    if (!modalControls.isOpening) {
+      modalControls.close();
     } else {
-      open();
+      modalControls.open();
     }
-  }, [isOpening, close, open]);
+  }, [modalControls]);
 
-  return (
-    <>
-      <button className={styles.cartButton} onClick={startOpening} aria-label="Open cart">
-        <ShoppingCart />
-      </button>
+  return createPortal(
+    <dialog className={styles.dialog} ref={dialogRef}>
+      <h2>Products Cart ({Object.entries(cart).length})</h2>
 
-      <dialog className={styles.dialog} ref={dialogRef}>
-        <h2>Products Cart ({Object.entries(cart).length})</h2>
+      <ul className={styles.itemsList}>
+        {Object.entries(cart).map(([id, item]) => (
+          <CartItem id={id} quantity={item.quantity} key={id} setTotal={setTotal} />
+        ))}
+      </ul>
 
-        <ul className={styles.itemsList}>
-          {Object.entries(cart).map(([id, item]) => (
-            <CartItem id={id} quantity={item.quantity} key={id} setTotal={setTotal} />
-          ))}
-        </ul>
-
-        <p className={styles.total}>
-          Total: ${Object.values(total).reduce((prev, curr) => prev + curr, 0)}
-        </p>
-      </dialog>
-    </>
+      <p className={styles.total}>
+        Total: ${Object.values(total).reduce((prev, curr) => prev + curr, 0)}
+      </p>
+    </dialog>,
+    document.body
   );
 }
 

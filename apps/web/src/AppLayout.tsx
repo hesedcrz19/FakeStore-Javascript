@@ -1,9 +1,10 @@
-import { Header } from './Layouts/Header/Header';
-import { Footer } from './Layouts/Footer/Footer';
+import { Header } from './components/layouts/Header/Header';
+import { Footer } from './components/layouts/Footer/Footer';
 import { Outlet } from 'react-router';
 import { useEffect } from 'react';
 import { useCategoriesStore } from './stores/categoriesStore';
 import { Toaster } from 'sonner';
+import { CartModal } from './components/cart/CartModal/CartModal';
 
 export function AppLayout() {
   const { fetchCategories } = useCategoriesStore();
@@ -19,6 +20,7 @@ export function AppLayout() {
       </main>
       <Footer />
 
+      <CartModal />
       <Toaster
         toastOptions={{
           style: {

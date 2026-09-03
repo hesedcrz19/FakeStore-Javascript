@@ -4,7 +4,7 @@ import styles from './CategoriesButtons.module.css';
 import { useCategoriesStore } from '@/stores/categoriesStore';
 import { FILTERS_KEYS } from '@/consts/filtersConsts';
 import { CategoryLink } from '../CategoryLink/CategoryLink';
-import { AllProductsLink } from '../AllProductsLink/AllProductsLink';
+import { AllProductsLink } from '../../products/AllProductsLink/AllProductsLink';
 import { useSearchParams } from 'react-router';
 import { useMemo } from 'react';
 

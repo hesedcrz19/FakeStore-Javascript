@@ -2,13 +2,13 @@ import styles from './Products.module.css';
 import { useProductsStore } from '@/stores/productsStore';
 import { useEffect } from 'react';
 import { setFiltersByParams } from '@/utils/setFiltersByParams';
-import { ProductsGrid } from '@/Layouts/ProductsGrid/ProductsGrid';
+import { ProductsGrid } from '@/components/layouts/ProductsGrid/ProductsGrid';
 import { FiltersProvider } from '@/context/FiltersContext';
-import { FiltersButton } from '@/components/FiltersButton/FiltersButton';
+import { FiltersButton } from '@/components/dialogs/FiltersButton/FiltersButton';
 import { useSearchParams } from 'react-router';
-import { LoadingDialog } from '@/components/LoadingDialog/LoadingDialog';
-import { CategoriesButtons } from '@/components/CategoriesButtons/CategoriesButtons';
-import { ProductsPagination } from '@/components/ProductsPagination/ProductsPagination';
+import { LoadingDialog } from '@/components/loading/LoadingDialog/LoadingDialog';
+import { CategoriesButtons } from '@/components/categories/CategoriesButtons/CategoriesButtons';
+import { ProductsPagination } from '@/components/products/ProductsPagination/ProductsPagination';
 import { PAGE } from '@/consts/filtersConsts';
 
 export default function Products() {

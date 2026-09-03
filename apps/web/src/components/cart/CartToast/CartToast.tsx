@@ -1,5 +1,7 @@
+import { useModalContext } from '@/context/ModalContext';
 import styles from './CartToast.module.css';
 import fallbackImage from '@/assets/images/fallback.png';
+import { CART_MODAL_KEY } from '../CartModal/CartModal';
 
 interface CardToastProps {
   image?: string | null;
@@ -7,6 +9,8 @@ interface CardToastProps {
 }
 
 export function CartToast({ image, title = '' }: CardToastProps) {
+  const { open } = useModalContext();
+
   return (
     <article className={styles.container}>
       <img src={image || fallbackImage} alt="" />
@@ -14,7 +18,7 @@ export function CartToast({ image, title = '' }: CardToastProps) {
         <p>{title}</p>
         <div className={styles.footer}>
           <p>Product added to cart</p>
-          <button>See cart</button>
+          <button onClick={() => open(CART_MODAL_KEY)}>See cart</button>
         </div>
       </div>
     </article>

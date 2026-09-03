@@ -5,7 +5,7 @@ import { useModal } from '@/hooks/useModal';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router';
 
-import { Product } from '@/components/Product/Product';
+import { Product } from '@/components/products/Product/Product';
 import { motion, type Variants } from 'motion/react';
 import { X } from 'lucide-react';
 

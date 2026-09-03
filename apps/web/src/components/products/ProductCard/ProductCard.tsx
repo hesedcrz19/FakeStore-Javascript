@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 import { useLocation, useSearchParams } from 'react-router';
 import type { FormattedProduct } from '@/types/formattedProduct';
 import { type SyntheticEvent } from 'react';
-import { AddToCartButton } from '../AddToCartButton/AddToCartButton';
+import { AddToCartButton } from '../../cart/AddToCartButton/AddToCartButton';
 import { Star } from 'lucide-react';
 
 interface ProductCardProps {
