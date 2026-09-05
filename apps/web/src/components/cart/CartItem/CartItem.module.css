@@ -1,0 +1,134 @@
+.cartItem {
+  display: flex;
+  gap: 10px;
+}
+
+.imgContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  img {
+    height: 140px;
+    aspect-ratio: 1/1;
+  }
+
+  .itemControls {
+    display: flex;
+    border-radius: 3px;
+    overflow: clip;
+    background-color: var(--bg-color-sec);
+
+    button {
+      flex: 1;
+      width: 20px;
+      background-color: var(--primary-color);
+      cursor: pointer;
+      color: var(--accent-color);
+      font-size: var(--h3-size);
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+
+    span {
+      flex: 1;
+      text-align: center;
+    }
+  }
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  h3 {
+    font-size: var(--text-size);
+    line-height: 1.2;
+    font-weight: 500;
+  }
+}
+
+.detailsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+
+  .priceContainer {
+    display: flex;
+    font-size: var(--text-size);
+    gap: 5px;
+    font-weight: 600;
+    line-height: 1;
+
+    .originalPrice {
+      text-decoration: line-through;
+    }
+
+    .hasDiscount {
+      color: var(--discount-color);
+    }
+  }
+
+  .promotion {
+    background-color: var(--discount-color);
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: var(--text-size-small);
+    font-weight: 600;
+    color: var(--accent-color);
+  }
+}
+
+.shippingCost {
+  margin-top: 8px;
+  font-size: var(--text-size-small);
+  font-weight: 300;
+}
+
+.footer {
+  display: flex;
+  margin-top: auto;
+  justify-content: space-between;
+
+  .total {
+    font-size: var(--text-size);
+    font-weight: 600;
+  }
+
+  .buttons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    button {
+      border-radius: 3px;
+      display: flex;
+      place-content: center;
+      height: 100%;
+      aspect-ratio: 1/1;
+      cursor: pointer;
+
+      &.favBtn {
+        background-color: var(--bg-color-sec);
+        color: var(--text-color);
+      }
+      &.trashBtn {
+        background-color: var(--delete-color);
+        color: var(--accent-color);
+      }
+
+      &:hover {
+        opacity: 0.8;
+      }
+
+      svg {
+        height: auto;
+        width: var(--text-size);
+      }
+    }
+  }
+}

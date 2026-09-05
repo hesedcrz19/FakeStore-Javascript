@@ -1,5 +1,5 @@
 import styles from './MenuButton.module.css';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useModal } from '@/hooks/useModal';
 import { NavLink } from 'react-router';
 import { ThemeButton } from '../ThemeButton/ThemeButton';
@@ -95,19 +95,16 @@ const optionsListVariants: Variants = {
 export function MenuButton() {
   const { categories } = useCategoriesStore();
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const { isOpening, startOpening, startClosing, close, open } = useModal({
+  const { isOpening, startClosing, close, open } = useModal({
     dialogRef,
     autoClose: true,
     shouldHideScrollbar: true,
+    controlTheTransitions: true,
   });
-
-  useEffect(() => {
-    if (isOpening) open();
-  }, [isOpening, open]);
 
   return (
     <>
-      <button className={styles.openDialog} onClick={startOpening} aria-label="open menu">
+      <button className={styles.openDialog} onClick={open} aria-label="open menu">
         <Menu />
       </button>
 

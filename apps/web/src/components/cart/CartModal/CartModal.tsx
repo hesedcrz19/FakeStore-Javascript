@@ -1,19 +1,33 @@
-import 'react-loading-skeleton/dist/skeleton.css';
-import Skeleton from 'react-loading-skeleton';
 import styles from './CartModal.module.css';
-import imgFallback from '@/assets/images/fallback.png';
+import emptyCartImg from '@/assets/images/cart-empty.webp';
 import { useModal } from '@/hooks/useModal';
-import { fetchProductById } from '@/services/fetchProductsById';
 import { useCartStore } from '@/stores/cartStore';
-import type { FormattedProduct } from '@/types/formattedProduct';
-import { formatProduct } from '@/utils/formatProducts';
 import { useEffect, useRef, useState } from 'react';
-import { CartControllers } from '../CartControllers/CartControllers';
-import { Star, Trash } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useModalContext } from '@/context/ModalContext';
 import { createPortal } from 'react-dom';
+import { CartItem } from '../CartItem/CartItem';
+import { motion, stagger, type Variants } from 'motion/react';
 
 export const CART_MODAL_KEY = 'cartModal';
+
+const dialogVariants: Variants = {
+  close: {
+    x: 0,
+    transition: {
+      duration: 0.3,
+      ease: 'easeOut',
+    },
+  },
+  open: {
+    x: '-100%',
+    transition: {
+      duration: 0.3,
+      ease: 'easeOut',
+      delayChildren: stagger(0, { startDelay: 0.3 }),
+    },
+  },
+};
 
 export function CartModal() {
   const [total, setTotal] = useState<Record<string, number>>({});
@@ -22,6 +36,7 @@ export function CartModal() {
     dialogRef,
     autoClose: true,
     shouldHideScrollbar: true,
+    controlTheTransitions: true,
   });
   const { addModalControls } = useModalContext();
   const cart = useCartStore((store) => store.cart);
@@ -30,146 +45,62 @@ export function CartModal() {
     addModalControls(CART_MODAL_KEY, modalControls);
   }, [addModalControls, modalControls]);
 
-  useEffect(() => {
-    if (!dialogRef.current) return;
+  const { close, isOpening, startClosing } = modalControls;
 
-    if (!modalControls.isOpening) {
-      modalControls.close();
-    } else {
-      modalControls.open();
-    }
-  }, [modalControls]);
+  const cartLength = Object.keys(cart).length;
 
   return createPortal(
-    <dialog className={styles.dialog} ref={dialogRef}>
-      <h2>Products Cart ({Object.entries(cart).length})</h2>
+    <motion.dialog
+      className={styles.dialog}
+      ref={dialogRef}
+      variants={dialogVariants}
+      initial={isOpening ? 'open' : 'close'}
+      animate={isOpening ? 'open' : 'close'}
+      onAnimationComplete={(variant) => {
+        if (variant === 'close') close();
+      }}
+    >
+      <section className={styles.dialogFlex}>
+        <button
+          aria-label="Close cart modal"
+          className={styles.closeBtn}
+          onClick={() => startClosing()}
+        >
+          <X />
+        </button>
 
-      <ul className={styles.itemsList}>
-        {Object.entries(cart).map(([id, item]) => (
-          <CartItem id={id} quantity={item.quantity} key={id} setTotal={setTotal} />
-        ))}
-      </ul>
+        <h2>Products Cart ({cartLength})</h2>
 
-      <p className={styles.total}>
-        Total: ${Object.values(total).reduce((prev, curr) => prev + curr, 0)}
-      </p>
-    </dialog>,
+        {cartLength ? (
+          <ul className={styles.itemsList}>
+            {Object.entries(cart).map(([id, item]) => (
+              <li key={id} className={styles.itemContainer}>
+                <CartItem id={id} quantity={item.quantity} setTotal={setTotal} />
+                <hr />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <EmptyCart />
+        )}
+
+        <p className={styles.total}>
+          {cartLength
+            ? `Total: ${Object.values(total).reduce((prev, curr) => prev + curr, 0)}`
+            : ''}
+        </p>
+      </section>
+    </motion.dialog>,
     document.body
   );
 }
 
-function CartItem({
-  id,
-  quantity,
-  setTotal,
-}: {
-  id: string;
-  quantity: number;
-  setTotal: React.Dispatch<React.SetStateAction<Record<string, number>>>;
-}) {
-  const [product, setProduct] = useState<Partial<FormattedProduct>>({});
-  const [loading, setLoading] = useState(true);
-  const removeItem = useCartStore((store) => store.removeItem);
-
-  useEffect(() => {
-    fetchProductById(id)
-      .then((res) => {
-        setProduct(formatProduct(res));
-      })
-      .catch((e) => {
-        console.log(e);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [id]);
-
-  useEffect(() => {
-    if (!product.numericPrice) return;
-
-    setTotal((prev) => ({ ...prev, [id]: (product.numericPrice ?? 0) * quantity }));
-
-    return () => {
-      setTotal((prev) => {
-        const newValue = { ...prev };
-        delete newValue[id];
-        return newValue;
-      });
-    };
-  }, [product.numericPrice, quantity, setTotal, id]);
-
-  const { principalImage, title, promotion, price, originalPrice, shippingCost, numericPrice } =
-    product;
-
-  const hasDiscount = originalPrice !== price;
-
+function EmptyCart() {
   return (
-    <>
-      <li>
-        <div className={styles.imgContainer}>
-          <img src={principalImage || imgFallback} alt={title?.fullContent || ''} />
-          {!loading ? (
-            <CartControllers className={styles.itemControls} id={id} quantity={quantity} />
-          ) : (
-            <Skeleton />
-          )}
-        </div>
-
-        <div className={styles.contentContainer}>
-          <h3>{title?.content ?? <Skeleton />}</h3>
-
-          <div className={styles.detailsContainer}>
-            <div className={styles.priceContainer}>
-              {hasDiscount && (
-                <p className={styles.originalPrice}>
-                  <span className="sr-only">Original price: </span>
-                  {originalPrice}
-                </p>
-              )}
-
-              <p
-                className={`${styles.price} ${hasDiscount ? styles.hasDiscount : ''}`}
-                data-testid="price"
-              >
-                <span className="sr-only">Price: </span>
-                {price ?? <Skeleton width="80px" />}
-              </p>
-            </div>
-
-            {promotion && <p className={styles.promotion}>{promotion}</p>}
-          </div>
-
-          <p className={styles.shippingCost}>
-            {shippingCost ? shippingCost.text : <Skeleton width="100px" />}
-          </p>
-
-          <div className={styles.footer}>
-            <p className={styles.total}>
-              {numericPrice ? (
-                `Total: $${(numericPrice ?? 0) * quantity}`
-              ) : (
-                <Skeleton width={100} />
-              )}
-            </p>
-
-            {!loading && (
-              <div className={styles.buttons}>
-                <button className={styles.favBtn} aria-label="Add item to favorites">
-                  <Star />
-                </button>
-                <button
-                  onClick={() => removeItem(id)}
-                  className={styles.trashBtn}
-                  aria-label="Delete item"
-                >
-                  <Trash />
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      </li>
-      <hr />
-    </>
+    <div className={styles.emptyCart}>
+      <img src={emptyCartImg} alt="" />
+      <h3>The cart is empty.</h3>
+      <p>You don&apos;t have any products in your cart yet.</p>
+    </div>
   );
 }

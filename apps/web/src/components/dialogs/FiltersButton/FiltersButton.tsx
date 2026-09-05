@@ -1,5 +1,5 @@
 import styles from './FiltersButton.module.css';
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import { useModal } from '@/hooks/useModal';
 import { useFilters } from '@/context/FiltersContext';
 import {
@@ -58,10 +58,11 @@ const fieldsetVariants: Variants = {
 
 export function FiltersButton() {
   const filtersRef = useRef<HTMLDialogElement>(null);
-  const { isOpening, open, close, startClosing, startOpening } = useModal({
+  const { isOpening, open, close, startClosing } = useModal({
     dialogRef: filtersRef,
     shouldHideScrollbar: false,
     autoClose: true,
+    controlTheTransitions: true,
   });
   const { filters, changers } = useFilters();
   const {
@@ -75,13 +76,9 @@ export function FiltersButton() {
     changeHasPromotion,
   } = changers;
 
-  useEffect(() => {
-    if (isOpening) open();
-  }, [isOpening, close, open]);
-
   return (
     <>
-      <button className={styles.filtersButton} aria-label="Open filters" onClick={startOpening}>
+      <button className={styles.filtersButton} aria-label="Open filters" onClick={open}>
         Filters
         <SlidersHorizontal />
       </button>

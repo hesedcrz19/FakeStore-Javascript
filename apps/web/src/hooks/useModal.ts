@@ -14,17 +14,18 @@ interface useModalProps {
   dialogRef: React.RefObject<HTMLDialogElement | null>;
   autoClose: boolean;
   shouldHideScrollbar: boolean;
-  enabled?: boolean;
-  initialOpen?: boolean;
+  controlTheTransitions?: boolean;
   onClose?: () => void;
+  initialOpen?: boolean;
 }
 
 export function useModal({
   dialogRef,
   autoClose,
   shouldHideScrollbar,
-  initialOpen = false,
+  controlTheTransitions = false,
   onClose,
+  initialOpen = false,
 }: useModalProps): ModalControls {
   const [isOpening, setIsOpening] = useState(initialOpen);
   const [isOpen, setIsOpen] = useState(initialOpen);
@@ -97,6 +98,7 @@ export function useModal({
     const handleClose = (e: Event) => {
       e.preventDefault();
       setIsOpening(false);
+      if (!controlTheTransitions) close();
     };
 
     dialog.addEventListener('cancel', handleClose);
@@ -104,7 +106,7 @@ export function useModal({
     return () => {
       dialog.removeEventListener('cancel', handleClose);
     };
-  }, [dialogRef]);
+  }, [dialogRef, controlTheTransitions, close]);
 
   // Detect click outside the dialog
   useEffect(() => {
@@ -119,6 +121,7 @@ export function useModal({
         autoClose
       ) {
         setIsOpening(false);
+        if (!controlTheTransitions) close();
       }
     };
 
@@ -127,7 +130,7 @@ export function useModal({
     return () => {
       dialog.removeEventListener('mousedown', handleClick);
     };
-  }, [dialogRef, autoClose]);
+  }, [dialogRef, autoClose, controlTheTransitions, close]);
 
   const startOpening = useCallback(() => setIsOpening(true), []);
   const startClosing = useCallback(() => setIsOpening(false), []);
